@@ -10,7 +10,7 @@
 <meta property="og:image" content="https://usetoque.com/img/icon-light.png">
 <link rel="icon" href="/favicon.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="stylesheet" href="style.css?v=7">
 </head>
 <body class="home">
 <header class="site"><div class="wrap">
@@ -30,7 +30,15 @@
 </section>
 
 <section class="stage">
-  <div class="phone xl"><video src="img/search.mp4" poster="img/search-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Typing spicy noodles under $20 into Toque and getting places with matching dishes and prices"></video></div>
+  <div class="phone xl"><div class="demo" id="demo" role="img" aria-label="Typing spicy noodles under $20 into Toque and getting places with matching dishes and prices">
+    <div class="d-home"><img src="img/demo/home.jpg" alt=""><div class="d-field"></div><span class="d-caret"></span></div>
+    <div class="d-results"><img class="d-list" src="img/demo/results.jpg" alt=""><img class="d-back" src="img/demo/back.png" alt=""></div>
+    <img class="d-kb" src="img/demo/kb.jpg" alt="">
+    <img class="d-status" src="img/demo/status.jpg" alt="">
+    <img class="d-tabbar" src="img/demo/tabbar.jpg" alt="">
+    <span class="d-touch"></span>
+    <span class="d-island"></span>
+  </div></div>
 </section>
 
 <section class="chapter">
@@ -67,6 +75,7 @@
   <a href="/support.html">Support</a><a href="/privacy.html">Privacy policy</a><span>© 2026 Toque</span>
 </div></footer>
 
+<script src="demo.js" defer></script>
 <script>
 (function () {
   var queries = ["spicy noodles under $20", "dumplings open now", "vegan brunch in Dickson", "ramen near Gungahlin"];
