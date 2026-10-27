@@ -154,7 +154,6 @@ nav.site a.nav-beta:hover { background: var(--line); }
 /* Icons: SF Symbols style, outline, inherit colour */
 .ico { display: block; width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; color: var(--muted); }
 .chapter > .ico { margin: 0 auto 18px; }
-.principles .ico { margin: 0 0 14px; }
 
 .phone {
   position: relative; margin: 0 auto; width: 300px; aspect-ratio: 1320 / 2868;
@@ -171,17 +170,6 @@ nav.site a.nav-beta:hover { background: var(--line); }
 
 .chapter { padding-top: 160px !important; }
 .chapter .phone { margin-top: 56px; }
-
-.principles {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px;
-  max-width: 1000px; margin: 0 auto; padding-top: 160px !important; text-align: left !important;
-}
-.principles h3 { font-size: 21px; letter-spacing: -0.02em; margin: 0 0 6px; }
-.principles p { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.5; }
-
-.numbers { padding-top: 72px !important; }
-.numbers p { max-width: none !important; font-size: 15px !important; line-height: 1.5 !important; }
-.numbers b { color: var(--text); font-weight: 600; }
 
 .closing { padding: 128px 20px 120px !important; }
 .closing img { width: 88px; height: 88px; border-radius: 22.5%; margin: 0 auto 6px; box-shadow: 0 12px 30px -10px rgba(0,0,0,.25); }
@@ -202,8 +190,6 @@ nav.site a.nav-beta:hover { background: var(--line); }
   .stage { padding-top: 48px !important; }
   .chapter { padding-top: 112px !important; }
   .chapter .phone { margin-top: 40px; }
-  .principles { grid-template-columns: 1fr; gap: 28px; padding-top: 112px !important; max-width: 420px; }
-  .numbers { padding-top: 56px !important; }
   .closing { padding: 112px 20px 88px !important; }
 }
 @media (prefers-reduced-motion: reduce) {
