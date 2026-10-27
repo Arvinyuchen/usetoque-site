@@ -18,7 +18,7 @@
   <nav class="site"><a href="/support.html">Support</a><a href="/privacy.html">Privacy</a></nav>
 </div></header>
 
-<div class="hero"><div class="wrap">
+<div class="hero" id="craving"><div class="wrap">
   <div>
     <span class="eyebrow">For Canberra · on iPhone</span>
     <h1>Find the dish <span class="grad">you're craving.</span></h1>
@@ -37,6 +37,13 @@
     <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
     <div class="phone back"><img src="img/results.jpg" alt=""></div>
     <div class="phone front"><img src="img/home.jpg" alt=""></div>
+
+    <div class="moment m1"><img src="img/kind-restaurant.png" alt=""><div><b>Supalove</b><span class="st open">Open · till 9pm</span></div></div>
+    <div class="moment m2"><img src="img/kind-restaurant.png" alt=""><div><b>Spicy Pork Ramen</b><span>$14.90 · Tenkomori · 8 min walk</span></div></div>
+    <div class="moment m3"><img src="img/kind-restaurant.png" alt=""><div><b>Mrs Wang</b><span class="st open">Open · last booking 8:30pm</span></div></div>
+    <div class="moment m4"><span class="dot-st maybe"></span><div><span class="st maybe">Opened 5pm · closing time not listed</span></div></div>
+    <div class="moment pill m5"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="currentColor" d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zm0 16H5V9h14v11z"/></svg>Menu as of 25 Oct</div>
+    <div class="moment pill m6">🥟 85 places serve dumplings</div>
   </div>
 </div></div>
 
@@ -54,7 +61,7 @@
     <div class="shot"><div class="phone"><img src="img/results.jpg" alt="Toque search results for spicy noodles under $20, listing places with matching dishes and prices" loading="lazy"></div></div>
   </div>
 
-  <div class="feature flip">
+  <div class="feature flip" id="nearby">
     <div>
       <h2 class="section-title">See what's around you.</h2>
       <p class="section-lede">A calm map of Canberra's places to eat, sorted into five kinds you can tell apart at a glance.</p>
@@ -70,6 +77,30 @@
   </div>
 </div></section>
 
+<section class="truth" id="truth"><div class="wrap">
+  <div class="feature">
+    <div>
+      <span class="eyebrow on-dark">The truth about what's open</span>
+      <h2 class="section-title">Most apps guess.<br>Toque tells you what it knows.</h2>
+      <p class="section-lede">And what it doesn't. Every opening state comes from the venue itself — its website, its ordering page or its booking system.</p>
+      <ul class="states">
+        <li><span class="st-pill open">Open · till 9pm</span><span>The venue's stated hours, and you're inside them.</span></li>
+        <li><span class="st-pill open">Open · last booking 8:30pm</span><span>Straight from the venue's own booking system.</span></li>
+        <li><span class="st-pill maybe">Opened 5pm · closing time not listed</span><span>We know when it opens, not when it closes — so we say so.</span></li>
+        <li><span class="st-pill none">Hours unknown</span><span>No reliable hours yet. We won't pretend.</span></li>
+      </ul>
+    </div>
+    <div class="shot"><div class="phone"><img src="img/place.jpg" alt="Toque place page for Mrs Wang showing Open, last booking 8:30pm, from Mrs Wang's online bookings" loading="lazy"></div></div>
+  </div>
+
+  <div class="facts">
+    <div class="fact"><b>Menus from the source</b><span>The venue's own website, ordering page or booking widget. Never delivery apps or review sites.</span></div>
+    <div class="fact"><b>Every menu is dated</b><span>"Menu as of 25 Oct" — so you know how fresh a price is. Chain menus say prices may differ.</span></div>
+    <div class="fact"><b>No ads. No paid rankings.</b><span>Places are ranked by your craving, distance and hours. Nobody can pay to be first.</span></div>
+    <div class="fact"><b>Spot a closed place?</b><span>One tap on "Still open?" takes it out of your results.</span></div>
+  </div>
+</div></section>
+
 <section><div class="wrap">
   <div class="stats">
     <div class="stat"><div class="n">1,200+</div><div class="l">places across the ACT</div></div>
@@ -78,7 +109,7 @@
   </div>
 </div></section>
 
-<section class="closing"><div class="wrap narrow">
+<section class="closing" id="get"><div class="wrap narrow">
   <picture><source srcset="img/icon-dark.png" media="(prefers-color-scheme: dark)"><img class="big-icon" src="img/icon-light.png" alt="Toque app icon"></picture>
   <h2 class="section-title">Coming soon to iPhone.</h2>
   <p class="section-lede" style="margin:0 auto">Questions, or own a restaurant we list? Write to <a href="mailto:support@usetoque.com">support@usetoque.com</a>.</p>
@@ -89,6 +120,13 @@
   <a href="/support.html">Support</a><a href="/privacy.html">Privacy policy</a><span>© 2026 Toque</span>
 </div></footer>
 
+<nav class="dock" aria-label="Sections">
+  <a href="#craving" data-s="craving">Craving</a>
+  <a href="#nearby" data-s="nearby">Nearby</a>
+  <a href="#truth" data-s="truth">The truth</a>
+  <a href="#get" class="cta">Get the app</a>
+</nav>
+
 <script>
 (function () {
   var demos = [
@@ -97,7 +135,21 @@
     ["vegan brunch in Dickson", 'Looking for <b>vegan brunch</b> · <b>Dickson</b>'],
     ["ramen near Gungahlin", 'Looking for <b>ramen</b> · near <b>Gungahlin</b>']
   ];
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Section highlight in the dock.
+  var links = document.querySelectorAll(".dock a[data-s]");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        links.forEach(function (a) { a.classList.toggle("on", a.dataset.s === e.target.id); });
+      });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    ["craving", "nearby", "truth"].forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
+  }
+
+  if (reduced) return;
   var q = document.getElementById("q"), u = document.getElementById("u"), i = 0;
   function type(text, done) {
     var n = 0;
@@ -106,6 +158,7 @@
   function next() {
     i = (i + 1) % demos.length;
     u.style.opacity = 0;
+    u.innerHTML = "&nbsp;";
     type(demos[i][0], function () { u.innerHTML = demos[i][1]; u.style.opacity = 1; setTimeout(next, 2600); });
   }
   u.style.transition = "opacity .3s";
