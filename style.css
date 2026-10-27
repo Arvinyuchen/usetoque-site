@@ -218,26 +218,28 @@ footer.site .brand img { width: 22px; height: 22px; }
 /* The truth section */
 :root { --amber: #b46b00; }
 @media (prefers-color-scheme: dark) { :root { --amber: #f0a43a; } }
-.truth {
-  --t-bg: #1a1513; --t-text: #f6f0ea; --t-muted: #b5aaa2; --t-line: #352c28;
-  background: radial-gradient(1200px 500px at 80% 0%, rgba(255, 138, 76, .16), transparent 60%),
-              radial-gradient(900px 500px at 0% 100%, rgba(242, 61, 99, .14), transparent 60%), var(--t-bg);
-  color: var(--t-text); margin: 40px 0; padding: 96px 0;
+.truth { padding: 40px 0; }
+.truth > .wrap {
+  max-width: 1040px; padding: 64px 56px; border-radius: 36px;
+  background:
+    radial-gradient(700px 360px at 100% 0%, color-mix(in srgb, var(--orange) 14%, transparent), transparent 70%),
+    radial-gradient(600px 360px at 0% 100%, color-mix(in srgb, var(--pink) 10%, transparent), transparent 70%),
+    radial-gradient(500px 300px at 0% 0%, color-mix(in srgb, var(--gold) 12%, transparent), transparent 70%),
+    var(--surface);
+  border: 1px solid var(--line);
 }
-.truth .section-lede { color: var(--t-muted); }
-.eyebrow.on-dark { background: rgba(255, 90, 99, .16); color: #ff8a8f; }
 .truth .section-title { margin-top: 18px; }
 .states { list-style: none; padding: 0; margin: 28px 0 0; display: grid; gap: 14px; }
 .states li { display: grid; gap: 6px; }
-.states li > span:last-child { color: var(--t-muted); font-size: 15px; }
+.states li > span:last-child { color: var(--muted); font-size: 15px; }
 .st-pill { justify-self: start; font-size: 14px; font-weight: 600; padding: 5px 12px; border-radius: 999px; }
-.st-pill.open { color: #5fd38f; background: rgba(76, 194, 124, .14); }
-.st-pill.maybe { color: #f5b14c; background: rgba(240, 164, 58, .14); }
-.st-pill.none { color: #c9bfb8; background: rgba(255, 255, 255, .08); }
-.facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 72px; }
-.fact { border: 1px solid var(--t-line); border-radius: 20px; padding: 20px; background: rgba(255,255,255,.03); }
+.st-pill.open { color: var(--open); background: color-mix(in srgb, var(--open) 12%, transparent); }
+.st-pill.maybe { color: var(--amber); background: color-mix(in srgb, var(--amber) 13%, transparent); }
+.st-pill.none { color: var(--muted); background: color-mix(in srgb, var(--text) 7%, transparent); }
+.facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 64px; }
+.fact { border: 1px solid var(--line); border-radius: 20px; padding: 20px; background: color-mix(in srgb, var(--bg) 70%, transparent); }
 .fact b { display: block; font-size: 16px; margin-bottom: 6px; }
-.fact span { color: var(--t-muted); font-size: 14.5px; line-height: 1.5; }
+.fact span { color: var(--muted); font-size: 14.5px; line-height: 1.5; }
 
 /* Floating section dock */
 .dock {
@@ -265,7 +267,7 @@ html { scroll-behavior: smooth; }
   .m1 { left: 0; top: 30px; } .m2 { right: 0; top: 150px; } .m3 { left: 0; top: 300px; }
   .m4, .m5, .m6 { display: none; }
   .facts { grid-template-columns: 1fr 1fr; }
-  .truth { padding: 72px 0; }
+  .truth > .wrap { margin: 0 12px; padding: 44px 22px; border-radius: 28px; }
 }
 @media (max-width: 480px) {
   .facts { grid-template-columns: 1fr; }
