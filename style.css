@@ -79,7 +79,7 @@ nav.site a:hover, nav.site a[aria-current="page"] { color: var(--text); }
   font-size: 18px; font-weight: 500; min-width: min(340px, 100%);
 }
 .ask svg { flex: none; }
-#q { min-height: 1.5em; }
+#q { min-height: 1.5em; white-space: nowrap; }
 #q::after { content: ""; display: inline-block; width: 2px; height: 1.1em; margin-left: 2px; vertical-align: -0.18em; background: var(--accent); animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 .intro .soon { margin-top: 18px; font-size: 15px; color: var(--muted); }
@@ -95,7 +95,7 @@ nav.site a:hover, nav.site a[aria-current="page"] { color: var(--text); }
 
 .stage { position: relative; padding-top: 56px !important; }
 .stage .phone { animation: rise 1s .15s cubic-bezier(.2,.8,.2,1) both; }
-@keyframes rise { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: none; } }
+@keyframes rise { from { transform: translateY(48px); } to { transform: none; } }
 .stage::before {
   content: ""; position: absolute; left: 50%; top: 18%; width: min(760px, 120vw); height: 70%;
   transform: translateX(-50%); z-index: -1; filter: blur(60px); opacity: .35;
@@ -166,4 +166,5 @@ footer.site .brand { font-size: 14px; margin-right: auto; }
 footer.site .brand img { width: 20px; height: 20px; }
 @media (max-width: 420px) {
   nav.site a { margin-left: 14px; }
+  .ask { font-size: 16px; padding: 12px 20px 12px 16px; min-width: min(272px, 100%); }
 }
