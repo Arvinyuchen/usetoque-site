@@ -10,161 +10,79 @@
 <meta property="og:image" content="https://usetoque.com/img/icon-light.png">
 <link rel="icon" href="/favicon.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=5">
 </head>
-<body>
+<body class="home">
 <header class="site"><div class="wrap">
   <a class="brand" href="/"><picture><source srcset="img/icon-dark.png" media="(prefers-color-scheme: dark)"><img src="img/icon-light.png" alt=""></picture>Toque</a>
   <nav class="site"><a href="/support.html">Support</a><a href="/privacy.html">Privacy</a></nav>
 </div></header>
 
-<div class="hero" id="craving"><div class="wrap">
-  <div>
-    <span class="eyebrow">For Canberra · on iPhone</span>
-    <h1>Find the dish <span class="grad">you're craving.</span></h1>
-    <p class="lede">Describe what you feel like eating. Toque finds the places that serve it — with the dish, its price and whether they're open.</p>
-
-    <div class="search-demo" aria-hidden="true">
-      <svg width="22" height="22" viewBox="0 0 24 24"><path fill="#ff9e2c" d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9z"/><path fill="#ffc24a" d="M19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9z"/></svg>
-      <span class="q" id="q">spicy noodles under $20</span>
-    </div>
-    <p class="understood" id="u">Looking for <b>spicy noodles</b> · <b>≤ $20</b> · near Braddon</p>
-
-    <div class="soon"><span class="badge"><svg width="16" height="18" viewBox="0 0 16 19" aria-hidden="true"><path fill="currentColor" d="M13.2 10.1c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.9-3-.8C3.7 4.9 2.2 5.8 1.4 7.2c-1.6 2.8-.4 7 1.2 9.2.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.2.9-1.3 1.2-2.5 1.3-2.6-.1 0-2.4-.9-2.4-3.8zM11 3.4c.6-.8 1.1-1.8.9-2.9-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.8-1 2.8 1 .1 2.1-.5 2.8-1.3z"/></svg>Coming soon to the App Store</span></div>
+<main>
+<section class="intro">
+  <h1>Find the dish<br><span class="grad">you're craving.</span></h1>
+  <p class="sub">Canberra's places to eat, searched by what's on the menu.</p>
+  <div class="ask" aria-hidden="true">
+    <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#ff9e2c" d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9z"/><path fill="#ffc24a" d="M19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9z"/></svg>
+    <span id="q">spicy noodles under $20</span>
   </div>
+  <p class="soon">Coming soon to iPhone</p>
+</section>
 
-  <div class="phones" aria-hidden="true">
-    <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
-    <div class="phone back"><img src="img/results.jpg" alt=""></div>
-    <div class="phone front"><img src="img/home.jpg" alt=""></div>
+<section class="stage">
+  <div class="phone xl"><video src="img/search.mp4" poster="img/search-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Typing spicy noodles under $20 into Toque and getting places with matching dishes and prices"></video></div>
+</section>
 
-    <div class="moment m1"><img src="img/kind-restaurant.png" alt=""><div><b>Supalove</b><span class="st open">Open · till 9pm</span></div></div>
-    <div class="moment m2"><img src="img/kind-restaurant.png" alt=""><div><b>Spicy Pork Ramen</b><span>$14.90 · Tenkomori · 8 min walk</span></div></div>
-    <div class="moment m3"><img src="img/kind-restaurant.png" alt=""><div><b>Mrs Wang</b><span class="st open">Open · last booking 8:30pm</span></div></div>
-    <div class="moment m4"><span class="dot-st maybe"></span><div><span class="st maybe">Opened 5pm · closing time not listed</span></div></div>
-    <div class="moment pill m5"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="currentColor" d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zm0 16H5V9h14v11z"/></svg>Menu as of 25 Oct</div>
-    <div class="moment pill m6">🥟 85 places serve dumplings</div>
-  </div>
-</div></div>
+<section class="chapter">
+  <h2>See what's around you.</h2>
+  <p>A calm map of every place to eat, in five kinds you can tell apart at a glance.</p>
+  <div class="phone reveal"><video src="img/map.mp4" poster="img/map-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Tapping a group of places on the Toque map of Braddon, then a bar, which shows its preview card"></video></div>
+</section>
 
-<section><div class="wrap">
-  <div class="feature">
-    <div>
-      <h2 class="section-title">Search the dishes, not just the names.</h2>
-      <p class="section-lede">Type it the way you'd say it. Toque reads the price, the craving and the time, then shows the places with the dishes that match.</p>
-      <ul class="points">
-        <li><span class="dot gold"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="#c98a00" d="M9 16.2l-4.2-4.2L3.4 13.4 9 19 21 7l-1.4-1.4z"/></svg></span><span>Every match shows the dish and its price, from the venue's own menu.</span></li>
-        <li><span class="dot orange"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="#e0602a" d="M9 16.2l-4.2-4.2L3.4 13.4 9 19 21 7l-1.4-1.4z"/></svg></span><span>"Open now", "under $20", "near Braddon" — understood, not filtered by hand.</span></li>
-        <li><span class="dot pink"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="#d12a51" d="M9 16.2l-4.2-4.2L3.4 13.4 9 19 21 7l-1.4-1.4z"/></svg></span><span>Search runs on your phone. What you type stays there.</span></li>
-      </ul>
-    </div>
-    <div class="shot"><div class="phone"><video src="img/search.mp4" poster="img/search-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Typing spicy noodles under $20 into Toque and getting places with matching dishes and prices"></video></div></div>
-  </div>
+<section class="chapter">
+  <h2>Open means open.</h2>
+  <p>Hours come from the venue's own website, ordering page or booking system. When we don't know, we say so.</p>
+  <div class="phone reveal"><img src="img/place.jpg" alt="Toque place page for Mrs Wang showing Open, last booking 8:30pm, from Mrs Wang's online bookings" loading="lazy"></div>
+</section>
 
-  <div class="feature flip" id="nearby">
-    <div>
-      <h2 class="section-title">See what's around you.</h2>
-      <p class="section-lede">A calm map of Canberra's places to eat, sorted into five kinds you can tell apart at a glance.</p>
-      <div class="kinds">
-        <span class="kind"><img src="img/kind-restaurant.png" alt="" width="28" height="28">Restaurant</span>
-        <span class="kind"><img src="img/kind-cafe.png" alt="" width="28" height="28">Cafe</span>
-        <span class="kind"><img src="img/kind-fastfood.png" alt="" width="28" height="28">Fast food</span>
-        <span class="kind"><img src="img/kind-dessert.png" alt="" width="28" height="28">Dessert</span>
-        <span class="kind"><img src="img/kind-bar.png" alt="" width="28" height="28">Bar</span>
-      </div>
-    </div>
-    <div class="shot"><div class="phone"><video src="img/map.mp4" poster="img/map-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Tapping a group of places on the Toque map of Braddon, then a bar, which shows its preview card"></video></div></div>
-  </div>
-</div></section>
+<section class="principles">
+  <div><h3>From the source.</h3><p>Menus come from the venue itself, never from delivery apps or review sites.</p></div>
+  <div><h3>Always dated.</h3><p>Every menu shows when it was checked, so you know how fresh a price is.</p></div>
+  <div><h3>No ads.</h3><p>Places are ranked by your craving, distance and hours. Nobody can pay to be first.</p></div>
+</section>
 
-<section class="truth" id="truth"><div class="wrap">
-  <div class="feature">
-    <div>
-      <span class="eyebrow">The truth about what's open</span>
-      <h2 class="section-title">Most apps guess.<br>Toque tells you what it knows.</h2>
-      <p class="section-lede">And what it doesn't. Every opening state comes from the venue itself — its website, its ordering page or its booking system.</p>
-      <ul class="states">
-        <li><span class="st-pill open">Open · till 9pm</span><span>The venue's stated hours, and you're inside them.</span></li>
-        <li><span class="st-pill open">Open · last booking 8:30pm</span><span>Straight from the venue's own booking system.</span></li>
-        <li><span class="st-pill maybe">Opened 5pm · closing time not listed</span><span>We know when it opens, not when it closes — so we say so.</span></li>
-        <li><span class="st-pill none">Hours unknown</span><span>No reliable hours yet. We won't pretend.</span></li>
-      </ul>
-    </div>
-    <div class="shot"><div class="phone"><img src="img/place.jpg" alt="Toque place page for Mrs Wang showing Open, last booking 8:30pm, from Mrs Wang's online bookings" loading="lazy"></div></div>
-  </div>
+<section class="numbers">
+  <p><b>1,200+</b> places. <b>33,000+</b> dishes. All of Canberra.</p>
+</section>
 
-  <div class="facts">
-    <div class="fact"><b>Menus from the source</b><span>The venue's own website, ordering page or booking widget. Never delivery apps or review sites.</span></div>
-    <div class="fact"><b>Every menu is dated</b><span>"Menu as of 25 Oct" — so you know how fresh a price is. Chain menus say prices may differ.</span></div>
-    <div class="fact"><b>No ads. No paid rankings.</b><span>Places are ranked by your craving, distance and hours. Nobody can pay to be first.</span></div>
-    <div class="fact"><b>Spot a closed place?</b><span>One tap on "Still open?" takes it out of your results.</span></div>
-  </div>
-</div></section>
-
-<section><div class="wrap">
-  <div class="stats">
-    <div class="stat"><div class="n">1,200+</div><div class="l">places across the ACT</div></div>
-    <div class="stat"><div class="n">33,000+</div><div class="l">dishes with their prices</div></div>
-    <div class="stat"><div class="n">0</div><div class="l">ads, trackers or accounts needed to browse</div></div>
-  </div>
-</div></section>
-
-<section class="closing" id="get"><div class="wrap narrow">
-  <picture><source srcset="img/icon-dark.png" media="(prefers-color-scheme: dark)"><img class="big-icon" src="img/icon-light.png" alt="Toque app icon"></picture>
-  <h2 class="section-title">Coming soon to iPhone.</h2>
-  <p class="section-lede" style="margin:0 auto">Questions, or own a restaurant we list? Write to <a href="mailto:support@usetoque.com">support@usetoque.com</a>.</p>
-</div></section>
+<section class="closing">
+  <picture><source srcset="img/icon-dark.png" media="(prefers-color-scheme: dark)"><img src="img/icon-light.png" alt="Toque app icon"></picture>
+  <h2>Coming soon to iPhone.</h2>
+  <p>Questions, or own a restaurant we list? <a href="mailto:support@usetoque.com">support@usetoque.com</a></p>
+</section>
+</main>
 
 <footer class="site"><div class="wrap">
   <a class="brand" href="/"><picture><source srcset="img/icon-dark.png" media="(prefers-color-scheme: dark)"><img src="img/icon-light.png" alt=""></picture>Toque</a>
   <a href="/support.html">Support</a><a href="/privacy.html">Privacy policy</a><span>© 2026 Toque</span>
 </div></footer>
 
-<nav class="dock" aria-label="Sections">
-  <a href="#craving" data-s="craving">Craving</a>
-  <a href="#nearby" data-s="nearby">Nearby</a>
-  <a href="#truth" data-s="truth">The truth</a>
-  <a href="#get" class="cta">Get the app</a>
-</nav>
-
 <script>
 (function () {
-  var demos = [
-    ["spicy noodles under $20", 'Looking for <b>spicy noodles</b> · <b>≤ $20</b> · near Braddon'],
-    ["dumplings open now", 'Looking for <b>dumplings</b> · <b>open now</b> · near Braddon'],
-    ["vegan brunch in Dickson", 'Looking for <b>vegan brunch</b> · <b>Dickson</b>'],
-    ["ramen near Gungahlin", 'Looking for <b>ramen</b> · near <b>Gungahlin</b>']
-  ];
-  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  // Section highlight in the dock.
-  var links = document.querySelectorAll(".dock a[data-s]");
-  if ("IntersectionObserver" in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        links.forEach(function (a) { a.classList.toggle("on", a.dataset.s === e.target.id); });
-      });
-    }, { rootMargin: "-45% 0px -50% 0px" });
-    ["craving", "nearby", "truth"].forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
-  }
-
-  if (reduced) {
+  var queries = ["spicy noodles under $20", "dumplings open now", "vegan brunch in Dickson", "ramen near Gungahlin"];
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     document.querySelectorAll("video[autoplay]").forEach(function (v) { v.removeAttribute("autoplay"); v.pause(); v.controls = true; });
     return;
   }
-  var q = document.getElementById("q"), u = document.getElementById("u"), i = 0;
+  var q = document.getElementById("q"), i = 0;
   function type(text, done) {
     var n = 0;
     (function step() { q.textContent = text.slice(0, n); if (n++ < text.length) setTimeout(step, 55); else done(); })();
   }
   function next() {
-    i = (i + 1) % demos.length;
-    u.style.opacity = 0;
-    u.innerHTML = "&nbsp;";
-    type(demos[i][0], function () { u.innerHTML = demos[i][1]; u.style.opacity = 1; setTimeout(next, 2600); });
+    i = (i + 1) % queries.length;
+    type(queries[i], function () { setTimeout(next, 2600); });
   }
-  u.style.transition = "opacity .3s";
   setTimeout(next, 2600);
 })();
 </script>
