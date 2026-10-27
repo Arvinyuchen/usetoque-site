@@ -176,7 +176,7 @@ footer.site .brand img { width: 20px; height: 20px; }
 .phone .demo .d-home > img { height: 100%; }
 .d-results { transform: translateX(100%); background: #fff; box-shadow: -12px 0 40px rgba(0, 0, 0, .08); }
 .d-list { will-change: transform; }
-.d-field { position: absolute; left: 0; top: 20.397%; width: 100%; height: 6.625%; background: url(img/demo/field.jpg) 0 0 / 100% 2400% no-repeat; opacity: 0; }
+.d-field { position: absolute; left: 13.636%; top: 20.397%; width: 81.818%; height: 6.625%; background: url(img/demo/field.jpg) 0 0 / 100% 2400% no-repeat; opacity: 0; }
 .d-caret { position: absolute; left: 15.6%; top: 22.55%; width: .55%; height: 2.35%; border-radius: 2px; background: #ec3446; opacity: 0; animation: blink 1s steps(1) infinite; }
 .phone .demo .d-back { left: 2.273%; top: 5.404%; width: 14.545%; }
 .phone .demo .d-kb { top: 63.947%; z-index: 4; transform: translateY(100%); will-change: transform; }
