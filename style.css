@@ -1,0 +1,81 @@
+:root {
+  --bg: #fbf8f5;
+  --surface: #ffffff;
+  --text: #1f1a17;
+  --muted: #6b625c;
+  --line: #e9e2dc;
+  --accent: #ec3446;
+  --accent-soft: #fdecee;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161312;
+    --surface: #1f1b19;
+    --text: #f3eee9;
+    --muted: #a99f98;
+    --line: #342e2a;
+    --accent: #ff5a68;
+    --accent-soft: #3a1d21;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 17px/1.6 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+}
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+
+header.site {
+  border-bottom: 1px solid var(--line);
+}
+header.site .wrap {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  min-height: 64px;
+}
+.brand {
+  display: inline-flex; align-items: center; gap: 10px;
+  color: var(--text); text-decoration: none; font-weight: 700; font-size: 19px; letter-spacing: -0.01em;
+}
+.brand-mark {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: linear-gradient(135deg, #ffc24a, #ff8a4c 45%, #ec3446);
+}
+nav.site a { color: var(--muted); text-decoration: none; margin-left: 18px; font-size: 15px; }
+nav.site a:hover, nav.site a[aria-current="page"] { color: var(--text); }
+
+main { padding: 48px 0 64px; }
+h1 { font-size: clamp(30px, 6vw, 44px); line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 12px; }
+h2 { font-size: 22px; letter-spacing: -0.01em; margin: 40px 0 8px; }
+h3 { font-size: 18px; margin: 28px 0 4px; }
+p, ul { margin: 0 0 14px; }
+ul { padding-left: 22px; }
+li { margin-bottom: 6px; }
+.lede { font-size: 20px; color: var(--muted); margin-bottom: 28px; }
+.meta { color: var(--muted); font-size: 15px; }
+
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+  padding: 20px 22px; margin: 16px 0;
+}
+.card h3 { margin-top: 0; }
+.pill {
+  display: inline-block; background: var(--accent-soft); color: var(--accent);
+  border-radius: 999px; padding: 4px 12px; font-size: 14px; font-weight: 600;
+}
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 24px 0; }
+.grid .card { margin: 0; }
+
+footer.site { border-top: 1px solid var(--line); padding: 24px 0 40px; color: var(--muted); font-size: 14px; }
+footer.site a { color: var(--muted); margin-right: 16px; }
+
+@media (max-width: 480px) {
+  nav.site a { margin-left: 12px; font-size: 14px; }
+  main { padding-top: 32px; }
+}
