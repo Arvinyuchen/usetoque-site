@@ -10,7 +10,7 @@
 <meta property="og:image" content="https://usetoque.com/img/icon-light.png">
 <link rel="icon" href="/favicon.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 <header class="site"><div class="wrap">
@@ -58,7 +58,7 @@
         <li><span class="dot pink"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="#d12a51" d="M9 16.2l-4.2-4.2L3.4 13.4 9 19 21 7l-1.4-1.4z"/></svg></span><span>Search runs on your phone. What you type stays there.</span></li>
       </ul>
     </div>
-    <div class="shot"><div class="phone"><img src="img/results.jpg" alt="Toque search results for spicy noodles under $20, listing places with matching dishes and prices" loading="lazy"></div></div>
+    <div class="shot"><div class="phone"><video src="img/search.mp4" poster="img/search-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Typing spicy noodles under $20 into Toque and getting places with matching dishes and prices"></video></div></div>
   </div>
 
   <div class="feature flip" id="nearby">
@@ -73,7 +73,7 @@
         <span class="kind"><img src="img/kind-bar.png" alt="" width="28" height="28">Bar</span>
       </div>
     </div>
-    <div class="shot"><div class="phone"><img src="img/map.jpg" alt="Toque map of central Canberra with grouped place markers" loading="lazy"></div></div>
+    <div class="shot"><div class="phone"><video src="img/map.mp4" poster="img/map-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Tapping a group of places on the Toque map of Braddon, then a bar, which shows its preview card"></video></div></div>
   </div>
 </div></section>
 
@@ -149,7 +149,10 @@
     ["craving", "nearby", "truth"].forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
   }
 
-  if (reduced) return;
+  if (reduced) {
+    document.querySelectorAll("video[autoplay]").forEach(function (v) { v.removeAttribute("autoplay"); v.pause(); v.controls = true; });
+    return;
+  }
   var q = document.getElementById("q"), u = document.getElementById("u"), i = 0;
   function type(text, done) {
     var n = 0;
