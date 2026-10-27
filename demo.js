@@ -6,7 +6,7 @@
   function $(c) { return demo.querySelector(c); }
   var home = $(".d-home"), field = $(".d-field"), caret = $(".d-caret"), kb = $(".d-kb"),
       results = $(".d-results"), list = $(".d-list"), touch = $(".d-touch");
-  var FRAMES = 24;
+  var FRAMES = 30;
 
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     results.style.transform = "none";
@@ -37,8 +37,8 @@
   function whenVisible() { return visible ? Promise.resolve() : new Promise(function (r) { wake = r; }); }
 
   var IOS = "cubic-bezier(.25, .9, .3, 1)";
-  // Pause after each typed character of "spicy noodles under $20".
-  var gaps = [0, 90, 80, 70, 95, 140, 85, 75, 70, 80, 75, 70, 90, 150, 80, 75, 85, 70, 90, 150, 110, 95, 90];
+  // Pause after each typed character of "something warm and comforting".
+  var gaps = [85, 75, 80, 70, 90, 75, 80, 70, 150, 85, 75, 80, 140, 80, 75, 140, 85, 75, 80, 70, 85, 75, 80, 70, 75, 80, 70, 90, 80];
 
   function reset() {
     home.style.transform = "";
@@ -69,9 +69,9 @@
       move(results, "translateX(100%)", "translateX(0)", 560, IOS)
     ]);
     await wait(900);
-    await move(list, "translateY(0)", "translateY(-18%)", 1300, "cubic-bezier(.3, .1, .15, 1)");
+    await move(list, "translateY(0)", "translateY(-17%)", 1300, "cubic-bezier(.3, .1, .15, 1)");
     await wait(650);
-    await move(list, "translateY(-18%)", "translateY(-37%)", 1500, "cubic-bezier(.3, .1, .15, 1)");
+    await move(list, "translateY(-17%)", "translateY(-36%)", 1500, "cubic-bezier(.3, .1, .15, 1)");
     await wait(1800);
     field.style.opacity = 0;
     await Promise.all([
