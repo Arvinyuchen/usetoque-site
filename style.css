@@ -55,6 +55,11 @@ header.site .wrap {
 .brand img { width: 30px; height: 30px; border-radius: 22.5%; }
 nav.site a { color: var(--muted); text-decoration: none; margin-left: 22px; font-size: 14px; }
 nav.site a:hover, nav.site a[aria-current="page"] { color: var(--text); }
+/* The beta request lives in the header until there is a TestFlight link */
+nav.site a.nav-beta { color: var(--text); background: var(--surface); padding: 6px 14px; border-radius: 999px; font-weight: 500; white-space: nowrap; transition: background .15s; }
+nav.site a.nav-beta:hover { background: var(--line); }
+.soon-line { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 14px 0 0; font-size: 15px; color: var(--muted); }
+.soon-line .ico.sm { width: 16px; height: 16px; color: var(--muted); margin: 0; }
 
 /* Home */
 .home section { text-align: center; padding: 0 20px; }
@@ -139,7 +144,6 @@ nav.site a:hover, nav.site a[aria-current="page"] { color: var(--text); }
 
 .closing { padding: 128px 20px 120px !important; }
 .closing img { width: 88px; height: 88px; border-radius: 22.5%; margin: 0 auto 6px; box-shadow: 0 12px 30px -10px rgba(0,0,0,.25); }
-.intro .beta { margin-top: 28px; }
 .closing .beta { margin-top: 24px; }
 .closing p { font-size: 15px !important; max-width: none !important; margin-top: 22px !important; }
 
@@ -230,3 +234,8 @@ footer.site .brand img { width: 20px; height: 20px; }
 .phone .mdemo .m-panel img:not(:first-child) { opacity: 0; }
 .phone .mdemo .m-card { left: 2.727%; top: 74.93%; width: 94.545%; border-radius: 6.25% / 17.5%; transform: translateY(175%); box-shadow: 0 10px 30px rgba(0, 0, 0, .1); }
 .mdemo .d-touch, .mdemo .d-island { z-index: 6; }
+
+/* Phones: the header keeps the brand and the beta button; Support and Privacy stay in the footer */
+@media (max-width: 480px) {
+  nav.site a:not(.nav-beta) { display: none; }
+}
