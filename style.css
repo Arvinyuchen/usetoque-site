@@ -187,3 +187,26 @@ footer.site .brand img { width: 20px; height: 20px; }
 @media (max-width: 760px) {
   .phone .demo { border-radius: 39px; }
 }
+
+/* Map demo: bare map captures zoomed by the page, with the app's bars, panel and card laid over them */
+.phone .mdemo img { position: absolute; }
+.phone .mdemo .m-zoom { position: absolute; inset: 0; transform: translate(-.0758%, -2.266%); }
+.phone .mdemo .m-zoom img { height: 100%; transform-origin: 50% 51.395%; will-change: transform, opacity; opacity: 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent), linear-gradient(transparent, #000 4%, #000 96%, transparent);
+  -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent), linear-gradient(transparent, #000 4%, #000 96%, transparent);
+  mask-composite: intersect; }
+.phone .mdemo .m-zoom img:first-child { opacity: 1; -webkit-mask-image: none; mask-image: none; }
+.phone .mdemo .m-top { top: 0; -webkit-mask: url(img/map/mask-top.svg) 0 0 / 100% 100%; mask: url(img/map/mask-top.svg) 0 0 / 100% 100%; }
+.phone .mdemo .m-bot { top: 87.169%; -webkit-mask: url(img/map/mask-bot.svg) 0 0 / 100% 100%; mask: url(img/map/mask-bot.svg) 0 0 / 100% 100%; }
+.phone .mdemo .m-street { opacity: 0; }
+.phone .mdemo .m-full { height: 100%; opacity: 0; }
+.phone .mdemo .m-f-city { opacity: 1; }
+.phone .mdemo .m-patch { opacity: 0; }
+.phone .mdemo .m-locate { left: 86.364%; top: 11.855%; width: 12.121%; }
+.phone .mdemo .m-badge { left: 86.667%; top: 6.904%; width: 11.364%; border-radius: 50%; }
+.phone .mdemo .m-pin { left: 17.424%; top: 37.657%; width: 21.97%; border-radius: 18%; }
+.m-panel { position: absolute; left: 9.091%; top: 12.971%; width: 81.818%; height: 18.131%; border-radius: 7.2% / 15%; overflow: hidden; opacity: 0; transform-origin: 50% 0; box-shadow: 0 10px 30px rgba(0, 0, 0, .08); }
+.phone .mdemo .m-panel img { width: 100%; height: 100%; }
+.phone .mdemo .m-panel img:not(:first-child) { opacity: 0; }
+.phone .mdemo .m-card { left: 2.727%; top: 74.93%; width: 94.545%; border-radius: 6.25% / 17.5%; transform: translateY(175%); box-shadow: 0 10px 30px rgba(0, 0, 0, .1); }
+.mdemo .d-touch, .mdemo .d-island { z-index: 6; }

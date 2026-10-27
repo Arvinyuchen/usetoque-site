@@ -10,7 +10,7 @@
 <meta property="og:image" content="https://usetoque.com/img/icon-light.png">
 <link rel="icon" href="/favicon.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 </head>
 <body class="home">
 <header class="site"><div class="wrap">
@@ -44,7 +44,21 @@
 <section class="chapter">
   <h2>See what's around you.</h2>
   <p>A calm map of every place to eat, in five kinds you can tell apart at a glance.</p>
-  <div class="phone reveal"><video src="img/map.mp4" poster="img/map-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Tapping a group of places on the Toque map of Braddon, then a bar, which shows its preview card"></video></div>
+  <div class="phone reveal"><div class="demo mdemo" id="mapdemo" role="img" aria-label="Zooming from all of Canberra into Braddon, then filtering the Toque map to bars open now and opening Volstead Repeal's card">
+    <div class="m-zoom"><img src="img/map/z0.jpg" alt="" loading="lazy"><img src="img/map/z1.jpg" alt="" loading="lazy"><img src="img/map/z2.jpg" alt="" loading="lazy"><img src="img/map/z3.jpg" alt="" loading="lazy"></div>
+    <img class="m-band m-top m-city" src="img/map/top-city.jpg" alt="" loading="lazy"><img class="m-band m-top m-street" src="img/map/top-street.jpg" alt="" loading="lazy">
+    <img class="m-band m-bot m-city" src="img/map/bot-city.jpg" alt="" loading="lazy"><img class="m-band m-bot m-street" src="img/map/bot-street.jpg" alt="" loading="lazy">
+    <img class="m-full m-f-street" src="img/map/street.jpg" alt="" loading="lazy">
+    <img class="m-full m-f-filtered" src="img/map/filtered.jpg" alt="" loading="lazy">
+    <img class="m-full m-f-city" src="img/map/city.jpg" alt="">
+    <img class="m-patch m-locate" src="img/map/locate-off.jpg" alt="" loading="lazy">
+    <img class="m-patch m-badge" src="img/map/badge.jpg" alt="" loading="lazy">
+    <img class="m-patch m-pin" src="img/map/pin-sel.jpg" alt="" loading="lazy">
+    <div class="m-panel"><img src="img/map/panel-off.jpg" alt="" loading="lazy"><img class="m-p-open" src="img/map/panel-open.jpg" alt="" loading="lazy"><img class="m-p-bars" src="img/map/panel-bars.jpg" alt="" loading="lazy"></div>
+    <img class="m-card" src="img/map/card-crop.jpg" alt="" loading="lazy">
+    <span class="d-touch"></span>
+    <span class="d-island"></span>
+  </div></div>
 </section>
 
 <section class="chapter">
@@ -76,6 +90,7 @@
 </div></footer>
 
 <script src="demo.js" defer></script>
+<script src="map.js" defer></script>
 <script>
 (function () {
   var queries = ["spicy noodles under $20", "dumplings open now", "vegan brunch in Dickson", "ramen near Gungahlin"];
