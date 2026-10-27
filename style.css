@@ -168,15 +168,6 @@ nav.site a.nav-beta:hover { background: var(--line); }
 .stage { position: relative; padding-top: 56px !important; overflow-x: clip; }
 .stage .phone { animation: rise 1s .15s cubic-bezier(.2,.8,.2,1) both; }
 @keyframes rise { from { transform: translateY(48px); } to { transform: none; } }
-.stage::before {
-  content: ""; position: absolute; left: 50%; top: 18%; width: min(760px, 120vw); height: 70%;
-  transform: translateX(-50%); z-index: -1; filter: blur(60px); opacity: .35;
-  background:
-    radial-gradient(closest-side at 30% 45%, var(--gold), transparent),
-    radial-gradient(closest-side at 55% 40%, var(--orange), transparent),
-    radial-gradient(closest-side at 72% 55%, var(--pink), transparent);
-}
-@media (prefers-color-scheme: dark) { .stage::before { opacity: .22; } }
 
 .chapter { padding-top: 160px !important; }
 .chapter .phone { margin-top: 56px; }
