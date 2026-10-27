@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Toque share image</title>
+<style>
+/* Source for img/og.png (1200x630). Regenerate with tools/og/render.sh */
+:root { --gold: #ffc24a; --orange: #ff8a4c; --pink: #f23d63; --accent: #ec3446; --text: #1d1d1f; --muted: #6e6e73; }
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+body {
+  position: relative; background: #fff; color: var(--text);
+  font: 17px/1.6 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.glow {
+  position: absolute; right: -40px; top: 90px; width: 640px; height: 460px; filter: blur(60px); opacity: .38;
+  background:
+    radial-gradient(closest-side at 30% 45%, var(--gold), transparent),
+    radial-gradient(closest-side at 55% 40%, var(--orange), transparent),
+    radial-gradient(closest-side at 72% 55%, var(--pink), transparent);
+}
+.copy { position: absolute; left: 80px; top: 0; bottom: 0; width: 650px; display: flex; flex-direction: column; justify-content: center; }
+.brand { display: flex; align-items: center; gap: 16px; font-weight: 600; font-size: 34px; letter-spacing: -0.02em; margin-bottom: 44px; }
+.brand img { width: 64px; height: 64px; border-radius: 22.5%; box-shadow: 0 10px 24px -10px rgba(0,0,0,.3); }
+h1 { font-size: 84px; line-height: 1.02; letter-spacing: -0.045em; font-weight: 700; margin: 0 0 28px; }
+.grad { background: linear-gradient(100deg, var(--gold), var(--orange) 40%, var(--pink) 80%, var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.sub { font-size: 28px; line-height: 1.35; color: var(--muted); margin: 0; max-width: 20em; letter-spacing: -0.01em; text-wrap: balance; }
+.phone {
+  position: absolute; right: 90px; top: 62px; width: 330px; aspect-ratio: 1320 / 2868;
+  border-radius: 54px; padding: 11px; background: #0d0d0f;
+  box-shadow: 0 40px 80px -30px rgba(0,0,0,.35), 0 16px 32px -16px rgba(0,0,0,.2);
+}
+.phone img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 44px; background: #fff; }
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="copy">
+  <div class="brand"><img src="../../img/icon-light.png" alt="">Toque</div>
+  <h1>Find the dish<br><span class="grad">you're craving.</span></h1>
+  <p class="sub">Canberra's places to eat, searched by what's on the menu.</p>
+</div>
+<div class="phone"><img src="../../img/results.jpg" alt=""></div>
+</body>
+</html>
