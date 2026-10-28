@@ -81,7 +81,7 @@ nav.site a.nav-beta:hover { background: var(--line); }
 @keyframes blink { 50% { opacity: 0; } }
 
 /* Query bubbles: things people type into Toque, floating beside the phone. bubbles.js swaps in more queries.
-   Outer .bubble is placed and bobs; the inner span is the pill and springs in. Slots are measured from the phone. */
+   Outer .bubble is placed and bobs; the inner button is the pill and springs in. Slots are measured from the phone. */
 .orbit { position: relative; width: max-content; margin: 0 auto; }
 .bubbles { position: absolute; inset: 0; pointer-events: none; }
 .bubble {
@@ -90,20 +90,38 @@ nav.site a.nav-beta:hover { background: var(--line); }
 }
 .bubble:nth-child(odd) { right: calc(100% - var(--o)); transform-origin: 100% 50%; }
 .bubble:nth-child(even) { left: calc(100% - var(--o)); transform-origin: 0 50%; }
-.bubble > span {
-  display: flex; align-items: center; gap: 8px; padding: 10px 18px 10px 14px; border-radius: 999px;
-  background: var(--surface); color: var(--text); font-size: 15px; font-weight: 500; line-height: 1.4; white-space: nowrap;
+.bubble > button {
+  position: relative; display: flex; align-items: center; gap: 8px; margin: 0; border: 0; padding: 10px 18px 10px 14px; border-radius: 999px;
+  background: var(--surface); color: var(--text); font: inherit; font-size: 15px; font-weight: 500; line-height: 1.4; white-space: nowrap;
   box-shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 8px 20px -12px rgba(0, 0, 0, .18);
   animation: pop .9s cubic-bezier(.34, 1.36, .54, 1) calc(.55s + var(--i) * .12s) both;
+  pointer-events: auto; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  transition: scale .45s cubic-bezier(.34, 1.36, .54, 1), background-color .2s;
 }
-.bubble:nth-child(odd) > span { transform-origin: 100% 50%; }
-.bubble:nth-child(even) > span { transform-origin: 0 50%; }
-.bubble > span::before {
+/* Tappable: a springy lift under the pointer, a press, a focus ring, and a warm tint while its search plays. */
+@media (hover: hover) {
+  .bubble > button:hover { scale: 1.045; }
+}
+.bubble > button:active { scale: .95; transition-duration: .12s, .2s; }
+.bubble > button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.bubble > button.on { background: color-mix(in srgb, var(--accent) 9%, var(--surface)); }
+/* Once per visit: a soft tap ripple on one bubble, the same grey touch the phone demo shows. */
+.bubble > button::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0;
+  box-shadow: 0 0 0 2px rgba(120, 120, 128, .45);
+}
+.bubble > button.nudge { animation: pop .9s cubic-bezier(.34, 1.36, .54, 1) both, press 1.1s ease-in-out .1s; }
+.bubble > button.nudge::after { animation: ripple 1.2s cubic-bezier(.2, .7, .3, 1) .3s; }
+@keyframes press { 0%, 100% { scale: 1; } 30% { scale: .94; } 60% { scale: 1.02; } }
+@keyframes ripple { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(1.25, 1.6); } }
+.bubble:nth-child(odd) > button { transform-origin: 100% 50%; }
+.bubble:nth-child(even) > button { transform-origin: 0 50%; }
+.bubble > button::before {
   content: ""; flex: none; width: 16px; height: 16px;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ff9e2c' d='M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9z'/%3E%3Cpath fill='%23ffc24a' d='M19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9z'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 @media (prefers-color-scheme: dark) {
-  .bubble > span { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06); }
+  .bubble > button { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06); }
 }
 /* Left column odd, right column even; --o is how far a bubble overlaps the phone (negative: a gap). Far ones are fainter. */
 .bubble:nth-child(1) { --i: 0; --y: 9%;  --o: -36px; --d: 7.4s; }
@@ -116,13 +134,13 @@ nav.site a.nav-beta:hover { background: var(--line); }
 .bubble:nth-child(8) { --i: 7; --y: 81%; --o: -28px; --d: 8.4s; --a: .55; --s: .94; }
 @keyframes pop { from { opacity: 0; transform: translateY(10px) scale(.84); } to { opacity: 1; transform: none; } }
 @keyframes bob { from { transform: translate(-2px, -5px); } to { transform: translate(2px, 5px); } }
-.stage.still .bubble, .stage.still .bubble > span { animation-play-state: paused; }
+.stage.still .bubble, .stage.still .bubble > button { animation-play-state: paused; }
 
 /* Narrower desktops: the five near bubbles only, all touching the phone. */
 @media (max-width: 1040px) {
   .bubble:nth-child(4), .bubble:nth-child(5), .bubble:nth-child(8) { display: none; }
   .bubble:nth-child(1) { --o: 6px; }
-  .bubble > span { font-size: 14px; padding: 9px 16px 9px 12px; }
+  .bubble > button { font-size: 14px; padding: 9px 16px 9px 12px; }
 }
 /* Phones and small tablets: three bubbles in a zigzag above the phone, the last one over its top corner (the status bar). */
 @media (max-width: 860px) {
@@ -131,11 +149,11 @@ nav.site a.nav-beta:hover { background: var(--line); }
   .bubble:nth-child(1) { --y: -132px; left: -14px; right: auto; }
   .bubble:nth-child(2) { --y: -84px; right: -14px; left: auto; }
   .bubble:nth-child(3) { --y: -34px; left: 6px; right: auto; }
-  .bubble > span { font-size: 14px; padding: 8px 15px 8px 11px; gap: 7px; }
-  .bubble > span::before { width: 15px; height: 15px; }
+  .bubble > button { font-size: 14px; padding: 8px 15px 8px 11px; gap: 7px; }
+  .bubble > button::before { width: 15px; height: 15px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .bubble, .bubble > span { animation: none !important; }
+  .bubble, .bubble > button { animation: none !important; }
 }
 
 /* Quiet pill: one element for "coming soon" and the beta request (mailto until there is a TestFlight link) */
@@ -225,8 +243,26 @@ footer.site .brand img { width: 20px; height: 20px; }
 .phone .demo .d-home > img { height: 100%; }
 .d-results { transform: translateX(100%); background: #fff; box-shadow: -12px 0 40px rgba(0, 0, 0, .08); }
 .d-list { will-change: transform; }
-.d-field { position: absolute; left: 13.636%; top: 20.397%; width: 81.818%; height: 6.625%; background: url(img/demo/field.jpg) 0 0 / 100% 3000% no-repeat; opacity: 0; }
-.d-caret { position: absolute; left: 15.6%; top: 22.55%; width: .55%; height: 2.35%; border-radius: 2px; background: #ec3446; opacity: 0; animation: blink 1s steps(1) infinite; }
+/* The typed query is live text over the screenshot's search field, so any query costs no image bytes. Sizes are in
+   cqw (1% of the screen's width) measured from the 840px-wide screenshots: 8.4px there is 1cqw; 17pt text is 3.8636cqw. */
+.phone .demo { container-type: inline-size; }
+.d-field {
+  position: absolute; left: 13.631cqw; top: 45.714cqw; width: 71.49cqw; height: 11.786cqw; padding-left: 1.786cqw;
+  display: flex; align-items: center; opacity: 0;
+  font: 400 3.8636cqw/1 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: -.0253em; color: #000; white-space: pre; -webkit-font-smoothing: antialiased;
+}
+.d-field.on { opacity: 1; }
+.d-field.filled { background: #f3f2f8; }
+.d-caret { flex: none; width: .476cqw; height: 5cqw; margin-top: .238cqw; border-radius: .25cqw; background: #ec3446; }
+.d-field.idle .d-caret { animation: blink 1s steps(1) infinite; }
+.d-send {
+  position: absolute; left: 86.31cqw; top: 49.19cqw; width: 4.881cqw; height: 4.881cqw; border-radius: 50%; opacity: 0; scale: .6;
+  background: #e8374a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23fff' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 14.8V6.3M6.5 9.8 10 6.3l3.5 3.5'/%3E%3C/svg%3E") center / 100% no-repeat;
+  transition: opacity .15s, scale .25s cubic-bezier(.34, 1.36, .54, 1);
+}
+.d-field.filled + .d-send { opacity: 1; scale: 1; }
+@supports not (width: 1cqw) { .d-field, .d-send { display: none; } }
 .phone .demo .d-back { left: 2.273%; top: 5.404%; width: 14.545%; }
 .phone .demo .d-kb { top: 63.947%; z-index: 4; transform: translateY(100%); will-change: transform; }
 .phone .demo .d-status { z-index: 3; -webkit-mask-image: linear-gradient(#000 65%, transparent); mask-image: linear-gradient(#000 65%, transparent); }

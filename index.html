@@ -28,7 +28,7 @@
 {"@type":"Organization","@id":"https://usetoque.com/#org","name":"Toque","url":"https://usetoque.com/","logo":"https://usetoque.com/img/icon-light.png","email":"support@usetoque.com"}
 ]}
 </script>
-<link rel="stylesheet" href="style.css?v=16">
+<link rel="stylesheet" href="style.css?v=17">
 </head>
 <body class="home">
 <header class="site"><div class="wrap">
@@ -46,24 +46,25 @@
 <section class="stage">
   <div class="orbit">
   <div class="phone xl"><div class="demo" id="demo" role="img" aria-label="Typing something warm and comforting into Toque and getting curries, ramen, braised beef and congee from places nearby">
-    <div class="d-home"><img src="img/demo/home.jpg" alt=""><div class="d-field"></div><span class="d-caret"></span></div>
-    <div class="d-results"><img class="d-list" src="img/demo/results.jpg" alt=""><img class="d-back" src="img/demo/back.png" alt=""></div>
-    <img class="d-kb" src="img/demo/kb.jpg" alt="">
-    <img class="d-status" src="img/demo/status.jpg" alt="">
-    <img class="d-tabbar" src="img/demo/tabbar.jpg" alt="">
+    <div class="d-home"><img src="img/demo/home.webp" alt=""><div class="d-field"><span class="d-text"></span><i class="d-caret"></i></div><i class="d-send"></i></div>
+    <div class="d-results"><img class="d-list" src="img/demo/results.webp" alt=""><img class="d-back" src="img/demo/back.webp" alt=""></div>
+    <img class="d-kb" src="img/demo/kb.webp" alt="">
+    <img class="d-status" src="img/demo/status.webp" alt="">
+    <img class="d-tabbar" src="img/demo/tabbar.webp" alt="">
     <span class="d-touch"></span>
     <span class="d-island"></span>
   </div></div>
-  <!-- Things people type into Toque; bubbles.js swaps in more. Each one is checked against the app's search. -->
-  <div class="bubbles" aria-hidden="true">
-    <div class="bubble"><span>vegan brunch in Dickson</span></div>
-    <div class="bubble"><span>dumplings open now</span></div>
-    <div class="bubble"><span>burger under $20</span></div>
-    <div class="bubble"><span>laksa</span></div>
-    <div class="bubble"><span>katsu curry</span></div>
-    <div class="bubble"><span>ramen in Civic</span></div>
-    <div class="bubble"><span>not too spicy curry</span></div>
-    <div class="bubble"><span>xiao long bao</span></div>
+  <!-- Things people type into Toque; bubbles.js swaps in more. Tapping one has the phone search for it. Each one is
+       checked against the app's search: its real results are the screenshot in img/demo/q/. -->
+  <div class="bubbles" role="group" aria-label="Example searches">
+    <div class="bubble"><button type="button">vegan brunch in Dickson</button></div>
+    <div class="bubble"><button type="button">dumplings open now</button></div>
+    <div class="bubble"><button type="button">burger under $20</button></div>
+    <div class="bubble"><button type="button">laksa</button></div>
+    <div class="bubble"><button type="button">katsu curry</button></div>
+    <div class="bubble"><button type="button">ramen in Civic</button></div>
+    <div class="bubble"><button type="button">not too spicy curry</button></div>
+    <div class="bubble"><button type="button">xiao long bao</button></div>
   </div>
   </div>
 </section>
@@ -109,8 +110,8 @@
   <a href="/support.html">Support</a><a href="/privacy.html">Privacy policy</a><span>© 2026 Toque</span>
 </div></footer>
 
-<script src="demo.js" defer></script>
+<script src="demo.js?v=2" defer></script>
 <script src="map.js" defer></script>
-<script src="bubbles.js" defer></script>
+<script src="bubbles.js?v=2" defer></script>
 </body>
 </html>
