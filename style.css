@@ -244,10 +244,12 @@ footer.site .brand img { width: 20px; height: 20px; }
 .d-results { transform: translateX(100%); background: #fff; box-shadow: -12px 0 40px rgba(0, 0, 0, .08); }
 .d-list { will-change: transform; }
 /* The typed query is live text over the screenshot's search field, so any query costs no image bytes. Sizes are in
-   cqw (1% of the screen's width) measured from the 840px-wide screenshots: 8.4px there is 1cqw; 17pt text is 3.8636cqw. */
+   cqw (1% of the screen's width) measured from the 840px-wide screenshots: 8.4px there is 1cqw; 17pt text is 3.8636cqw.
+   Tops and heights are % of the screen's height instead, because the screenshot is stretched to fill the screen and the
+   phone's screen is a little taller than the 840x1825 shot. */
 .phone .demo { container-type: inline-size; }
 .d-field {
-  position: absolute; left: 13.631cqw; top: 45.714cqw; width: 71.49cqw; height: 11.786cqw; padding-left: 1.786cqw;
+  position: absolute; left: 13.631cqw; top: 21.041%; width: 71.49cqw; height: 5.425%; padding-left: 1.786cqw;
   display: flex; align-items: center; opacity: 0;
   font: 400 3.8636cqw/1 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
   letter-spacing: -.0253em; color: #000; white-space: pre; -webkit-font-smoothing: antialiased;
@@ -257,7 +259,7 @@ footer.site .brand img { width: 20px; height: 20px; }
 .d-caret { flex: none; width: .476cqw; height: 5cqw; margin-top: .238cqw; border-radius: .25cqw; background: #ec3446; }
 .d-field.idle .d-caret { animation: blink 1s steps(1) infinite; }
 .d-send {
-  position: absolute; left: 86.31cqw; top: 49.19cqw; width: 4.881cqw; height: 4.881cqw; border-radius: 50%; opacity: 0; scale: .6;
+  position: absolute; left: 86.31cqw; top: 22.641%; width: 4.881cqw; height: 4.881cqw; border-radius: 50%; opacity: 0; scale: .6;
   background: #e8374a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23fff' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 14.8V6.3M6.5 9.8 10 6.3l3.5 3.5'/%3E%3C/svg%3E") center / 100% no-repeat;
   transition: opacity .15s, scale .25s cubic-bezier(.34, 1.36, .54, 1);
 }
