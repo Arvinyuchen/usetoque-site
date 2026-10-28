@@ -12,7 +12,7 @@
   // The ones in the page show first; these wait their turn. Narrow screens show only a few bubbles, so the queries in
   // the hidden ones take turns too.
   var all = bubbles.map(function (el) { return el.textContent; }).concat([
-    "dan dan noodles", "spicy noodles under $20", "vegetarian dumplings", "mild butter chicken", "tacos",
+    "spicy noodles under $20", "vegetarian dumplings", "mild butter chicken", "tacos",
     "spicy fried chicken"]);
   var cursor = bubbles.length;
   var SPRING = "cubic-bezier(.34, 1.36, .54, 1)";
