@@ -5,9 +5,10 @@
 // A post is a folder under blog/_src/. index.md starts with a front matter block:
 //
 //   ---
-//   title: Where the dishes come from
+//   title: Where the data comes from
 //   description: One sentence for the listing, the feed and link previews.
 //   date: 2026-10-30
+//   category: Search      (shown above the title with the date and the reading time)
 //   series: How Toque search works
 //   part: 1
 //   draft: true            (adds noindex; remove when the post is published)
@@ -28,7 +29,7 @@ const SRC = path.join(ROOT, "blog", "_src");
 const OUT = path.join(ROOT, "blog");
 const SITE = "https://usetoque.com";
 const CSS = "/style.css?v=18";
-const BLOG_CSS = "/blog/blog.css?v=1";
+const BLOG_CSS = "/blog/blog.css?v=2";
 
 // markdown-it comes from the npx cache that build.sh sets up (it is on PATH as <cache>/node_modules/.bin).
 function loadMarkdownIt() {
@@ -43,6 +44,8 @@ const MarkdownIt = loadMarkdownIt();
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const slugify = (s) => s.toLowerCase().replace(/<[^>]+>/g, "").replace(/&[a-z]+;/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+// Reading time at 230 words a minute, over the rendered text (figures' labels included), rounded up.
+const readingMinutes = (html) => Math.max(1, Math.ceil(html.replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length / 230));
 const longDate = (iso) => new Date(iso + "T00:00:00Z").toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 
 function frontMatter(text) {
@@ -112,16 +115,22 @@ const FOOTER = `<footer class="site"><div class="wrap">
   <a href="/support.html">Support</a><a href="/privacy.html">Privacy policy</a><span>© 2026 Toque</span>
 </div></footer>`;
 
+// The line above a post's title: its category, the date and the reading time.
+function kicker(post) {
+  const { meta } = post;
+  const cat = meta.category ? `<span class="cat">${esc(meta.category)}</span>` : "";
+  return `<p class="kicker">${cat}<time datetime="${meta.date}">${longDate(meta.date)}</time><span>${post.minutes} min read</span></p>`;
+}
+
 function postPage(post, html) {
   const { meta } = post;
   const scripts = post.assets.filter((a) => a.endsWith(".js")).map((a) => `<script src="${a}" defer></script>\n`).join("");
-  const series = meta.series ? `<span>${esc(meta.series)}${meta.part ? `, part ${esc(meta.part)}` : ""}</span>` : "";
   return `${head({ title: meta.title, description: meta.description, url: `${SITE}/blog/${post.slug}/`, type: "article", noindex: meta.draft, extra: scripts })}
 <body class="blog">
 ${HEADER}
 
 <main class="page"><article class="wrap narrow post">
-  <p class="kicker"><a href="/blog/">Engineering</a><time datetime="${meta.date}">${longDate(meta.date)}</time>${series}${meta.draft ? '<span class="draft">Draft</span>' : ""}</p>
+  ${kicker(post)}
   <h1>${esc(meta.title)}</h1>
 ${html}
 </article></main>
@@ -135,7 +144,7 @@ ${FOOTER}
 function indexPage(posts) {
   const items = posts.map((p) => `  <li>
     <a href="/blog/${p.slug}/"><h2>${esc(p.meta.title)}</h2></a>
-    <p class="kicker"><time datetime="${p.meta.date}">${longDate(p.meta.date)}</time>${p.meta.series ? `<span>${esc(p.meta.series)}${p.meta.part ? `, part ${esc(p.meta.part)}` : ""}</span>` : ""}${p.meta.draft ? '<span class="draft">Draft</span>' : ""}</p>
+    ${kicker(p)}
     <p>${esc(p.meta.description)}</p>
   </li>`).join("\n");
   const noindex = posts.length > 0 && posts.every((p) => p.meta.draft);
@@ -195,10 +204,11 @@ for (const post of posts) {
   fs.mkdirSync(out, { recursive: true });
   const html = markdown().render(post.body);
   if (html.includes("\u00b7")) throw new Error(`${post.slug}: uses a middle dot`);
+  post.minutes = readingMinutes(html);
   fs.writeFileSync(path.join(out, "index.html"), postPage(post, html));
   for (const a of post.assets) fs.copyFileSync(path.join(post.dir, a), path.join(out, a));
   const words = post.body.replace(/<[^>]+>/g, " ").replace(/[#*_`>|-]/g, " ").split(/\s+/).filter(Boolean).length;
-  console.log(`blog/${post.slug}/index.html  ${words} words (Markdown body, figures' text included)`);
+  console.log(`blog/${post.slug}/index.html  ${words} words (Markdown body, figures' text included), ${post.minutes} min read`);
 }
 fs.writeFileSync(path.join(OUT, "index.html"), indexPage(posts));
 fs.writeFileSync(path.join(OUT, "feed.xml"), feed(posts));

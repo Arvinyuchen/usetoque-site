@@ -1,4 +1,4 @@
-// Figures for "Where the dishes come from". Plain JavaScript, no libraries. Without JavaScript, figure 1 shows all
+// Figures for "Where the data comes from". Plain JavaScript, no libraries. Without JavaScript, figure 1 shows all
 // of its layers and figure 3 shows its text summary.
 (function () {
   document.documentElement.classList.add("js");
@@ -30,7 +30,8 @@
   }
 
   // Figure 3: the dish graph around one canonical dish. Numbers are menu dishes labelled with each id
-  // (pipeline/data/dish-labels.json, 30 October 2026).
+  // (pipeline/data/dish-labels.json on toque main after the #364 fixes, 30 October 2026; the same on label-rerun).
+  // TODO(rerun): recount after the Kaggle relabel lands.
   const DISHES = {
     xlb: {
       name: "xiao long bao", zh: "小笼包", n: 18, cuisine: "Shanghainese", broad: "Chinese",
@@ -40,23 +41,23 @@
     },
     ramen: {
       name: "tonkotsu ramen", zh: "豚骨拉面", n: 13, cuisine: "Japanese", broad: "Japanese",
-      parent: ["ramen", 106], family: ["noodle soup", 590], broth: "tonkotsu",
+      parent: ["ramen", 106], family: ["noodle soup", 539], broth: "tonkotsu",
       side: [], sibs: [["laksa", "Malaysian", 99], ["pho", "Vietnamese", 53], ["wonton noodle soup", "Cantonese", 10]],
       note: "A child of ramen with a broth component. The broth is read from the menu text by a regular expression, never by the model."
     },
     dandan: {
       name: "dan dan noodles", zh: "担担面", n: 5, cuisine: "Sichuan", broad: "Chinese",
-      parent: null, family: ["sauced noodles", 34],
+      parent: null, family: ["sauced noodles", 43],
       side: [["near", "tantanmen", "Japanese ramen"]],
       sibs: [["mazesoba", "Japanese", 7], ["scallion oil noodles", "Shanghainese", 4], ["chilli oil noodles", "Sichuan", 2]],
       note: "Tantanmen is the same idea under another name, in another family. Only 5 menu dishes are labelled dan dan noodles: it is a rare dish here, which is why the neighbours matter."
     },
     souvlaki: {
-      name: "souvlaki", zh: "希腊烤肉", n: 9, cuisine: "Greek", broad: "Greek",
-      parent: null, family: ["kebab", 666],
-      side: [["counterpart", "doner kebab", "Turkish, 202"], ["counterpart", "shawarma", "Lebanese, 8"]],
-      sibs: [["shish kebab", "Middle Eastern", 111], ["satay", "Malaysian", 103], ["seekh kebab", "Indian", 94]],
-      note: "Doner kebab and shawarma are the dish other cuisines serve in its place. Canberra has 9 souvlaki and 202 doner kebabs on its menus."
+      name: "souvlaki", zh: "希腊烤肉", n: 8, cuisine: "Greek", broad: "Greek",
+      parent: null, family: ["kebab", 647],
+      side: [["counterpart", "doner kebab", "Turkish, 201"], ["counterpart", "shawarma", "Lebanese, 8"]],
+      sibs: [["shish kebab", "Middle Eastern", 111], ["satay", "Malaysian", 100], ["seekh kebab", "Indian", 91]],
+      note: "Doner kebab and shawarma are the dish other cuisines serve in its place. Canberra has 8 souvlaki and 201 doner kebabs on its menus."
     },
     claypot: {
       name: "claypot", zh: "煲", n: 75, cuisine: "Cantonese", broad: "Chinese",

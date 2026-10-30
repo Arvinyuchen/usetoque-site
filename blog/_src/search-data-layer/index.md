@@ -1,7 +1,8 @@
 ---
-title: Where the dishes come from
+title: Where the data comes from
 description: How Toque search works, part 1. How 1,276 Canberra places and 33,143 dishes are found, read, checked, described and kept fresh, so that search can run entirely on the phone.
 date: 2026-10-30
+category: Search
 series: How Toque search works
 part: 1
 draft: true
@@ -54,8 +55,8 @@ It helps to think of the result as a small knowledge graph. A place serves menus
 | Menus | each venue's own website or ordering page | 927 menus at 648 places |
 | Dishes | read from those menus, then checked | 33,143 |
 | Descriptions | a model, inside a fixed vocabulary | every dish |
-| Canonical dishes | written by hand | 656, in 81 families |
-| Links | rules first, then an open model | 27,078 dishes linked to a canonical dish |
+| Canonical dishes | written by hand | <mark class="todo">TODO</mark>, in 81 families |
+| Links | rules first, then an open model | <mark class="todo">TODO</mark> dishes linked to a canonical dish |
 
 The rest of this post goes through the layers in order.
 
@@ -194,7 +195,7 @@ Why at build time? "Something warming" can't be answered with keywords, and a mo
 
 ### The dish graph
 
-Descriptions say what kind of dish something is. They don't say that "Pork Soup Dumpling (Xiao Long Bao)" and "Shanghai Pork Dumplings" are the same dish, or that gyoza are close to jiaozi. For that there is a taxonomy, written by hand: 656 canonical dishes, each with English and Chinese names and common spellings, in 81 families. A family is a kind of dish across cuisines, such as noodle soup, sauced noodles, dumplings or kebab. Each dish has one of 46 cuisines, which roll up to 20 broad ones. Dishes link to each other in three ways: *is a* (tonkotsu ramen is a ramen), *same dish, other name* (tantanmen for dan dan noodles), and *counterpart* (the dish another cuisine serves in its place: doner kebab for souvlaki). Proteins (12) and ramen broths (7) are components.
+Descriptions say what kind of dish something is. They don't say that "Pork Soup Dumpling (Xiao Long Bao)" and "Shanghai Pork Dumplings" are the same dish, or that gyoza are close to jiaozi. For that there is a taxonomy, written by hand: <mark class="todo">TODO</mark> canonical dishes, each with English and Chinese names and common spellings, in 81 families. A family is a kind of dish across cuisines, such as noodle soup, sauced noodles, dumplings or kebab. Each dish has one of 46 cuisines, which roll up to 20 broad ones. Dishes link to each other in three ways: *is a* (tonkotsu ramen is a ramen), *same dish, other name* (tantanmen for dan dan noodles), and *counterpart* (the dish another cuisine serves in its place: doner kebab for souvlaki). Proteins (12) and ramen broths (7) are components.
 
 <figure class="fig graph" id="fig-graph">
 <div class="panel">
@@ -203,23 +204,41 @@ Descriptions say what kind of dish something is. They don't say that "Pork Soup 
 <p class="noscript">Xiao long bao (小笼包) is a kind of dumpling, Shanghainese, which rolls up to Chinese, in the dumplings family with jiaozi, gyoza and dim sims. Souvlaki's counterparts are doner kebab and shawarma. Dan dan noodles are the same dish as tantanmen under another name.</p>
 <p class="facts"></p>
 </div>
-<figcaption><b>Figure 3.</b> The dish graph around five canonical dishes. Counts are menu dishes in Canberra linked to each node. Part 4 turns these edges into ranking tiers: the dish you asked for, then its near relatives, then the rest of its family.</figcaption>
+<figcaption><b>Figure 3.</b> The dish graph around five canonical dishes. Counts are menu dishes in Canberra linked to each node. <mark class="todo">TODO: recount after the relabel</mark> Part 4 turns these edges into ranking tiers: the dish you asked for, then its near relatives, then the rest of its family.</figcaption>
 </figure>
 
 We wrote the taxonomy by hand because at this size we can, and because it is exactly the knowledge we want to control. A learned similarity will happily put a pulled-pork brioche bun next to char siu bao, because both are "pork buns". Our first taxonomy did the same thing through an over-broad alias, and the audit below caught it. With a hand-made graph the fix is one line, and it stays fixed.
 
-Linking menu dishes to the graph happens in two steps. Menu dishes are first grouped into 24,819 distinct texts: the name, the description and the venue's cuisine, so "Chicken Curry" at a Thai place and at an Indian place are two texts.
+Linking menu dishes to the graph happens in two steps. Menu dishes are first grouped into <mark class="todo">TODO</mark> distinct texts: the name, the description and the venue's cuisine, so "Chicken Curry" at a Thai place and at an Indian place are two texts.
 
-1. **Rules.** A text whose name holds one dish's alias and otherwise only modifier words ("Sichuan Style", "With Pork Mince") gets that dish. Rules label 11,366 texts.
-2. **An open model.** The other 13,453 texts go to Qwen2.5-14B-Instruct, 4-bit, at temperature 0, on a free Kaggle GPU. It chooses from a short list of candidate dishes or answers "other", and names a family either way.
+1. **Rules.** A text whose name holds one dish's alias and otherwise only modifier words ("Sichuan Style", "With Pork Mince") gets that dish. Rules label <mark class="todo">TODO</mark> texts.
+2. **An open model.** The other <mark class="todo">TODO</mark> texts go to Qwen2.5-14B-Instruct, 4-bit, at temperature 0, on a free Kaggle GPU. It chooses from a short list of candidate dishes or answers "other", and names a family either way.
 
-Components never come from the model: protein and broth are read from the name and description by regular expressions. Labels are cached by text, so a rerun only labels new texts. In the end 33,103 of 33,143 menu dishes have a label, and 27,078 (81.7%) are linked to a specific canonical dish. The rest have a family only, such as a pizza named after the house.
+Components never come from the model: protein and broth are read from the name and description by regular expressions. Labels are cached by text, so a rerun only labels new texts. In the end <mark class="todo">TODO</mark> of 33,143 menu dishes have a label, and <mark class="todo">TODO</mark> are linked to a specific canonical dish. The rest have a family only, such as a pizza named after the house.
 
-The first audit of the model's picks found a bug in our own code, not the model. The import kept a pick only when the dish was the head of the menu name. That threw away 4,817 of 9,774 picks, and in the audit sample 80 of the 102 rejected picks were right ("Boscaiola Spaghetti" as boscaiola, "Fried King Prawns" as fried prawns). After the fix, rejections fell to 649. Of the labels kept, 93.2% were right in the main sample (164 of 176) and 91.8% in a fresh one (67 of 73). Weighted to the whole population, the model picked the right family 87.9% of the time.
+### How we know the labels are right
+
+We audited the labels twice.
+
+The first audit looked only at the model's picks, and found a bug in our own code, not the model. The import kept a pick only when the dish was the head of the menu name. That threw away 4,817 of 9,774 picks, and in the audit sample 80 of the 102 rejected picks were right ("Boscaiola Spaghetti" as boscaiola, "Fried King Prawns" as fried prawns). After the fix, rejections fell to 649. Of the picks kept, 93.2% were right in the main sample (164 of 176) and 91.8% in a fresh one (67 of 73). Weighted to the whole population, the model picked the right family 87.9% of the time.
+
+The second audit graded every field of a label, from both sources, on 400 menu dishes drawn to represent the whole menu. Before any fixes, the dish was right 80.0% of the time, the family 83.0%, the cuisine 94.4% and the protein 91.2%, and only 64.6% of dishes had every field right. Rules did better than the model: every field right for 72.1% of rule labels and 57.7% of model labels.
+
+The errors fell into a few patterns:
+
+- An alias that matches a word, not the dish: "Peking Duck" on a pizza menu, labelled Peking duck.
+- A form the menu states, ignored: a burger, pizza or sushi roll labelled as the dish it is named after.
+- A dish in the wrong family, such as san choy bao as a bun.
+- The model choosing a plausible wrong dish, such as udon noodle soup as Chinese noodle soup.
+- Proteins: a scotch fillet with no beef, oyster sauce read as seafood, the "tom" in tom yum read as prawn.
+
+The fixes went into the rules, the taxonomy and the mapping from venue tags to cuisines. No label was edited by hand. They changed 3,059 labels (9.2%), and on a fresh sample of 120 dishes drawn after the fixes, the dish was right 83.3% of the time, the family 85.8%, the cuisine 94.2% and the protein 93.3%. Every number went up, but the samples are small and the intervals overlap, so the honest claim is a modest improvement, clearest for protein. Our ranking evaluation of 167 queries barely moved (nDCG@5 from 0.897 to 0.898): most of its queries name dishes the rules already got right. Part 5 covers that evaluation.
+
+Every audit grade was given by one grader, an AI agent. To check the grader, we went through 60 of its verdicts by hand, including all 12 it was unsure about, and agreed with 53 of them (88%). So read the accuracy numbers above as a grader's estimate with about a one-in-ten disagreement rate.
 
 <div class="note todo">
 
-**Placeholder: dish-graph label audit.** A full audit of the labels from both sources, rules and model, is in progress (toque issue #364, `docs/label-audit.md` on the `label-audit` branch). Its numbers go here: precision of dish links by source, family accuracy, and the most common errors. Remove this box before publishing.
+**TODO: numbers pending the relabel.** The labels are being regenerated with a revised prompt and two owner rulings (a menu dish's cuisine follows the venue; cafe, pub and bakery are never cuisines), on toque branch `label-rerun`, with the model run on Kaggle. When it lands, fill in the marked TODOs and recheck Figure 3. Values today, for reference: canonical dishes 657 on main and 659 on `label-rerun`; 24,635 distinct texts, 11,299 by rules and 13,336 by the model on main; 33,103 dishes labelled and 26,765 (80.9%) linked on main. The audit numbers above describe the labels before the relabel; decide whether to re-audit or to say so. Remove this box before publishing.
 
 </div>
 

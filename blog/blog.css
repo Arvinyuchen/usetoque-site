@@ -33,7 +33,7 @@ body.blog { background: var(--bg); }
 .kicker { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 8px 0 14px; color: var(--muted); font-size: 14px; }
 .kicker a { color: var(--muted); text-decoration: none; }
 .kicker a:hover { color: var(--text); }
-.kicker .draft { color: var(--amber); font-weight: 600; }
+.kicker .cat { color: var(--accent); font-weight: 600; }
 
 main.page .post h2 { font-size: 26px; line-height: 1.25; letter-spacing: -0.02em; margin: 56px 0 12px; }
 main.page .post h3 { font-size: 19px; line-height: 1.3; margin: 32px 0 8px; }
@@ -53,6 +53,7 @@ main.page .post p, main.page .post ul, main.page .post ol { margin: 0 0 16px; }
 .post td.n, .post th.n { text-align: right; }
 .post .note { background: var(--fig-bg); border-radius: 14px; padding: 14px 18px; font-size: 15px; }
 .post .note.todo { border: 1px dashed var(--amber); background: transparent; }
+.post mark.todo { background: transparent; color: var(--amber); font-weight: 600; border: 1px dashed var(--amber); border-radius: 4px; padding: 0 4px; }
 .post .note > :last-child { margin-bottom: 0; }
 
 /* Figures */
