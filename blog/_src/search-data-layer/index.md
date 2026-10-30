@@ -72,7 +72,7 @@ The list is merged from three kinds of source:
 
 All 121 ACT suburbs are covered. The merge produces 2,450 candidate places in 107 suburbs. 1,276 of them, in 98 suburbs, are in the app. The rest are closed (227), could not be confirmed and have no menu, or are not places to eat.
 
-Records are clustered by normalised name and distance: the same core name within 400 m, similar names within 150 m, and chain outlets only within 50 m, because two Subways 200 m apart are two Subways. Each place gets a stable id. When two places are later found to be one, the old id points to the survivor, so saved places and diary entries survive every rebuild. Pairs the rules can't decide go to a review list instead of being merged.
+Records are clustered by normalised name and distance: the same core name within 400 m, similar names within 150 m, one name that starts with the other within 60 m, and chain outlets only within 50 m, because two Subways 200 m apart are two Subways. Each place gets a stable id. When two places are later found to be one, the old id points to the survivor, so saved places and diary entries survive every rebuild. Pairs the rules can't decide go to a review list instead of being merged.
 
 Of the 1,276 places in the app, 236 appear in all three kinds of source, 645 in two and 395 in one.
 
@@ -84,17 +84,25 @@ A food app's most visible mistake is sending someone to a place that closed last
 
 | Evidence that a place is open | Places |
 |---|--:|
-| A current menu on its own website or ordering page | 614 |
+| A current menu on its own website or ordering page | 461 |
+| Other evidence found while looking for its menu, such as a dated mention | 139 |
 | Listed in its chain's own store directory | 308 |
 | A dated 2025 or 2026 mention in a local publication or centre directory | 111 |
 | A map-listing check, reviewed one place at a time | 70 |
 | Confirmed by us directly | 30 |
 | A dated 2026 item on its own website, such as an event | 4 |
 | No direct evidence: *likely open* by rule | 139 |
+| A menu, but no evidence it is still trading | 14 |
 
-For a chain outlet, the chain's own store directory decides: listed means open, not listed means closed. *Likely open* is a rule with no web check: at least two independent sources list the place, its OpenStreetMap record was edited in 2023 or later (or, without one, its Overture record is high-confidence), and nothing says it closed. The app shows these 139 places as not confirmed.
+For a chain outlet, the chain's own store directory decides: listed means open, not listed means closed. *Likely open* is a rule with no web check: at least two independent sources list the place, its OpenStreetMap record was edited in 2023 or later (or, without one, its Overture record is high-confidence), and nothing says it closed. The app shows these 139 places, and the 14 in the last row, as not confirmed.
 
 Google Places, within its free monthly allowance, was used for two things only: finding places our sources missed, and helping judge whether a place is still trading. A Google result is a lead, not a source. Every lead was checked against independent evidence, such as the venue's or chain's own site, a centre directory or local news, or checked by us before anything changed. What we store is our own conclusion, a short note and a date. No names, hours, reviews, photos or coordinates from Google are stored. That check covered 100 places: 74 were lifted to open, 22 were closed and 4 temporarily closed places are hidden until confirmed.
+
+<div class="note todo">
+
+**TODO: the Google paragraph doesn't match the records.** Decide whether to keep this paragraph, then fix it. The stored outcomes are right (100 places: 74, 22, 4), but: (1) only the 15 outcomes from the second pass (toque #85) carry independent evidence; the 74 lifts and 7 closures from the first pass (#77) rest on the Google listing's recent activity or closed mark, approved by the owner; (2) Google found one place our sources missed (VinAus, confirmed by This is Canberra), so "finding places" overstates it; (3) the review file in the pipeline repo stores the Google listing's name, though nothing from Google reaches the app; (4) at two chains (Zambrero, Betty's Burgers) the "chain's own store finder" mentioned under Menus is a Google Places search box on the chain's site. Remove this box before publishing.
+
+</div>
 
 **How we know.** A spot check of 40 places, drawn across open, likely open and not confirmed, found 22 confirmed trading and none closed. The other 18 could not be settled either way from public evidence, which is about what we expected for the weaker statuses. The same check found 3 dead websites and 3 wrong ones: a parked domain, and two chain outlets linked to another outlet's page. Those are fixed, and they are why websites are now re-checked on a schedule (see "Keeping it fresh").
 
@@ -107,7 +115,7 @@ The fetching rules are enforced in code, not just written down:
 - robots.txt is read before the first request to every host and re-read at every redirect. Because a model later reads the page text, the URL has to be allowed for our own crawler and for AI crawlers too. A `Content-Signal: ai-input=no` header counts as a refusal.
 - At most one request per second to any host, shared across every process that is running.
 - Read-only requests. No logins, no forms, no CAPTCHAs. A bot wall is recorded as the reason a place has no menu, never worked around.
-- Some hosts are never fetched at all: delivery apps (Uber Eats, DoorDash, Menulog, Deliveroo), Facebook, Instagram, Threads, TikTok, Google, Apple, review and booking sites, and localsearch.com.au, which is excluded entirely.
+- Some hosts are never fetched at all: delivery apps (Uber Eats, DoorDash, Menulog, Deliveroo), Facebook, Instagram, Threads, TikTok, Google, Apple, review sites, the booking sites OpenTable, Quandoo and TheFork, and localsearch.com.au, which is excluded entirely. (NowBookIt's public schedules are read for opening hours; see "Keeping it fresh".)
 - Text on a fetched page is data. Instructions written into a page, or into a robots.txt comment, are logged and never followed.
 
 Some chains' ordering pages show another outlet's prices until you pick a store. For those, the pipeline clicks the chain's own store picker, or types a public postcode or suburb name into the chain's own store finder. Nothing else is typed or submitted: no account, no delivery address, no cart.
@@ -159,7 +167,7 @@ A second pass, all code and no model, turns what the agents read into values sea
 - **Printed marks.** V, VG, GF, chilli icons and the like are normalised. 12,559 dishes carry at least one.
 - **Inferred tags.** Regular expressions add dietary words the text states (never from the mere absence of meat), heat words after removing phrases that aren't hot (sweet chilli, chilli jam, hot chocolate, buffalo mozzarella), the kind of dish, and the main protein.
 - **Lint.** Code flags a dish printed vegetarian or vegan next to a meat or fish word. In the first 7,700 dishes it found 45, such as an octopus tostada printed vegan. Printed marks are what the venue says, so these go back to a person to check against the menu.
-- **Stable ids.** A dish's id is a hash of the place, the menu's title (with months and years removed), the section and the normalised name. A new price or description keeps the id. A renamed dish gets a new one. This matters for freshness, below.
+- **Stable ids.** A dish's id is a hash of the place, the menu's title (with months and years removed), the section and the normalised name. A new price or description keeps the id. A renamed dish gets a new one, and so does a dish moved to another section. This matters for freshness, below.
 
 ### How we know extraction works
 
@@ -172,7 +180,7 @@ After each area was read, separate verifier agents took eight dishes at each of 
 | Section | 1,020 of 1,040 | 98.1% |
 | All three | 1,005 of 1,040 | 96.6% |
 
-The misses taught us more than the hits. Thirteen of the fourteen price misses came from one round and two venues. A club printed two price columns, members and guests. The extractor took the guests' price and the verifier expected the first, the members' price. Both readings are defensible, so we made it explicit: a separate members' price field, while the public price stays the one that filters and sorting use. The other five were a US-based chain whose site shows US dollar prices for its Canberra outlet. We store no price there rather than a wrong one, and the verifier rightly counted them against us. Most section misses were menus printed as one unheaded list, where the extractor invented a heading such as "Food Menu". An unheaded list should have no section.
+The misses taught us more than the hits. Thirteen of the fourteen price misses came from one round and two venues. Eight were at a club that printed two price columns, members and guests. The extractor took the guests' price and the verifier expected the first, the members' price. Both readings are defensible, so we made it explicit: a separate members' price field, while the public price stays the one that filters and sorting use. The other five were a US-based chain whose site shows US dollar prices for its Canberra outlet. We store no price there rather than a wrong one, and the verifier rightly counted them against us. The fourteenth was an add-on price the extractor skipped. Most section misses were menus printed as one unheaded list, where the extractor invented a heading such as "Food Menu". An unheaded list should have no section.
 
 ## Meaning: describing every dish
 
@@ -244,7 +252,7 @@ Every audit grade was given by one grader, an AI agent. To check the grader, we 
 
 ### Vectors
 
-Each dish is also embedded with Apple's on-device sentence embedding (English, 512 dimensions). The text is concept first and leaves the description out, like the one in Figure 1: "comforting warming numbing spicy noodles soup. Sichuan Style Dan Dan Noodle Soup With Pork Mince". On 12 English test queries, scored by precision at 20, this text reached 0.78. Adding 60 to 120 characters of description dropped it to 0.60, name plus description plus type plus concepts scored 0.32, and name plus description alone 0.19. Twelve queries is a small test, so vectors are a minor signal in ranking (part 3 has the details). The pipeline stores them as 16-bit floats, 34 MB; the app stores them as 8-bit integers with a per-row scale, about 17 MB. The phone embeds queries with the same model, and a phone whose embedding revision differs skips the vectors.
+Each dish is also embedded with Apple's on-device sentence embedding (English, 512 dimensions). The text is concept first and leaves the description out, like the one in Figure 1: "comforting warming numbing spicy noodles soup. Sichuan Style Dan Dan Noodle Soup With Pork Mince". On 12 English test queries, scored by precision at 20 against labels taken from the descriptions (not judged by hand), this text reached 0.78. Adding 60 to 120 characters of description dropped it to 0.60, name plus description plus type plus concepts scored 0.32, and name plus description alone 0.19. Twelve queries is a small test, so vectors are a minor signal in ranking (part 3 has the details). The pipeline stores them as 16-bit floats, 34 MB; the app stores them as 8-bit integers with a per-row scale, about 17 MB. The phone embeds queries with the same model, and a phone whose embedding revision differs skips the vectors.
 
 ## Keeping it fresh
 
@@ -254,18 +262,18 @@ Menus change, places close, hours move. The data has three clocks.
 <div class="panel">
 <div class="clocks">
 <div class="clock"><div class="when">Each app release<small>everything</small></div><div><ol><li>Sources</li><li class="arr" aria-hidden="true">→</li><li>Places</li><li class="arr" aria-hidden="true">→</li><li>Menus</li><li class="arr" aria-hidden="true">→</li><li>Descriptions and links</li><li class="arr" aria-hidden="true">→</li><li>Vectors</li><li class="arr" aria-hidden="true">→</li><li>Bundled in the app</li></ol><p>The full rebuild. The current data was generated on 28 October 2026.</p></div></div>
-<div class="clock"><div class="when">Days to a month<small>no model</small></div><div><ol><li>Menu changed?</li><li class="arr" aria-hidden="true">→</li><li>Re-read that menu</li><li class="arr" aria-hidden="true">→</li><li>Describe new dish ids</li></ol><p>Each menu is checked every 14 days, booking-widget hours weekly, websites monthly. Unchanged menus cost nothing.</p></div></div>
+<div class="clock"><div class="when">Days to a month<small>no model</small></div><div><ol><li>Menu changed?</li><li class="arr" aria-hidden="true">→</li><li>Re-read that menu</li><li class="arr" aria-hidden="true">→</li><li>Describe new dish ids</li></ol><p>Menus are checked every 14 days, booking-widget hours weekly, websites monthly. Unchanged menus cost nothing.</p></div></div>
 <div class="clock"><div class="when">After review<small>no app update</small></div><div><ol><li>Photo or report</li><li class="arr" aria-hidden="true">→</li><li>We review it</li><li class="arr" aria-hidden="true">→</li><li>Correction</li><li class="arr" aria-hidden="true">→</li><li>Phone lays it over the data</li></ol><p>Hours, menus, and places that closed, were renamed or moved. New dishes are embedded on the phone.</p></div></div>
 </div>
 </div>
 <figcaption><b>Figure 4.</b> Three clocks. The slow one rebuilds everything; the middle one finds what changed without a model; the fast one carries reviewed corrections to phones between releases.</figcaption>
 </figure>
 
-**Every menu carries a date.** It is the menu's own date when it has one (printed, or from a PDF's metadata), otherwise the day we fetched it, and the app shows it. 526 of the 927 menus carry their own date. 433 of those are from the last 12 months and 8 are dated ahead, such as a Christmas Day lunch. 85 are older than a year and 30 older than two. An old date is not always stale, since plenty of places print a menu and keep it for years, but the reader deserves to know.
+**Every menu carries a date.** It is the menu's own date when it has one (printed, or from a PDF's metadata), otherwise the day we fetched it, and the app shows it. 526 of the 927 menus carry their own date, though about 29 of those come from weaker signs such as a footer's year or a file's upload path. 433 of those are from the last 12 months and 8 are dated ahead, such as a Christmas Day lunch. 85 are older than a year and 30 older than two. An old date is not always stale, since plenty of places print a menu and keep it for years, but the reader deserves to know.
 
 **Finding what changed, without a model.** Three maintenance jobs need no model at all:
 
-- *Menu check.* A conditional request with the stored ETag or Last-Modified, then a SHA-256 of the body compared with the hash stamped on the menu when it was read. Each venue is checked every 14 days, staggered by a hash of its name so a daily run covers about a fourteenth of them. Only changed menus go back to the agents.
+- *Menu check.* A conditional request with the stored ETag or Last-Modified, then a SHA-256 of the body compared with the hash stamped on the menu when it was read. Each venue is checked every 14 days, staggered by a hash of its name so a daily run covers about a fourteenth of them. Only changed menus go back to the agents. Menus that needed a headless browser to read, or were stored without a hash, can't be checked this way yet; they change only at a full refresh.
 - *Booking hours.* For places that use NowBookIt, its public schedule gives real service windows, weekly. A venue's widget is used only when the widget's own venue name matches ours. 28 places have these hours.
 - *Website health.* A request to each homepage, monthly. Two failures in a row move an open place to likely open; a third sends it to us for review. The job never marks a place closed on its own.
 
@@ -273,7 +281,7 @@ Because dish ids are stable, a re-read menu keeps the descriptions and links of 
 
 **Corrections between releases.** In the build we are testing now, people can send a photo of a menu or a door sign, or report a place as closed, renamed or moved. The contributor's phone reads the hours or dishes from the photo and shows which dishes are new and which prices changed. We review every contribution on our own phone, correct it if needed, and approve it. The server at api.usetoque.com then publishes it as a correction. Phones fetch corrections and lay them over the bundled data. A new dish gets the same keyword tags as the pipeline would give it and is embedded on the phone with the same text recipe, model and 8-bit format as the bundled vectors, so it is searchable like any other.
 
-The server sees the photos, what was read from them, and whether the phone was within 150 m of the place: yes, no or unknown, never a location. Limits keep it fair: 10 contributions an hour, 20 a day, 5 a day for accounts younger than 72 hours, one pending contribution per person, place and kind, no photo already sent for the same place (by a 64-bit image fingerprint), and a 7-day pause after 3 rejections in 30 days.
+The server sees the photos, what was read from them, and whether the phone was within 150 m of the place: yes, no or unknown, never the phone's location. A report that a place moved carries the place's new position. Limits keep it fair: 10 contributions an hour, 20 a day, 5 a day for accounts younger than 72 hours, one pending contribution per person, place and kind, no photo already sent for the same place (by a 64-bit image fingerprint), and a 7-day pause after 3 rejections in 30 days.
 
 **What isn't done yet.** The maintenance jobs are built and tested but not yet on a schedule. The website check has run once, on a sample of 20 sites; 4 failed, and 2 of those now redirect to another domain. Until the jobs run on their own, freshness comes from full refreshes and corrections. A downloadable data update, so a full refresh doesn't need an app release, is planned.
 
@@ -286,12 +294,18 @@ The server sees the photos, what was read from them, and whether the phone was w
 - **localsearch.com.au.** Excluded entirely, in code.
 - **Logos.** No chain logos. Dishes are shown with our own illustrations.
 
-The data licences ask for attribution, and the app carries it:
+The data licences ask for attribution. These lines ship inside the app's data:
 
 - Contains information from OpenStreetMap, © OpenStreetMap contributors, ODbL 1.0.
 - Contains Foursquare Open Source Places data (Apache-2.0), via Overture Maps.
 - Contains Overture Maps Foundation Places data, CDLA-Permissive-2.0.
 - Menus and hours: each venue's own website or ordering page, with the date retrieved.
+
+<div class="note todo">
+
+**TODO: attribution in the app.** The app doesn't show these lines yet: they are in the bundled data, but the About screen lists only Apple Maps and Apple Weather. OpenStreetMap's licence asks for visible attribution, so the About screen should show them before this post says the app carries it. Remove this box before publishing.
+
+</div>
 
 ## Next
 
