@@ -29,7 +29,7 @@
 </div></header>
 
 <main class="page"><article class="wrap narrow post">
-  <p class="kicker"><span class="cat">Search</span><time datetime="2026-10-30">30 October 2026</time><span>24 min read</span></p>
+  <p class="kicker"><span class="cat">Search</span><time datetime="2026-10-30">30 October 2026</time><span>23 min read</span></p>
   <h1>Where the data comes from</h1>
 <p class="lede">Search can only be as good as the data under it. This is how Toque's data is made: where the places, menus, dishes and hours come from, how they are cleaned and structured, and how they stay fresh.</p>
 <p>Lilong by Taste of Shanghai, on City Walk in Canberra, publishes its à la carte menu as a PDF. Under the heading FRIED NOODLE there is this line, marked spicy:</p>
@@ -166,10 +166,6 @@
 </tbody>
 </table></div>
 <p>For a chain outlet, the chain’s own store directory decides: listed means open, not listed means closed. <em>Likely open</em> is a rule with no web check: at least two independent sources list the place, its OpenStreetMap record was edited in 2023 or later (or, without one, its Overture record is high-confidence), and nothing says it closed. The app shows these 139 places, and the 14 in the last row, as not confirmed.</p>
-<p>Google Places, within its free monthly allowance, was used for two things only: finding places our sources missed, and helping judge whether a place is still trading. A Google result is a lead, not a source. Every lead was checked against independent evidence, such as the venue’s or chain’s own site, a centre directory or local news, or checked by us before anything changed. What we store is our own conclusion, a short note and a date. No names, hours, reviews, photos or coordinates from Google are stored. That check covered 100 places: 74 were lifted to open, 22 were closed and 4 temporarily closed places are hidden until confirmed.</p>
-<div class="note todo">
-<p><strong>TODO: the Google paragraph doesn’t match the records.</strong> Decide whether to keep this paragraph, then fix it. The stored outcomes are right (100 places: 74, 22, 4), but: (1) only the 15 outcomes from the second pass (toque #85) carry independent evidence; the 74 lifts and 7 closures from the first pass (#77) rest on the Google listing’s recent activity or closed mark, approved by the owner; (2) Google found one place our sources missed (VinAus, confirmed by This is Canberra), so “finding places” overstates it; (3) the review file in the pipeline repo stores the Google listing’s name, though nothing from Google reaches the app; (4) at two chains (Zambrero, Betty’s Burgers) the “chain’s own store finder” mentioned under Menus is a Google Places search box on the chain’s site. Remove this box before publishing.</p>
-</div>
 <p><strong>How we know.</strong> A spot check of 40 places, drawn across open, likely open and not confirmed, found 22 confirmed trading and none closed. The other 18 could not be settled either way from public evidence, which is about what we expected for the weaker statuses. The same check found 3 dead websites and 3 wrong ones: a parked domain, and two chain outlets linked to another outlet’s page. Those are fixed, and they are why websites are now re-checked on a schedule (see “Keeping it fresh”).</p>
 <h2 id="menus-only-the-venue-s-own">Menus: only the venue’s own</h2>
 <p>A menu comes only from the venue’s own channels: its website, the PDFs and images its site links to, and its own or its chain’s ordering page. Not from delivery apps, review sites, social networks or directories. Delivery apps’ terms forbid extraction and their prices often differ from the venue’s own; the others are not the venue speaking.</p>
@@ -362,7 +358,6 @@
 <p><strong>What isn’t done yet.</strong> The maintenance jobs are built and tested but not yet on a schedule. The website check has run once, on a sample of 20 sites; 4 failed, and 2 of those now redirect to another domain. Until the jobs run on their own, freshness comes from full refreshes and corrections. A downloadable data update, so a full refresh doesn’t need an app release, is planned.</p>
 <h2 id="what-we-don-t-use">What we don’t use</h2>
 <ul>
-<li><strong>Google.</strong> Leads only, as described above. No Google content is stored.</li>
 <li><strong>Apple Maps.</strong> We store each place’s Apple Place ID (229 places so far) so the app can open it in Apple Maps. Everything else on the map comes live from Apple.</li>
 <li><strong>Delivery apps.</strong> At most, a current listing counts as evidence that a place exists. Nothing is read from them.</li>
 <li><strong>Facebook and Instagram.</strong> Never fetched. A place that posts its menu only on Instagram is listed without one (24 places).</li>

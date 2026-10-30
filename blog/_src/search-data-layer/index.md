@@ -96,14 +96,6 @@ A food app's most visible mistake is sending someone to a place that closed last
 
 For a chain outlet, the chain's own store directory decides: listed means open, not listed means closed. *Likely open* is a rule with no web check: at least two independent sources list the place, its OpenStreetMap record was edited in 2023 or later (or, without one, its Overture record is high-confidence), and nothing says it closed. The app shows these 139 places, and the 14 in the last row, as not confirmed.
 
-Google Places, within its free monthly allowance, was used for two things only: finding places our sources missed, and helping judge whether a place is still trading. A Google result is a lead, not a source. Every lead was checked against independent evidence, such as the venue's or chain's own site, a centre directory or local news, or checked by us before anything changed. What we store is our own conclusion, a short note and a date. No names, hours, reviews, photos or coordinates from Google are stored. That check covered 100 places: 74 were lifted to open, 22 were closed and 4 temporarily closed places are hidden until confirmed.
-
-<div class="note todo">
-
-**TODO: the Google paragraph doesn't match the records.** Decide whether to keep this paragraph, then fix it. The stored outcomes are right (100 places: 74, 22, 4), but: (1) only the 15 outcomes from the second pass (toque #85) carry independent evidence; the 74 lifts and 7 closures from the first pass (#77) rest on the Google listing's recent activity or closed mark, approved by the owner; (2) Google found one place our sources missed (VinAus, confirmed by This is Canberra), so "finding places" overstates it; (3) the review file in the pipeline repo stores the Google listing's name, though nothing from Google reaches the app; (4) at two chains (Zambrero, Betty's Burgers) the "chain's own store finder" mentioned under Menus is a Google Places search box on the chain's site. Remove this box before publishing.
-
-</div>
-
 **How we know.** A spot check of 40 places, drawn across open, likely open and not confirmed, found 22 confirmed trading and none closed. The other 18 could not be settled either way from public evidence, which is about what we expected for the weaker statuses. The same check found 3 dead websites and 3 wrong ones: a parked domain, and two chain outlets linked to another outlet's page. Those are fixed, and they are why websites are now re-checked on a schedule (see "Keeping it fresh").
 
 ## Menus: only the venue's own
@@ -287,7 +279,6 @@ The server sees the photos, what was read from them, and whether the phone was w
 
 ## What we don't use
 
-- **Google.** Leads only, as described above. No Google content is stored.
 - **Apple Maps.** We store each place's Apple Place ID (229 places so far) so the app can open it in Apple Maps. Everything else on the map comes live from Apple.
 - **Delivery apps.** At most, a current listing counts as evidence that a place exists. Nothing is read from them.
 - **Facebook and Instagram.** Never fetched. A place that posts its menu only on Instagram is listed without one (24 places).
