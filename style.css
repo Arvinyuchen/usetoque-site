@@ -295,7 +295,7 @@ footer.site .brand img { width: 20px; height: 20px; }
 .m-panel { position: absolute; left: 9.091%; top: 12.971%; width: 81.818%; height: 18.131%; border-radius: 7.2% / 15%; overflow: hidden; opacity: 0; transform-origin: 50% 0; box-shadow: 0 10px 30px rgba(0, 0, 0, .08); }
 .phone .mdemo .m-panel img { width: 100%; height: 100%; }
 .phone .mdemo .m-panel img:not(:first-child) { opacity: 0; }
-.phone .mdemo .m-card { left: 2.727%; top: 74.93%; width: 94.545%; border-radius: 6.25% / 17.5%; transform: translateY(175%); box-shadow: 0 10px 30px rgba(0, 0, 0, .1); }
+.phone .mdemo .m-card { left: 2.727%; top: 72.7%; width: 94.545%; border-radius: 6.25% / 17.5%; transform: translateY(175%); box-shadow: 0 10px 30px rgba(0, 0, 0, .1); }
 .mdemo .d-touch, .mdemo .d-island { z-index: 6; }
 
 /* Phones: the header keeps the brand and the beta button; Support and Privacy stay in the footer */

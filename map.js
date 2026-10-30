@@ -1,5 +1,7 @@
-// The map demo on the homepage: bare map captures at four zoom levels, zoomed by the page, with the app's own bars,
-// filter panel and card (cropped from real screenshots) laid over them.
+// The map demo on the homepage: map captures at four zoom levels, zoomed by the page, with the app's own bars,
+// filter panel and card (cropped from real screenshots) laid over them. The zoom frames are bare captures (no Apple
+// Maps logo or Legal link), so the bottom bands carry Apple's attribution, cropped from real captures of the normal
+// map, at a fixed size and in the app's place: bottom left, above the tab bar. The card rests above it, never over it.
 (function () {
   var demo = document.getElementById("mapdemo");
   if (!demo) return;
