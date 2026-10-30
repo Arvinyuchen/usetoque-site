@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Toque engineering</title>
+  <link href="https://usetoque.com/blog/"/>
+  <link rel="self" href="https://usetoque.com/blog/feed.xml"/>
+  <id>https://usetoque.com/blog/</id>
+  <updated>2026-10-30T00:00:00Z</updated>
+  <author><name>Toque</name></author>
+  <entry>
+    <title>Where the dishes come from</title>
+    <link href="https://usetoque.com/blog/search-data-layer/"/>
+    <id>https://usetoque.com/blog/search-data-layer/</id>
+    <updated>2026-10-30T00:00:00Z</updated>
+    <summary>How Toque search works, part 1. How 1,276 Canberra places and 33,143 dishes are found, read, checked, described and kept fresh, so that search can run entirely on the phone.</summary>
+  </entry>
+</feed>

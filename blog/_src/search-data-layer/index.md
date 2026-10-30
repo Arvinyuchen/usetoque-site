@@ -1,0 +1,281 @@
+---
+title: Where the dishes come from
+description: How Toque search works, part 1. How 1,276 Canberra places and 33,143 dishes are found, read, checked, described and kept fresh, so that search can run entirely on the phone.
+date: 2026-10-30
+series: How Toque search works
+part: 1
+draft: true
+---
+
+<p class="lede">Search can only be as good as the data under it. This is how Toque's data is made: where the places, menus, dishes and hours come from, how they are cleaned and structured, and how they stay fresh.</p>
+
+Lilong by Taste of Shanghai, on City Walk in Canberra, publishes its à la carte menu as a PDF. Under the heading FRIED NOODLE there is this line, marked spicy:
+
+> Sichuan Style Dan Dan Noodle Soup With Pork Mince 四川擔擔麵 $17.80
+
+A person reads a lot into that line. It is a noodle soup, it is numbing as well as hot, it is pork, it costs under $20, and 担担面 is its everyday Chinese name. A search engine reads none of that from the line alone. Someone who types "something warming and numbing under $20", or 担担面, or "dan dan mian in the city" should still find it, and almost none of those words are in the line.
+
+Toque answers those searches on the phone, with no server and no model call at query time. That only works because the understanding is done once, before the app ships, and written into the data. Figure 1 shows what this one line becomes.
+
+<figure class="fig" id="fig-line">
+<div class="panel">
+<ol class="layers">
+<li class="layer on" data-tab="Printed"><h4>On the menu <span class="by">the PDF's text is outlined, so it was read from rendered page images</span></h4><div class="printed"><small>FRIED NOODLE</small>Sichuan Style Dan Dan Noodle Soup With Pork Mince<br>四川擔擔麵 &nbsp; $17.80 &nbsp; <i>marked spicy</i></div></li>
+<li class="layer" data-tab="Read"><h4>Read <span class="by">by an AI agent following our written rules, then checked by code</span></h4><dl><dt>name</dt><dd><span class="dot printed"></span>Sichuan Style Dan Dan Noodle Soup With Pork Mince</dd><dt>price_text</dt><dd><span class="dot printed"></span>$17.80</dd><dt>description</dt><dd><span class="dot printed"></span>四川擔擔麵</dd><dt>section</dt><dd><span class="dot printed"></span>FRIED NOODLE</dd><dt>tags</dt><dd><span class="dot printed"></span>spicy</dd><dt>menu_date</dt><dd><span class="dot printed"></span>2025-09-30, from the PDF's metadata</dd><dt>retrieved</dt><dd><span class="dot code"></span>2026-10-25</dd><dt>source_hash</dt><dd><span class="dot code"></span>sha256:acddab33…</dd></dl></li>
+<li class="layer" data-tab="Cleaned"><h4>Cleaned <span class="by">by code, no model</span></h4><dl><dt>id</dt><dd><span class="dot code"></span>d-c71038df6cdb</dd><dt>price</dt><dd><span class="dot code"></span>17.80</dd><dt>inferred_tags</dt><dd><span class="dot code"></span>noodles, pork, soup, spicy</dd></dl></li>
+<li class="layer" data-tab="Described"><h4>Described <span class="by">by a model, inside a fixed vocabulary, with guards in code</span></h4><dl><dt>dish_type</dt><dd><span class="dot model"></span>noodles, soup</dd><dt>concepts</dt><dd><span class="dot model"></span>comforting, warming, hot, numbing, spicy</dd><dt>name_zh</dt><dd><span class="dot model"></span>四川担担面</dd><dt>aliases</dt><dd><span class="dot model"></span>dan dan noodles, dandan mian, 担担面</dd></dl></li>
+<li class="layer" data-tab="Linked"><h4>Linked <span class="by">to a hand-made dish graph, by a rule</span></h4><dl><dt>dish</dt><dd><span class="dot rule"></span>dan dan noodles</dd><dt>family</dt><dd><span class="dot hand"></span>sauced noodles</dd><dt>cuisine</dt><dd><span class="dot hand"></span>Sichuan, which rolls up to Chinese</dd><dt>protein</dt><dd><span class="dot rule"></span>pork</dd><dt>vector text</dt><dd><span class="dot code"></span>"comforting warming numbing spicy noodles soup. Sichuan Style Dan Dan Noodle Soup With Pork Mince", embedded as 512 numbers</dd></dl></li>
+</ol>
+<p class="legend"><span><span class="dot printed"></span>printed on the menu</span><span><span class="dot code"></span>derived by code</span><span><span class="dot model"></span>written by a model</span><span><span class="dot rule"></span>matched by a rule</span><span><span class="dot hand"></span>written by hand</span></p>
+</div>
+<figcaption><b>Figure 1.</b> One line from a PDF menu, layer by layer. Every value records where it came from. The printed section and tags are kept exactly as printed, so the dish stays under FRIED NOODLE although it is a soup; the description layer is where “soup” is said.</figcaption>
+</figure>
+
+This series explains how Toque search works. This first part is the data layer. Later parts cover how a query is understood, how dishes and venue names are retrieved, how results are ranked, and how we measure all of it.
+
+## Four constraints
+
+Every decision in this post follows from four constraints.
+
+- **Free.** No paid API at query time, ever. Build-time work uses open data, open models on free hardware, and our own time.
+- **Private.** What you type stays on your phone. There is no search server to send it to.
+- **On the device.** Search has to be fast on an iPhone 12 with no signal. A large model per query is out, so meaning has to be in the data.
+- **Canberra-sized.** The ACT is small. Every place, menu and dish we have, 1,276 places and 33,143 dishes with a 512-number vector each, ships inside the app. Every query can look at every dish, and some things a bigger city would have to learn, like a dish taxonomy, we can write and check by hand.
+
+Small also means we can read the data. When a number in this post looked wrong, we opened the menu.
+
+## The shape of the data
+
+It helps to think of the result as a small knowledge graph. A place serves menus. A menu lists dishes. A dish is linked to a canonical dish, such as *dan dan noodles*, which belongs to a family (*sauced noodles*) and a cuisine (*Sichuan*, rolling up to *Chinese*). Canonical dishes link to each other: xiao long bao is a kind of dumpling, and the doner kebab is the souvlaki of Turkish cuisine.
+
+| Layer | Filled by | Size today |
+|---|---|---|
+| Places | open map data and dated local lists | 1,276 in 98 suburbs |
+| Menus | each venue's own website or ordering page | 927 menus at 648 places |
+| Dishes | read from those menus, then checked | 33,143 |
+| Descriptions | a model, inside a fixed vocabulary | every dish |
+| Canonical dishes | written by hand | 656, in 81 families |
+| Links | rules first, then an open model | 27,078 dishes linked to a canonical dish |
+
+The rest of this post goes through the layers in order.
+
+## Places: our own list
+
+We keep our own list of places instead of asking a maps provider at search time. A provider's terms usually forbid storing its data, every lookup costs money, and every lookup sends the query somewhere. Open data can be stored, merged, checked and shipped.
+
+The list is merged from three kinds of source:
+
+- **OpenStreetMap**: restaurants, cafes, fast food, bars, pubs, food courts and ice cream shops inside each suburb's boundary.
+- **Overture Maps Places**, which also carries Foursquare's Open Source Places records.
+- **Dated local lists**: "new openings" and "best of" articles from local publications, and shopping-centre and campus directories. These tell us a place exists and when it was last seen. They are never used for menus.
+
+All 121 ACT suburbs are covered. The merge produces 2,450 candidate places in 107 suburbs. 1,276 of them, in 98 suburbs, are in the app. The rest are closed (227), could not be confirmed and have no menu, or are not places to eat.
+
+Records are clustered by normalised name and distance: the same core name within 400 m, similar names within 150 m, and chain outlets only within 50 m, because two Subways 200 m apart are two Subways. Each place gets a stable id. When two places are later found to be one, the old id points to the survivor, so saved places and diary entries survive every rebuild. Pairs the rules can't decide go to a review list instead of being merged.
+
+Of the 1,276 places in the app, 236 appear in all three kinds of source, 645 in two and 395 in one.
+
+Public geocoders disallow automated search in their robots.txt, so places known only from a list are placed locally against OpenStreetMap's address points, then by interpolating house numbers, then by named buildings, then by street. Each place records how precise its pin is: 1,136 sit on their own map point, 71 on an address point, 20 are interpolated, 36 are placed at a landmark such as a shopping centre, and 13 only at their street.
+
+### Is it still trading?
+
+A food app's most visible mistake is sending someone to a place that closed last month. So a place counts as open only with evidence, and the evidence is recorded with the place.
+
+| Evidence that a place is open | Places |
+|---|--:|
+| A current menu on its own website or ordering page | 614 |
+| Listed in its chain's own store directory | 308 |
+| A dated 2025 or 2026 mention in a local publication or centre directory | 111 |
+| A map-listing check, reviewed one place at a time | 70 |
+| Confirmed by us directly | 30 |
+| A dated 2026 item on its own website, such as an event | 4 |
+| No direct evidence: *likely open* by rule | 139 |
+
+For a chain outlet, the chain's own store directory decides: listed means open, not listed means closed. *Likely open* is a rule with no web check: at least two independent sources list the place, its OpenStreetMap record was edited in 2023 or later (or, without one, its Overture record is high-confidence), and nothing says it closed. The app shows these 139 places as not confirmed.
+
+Google Places, within its free monthly allowance, was used for two things only: finding places our sources missed, and helping judge whether a place is still trading. A Google result is a lead, not a source. Every lead was checked against independent evidence, such as the venue's or chain's own site, a centre directory or local news, or checked by us before anything changed. What we store is our own conclusion, a short note and a date. No names, hours, reviews, photos or coordinates from Google are stored. That check covered 100 places: 74 were lifted to open, 22 were closed and 4 temporarily closed places are hidden until confirmed.
+
+**How we know.** A spot check of 40 places, drawn across open, likely open and not confirmed, found 22 confirmed trading and none closed. The other 18 could not be settled either way from public evidence, which is about what we expected for the weaker statuses. The same check found 3 dead websites and 3 wrong ones: a parked domain, and two chain outlets linked to another outlet's page. Those are fixed, and they are why websites are now re-checked on a schedule (see "Keeping it fresh").
+
+## Menus: only the venue's own
+
+A menu comes only from the venue's own channels: its website, the PDFs and images its site links to, and its own or its chain's ordering page. Not from delivery apps, review sites, social networks or directories. Delivery apps' terms forbid extraction and their prices often differ from the venue's own; the others are not the venue speaking.
+
+The fetching rules are enforced in code, not just written down:
+
+- robots.txt is read before the first request to every host and re-read at every redirect. Because a model later reads the page text, the URL has to be allowed for our own crawler and for AI crawlers too. A `Content-Signal: ai-input=no` header counts as a refusal.
+- At most one request per second to any host, shared across every process that is running.
+- Read-only requests. No logins, no forms, no CAPTCHAs. A bot wall is recorded as the reason a place has no menu, never worked around.
+- Some hosts are never fetched at all: delivery apps (Uber Eats, DoorDash, Menulog, Deliveroo), Facebook, Instagram, Threads, TikTok, Google, Apple, review and booking sites, and localsearch.com.au, which is excluded entirely.
+- Text on a fetched page is data. Instructions written into a page, or into a robots.txt comment, are logged and never followed.
+
+Some chains' ordering pages show another outlet's prices until you pick a store. For those, the pipeline clicks the chain's own store picker, or types a public postcode or suburb name into the chain's own store finder. Nothing else is typed or submitted: no account, no delivery address, no cart.
+
+| Where the menu is | Menus | Dishes | How it is read |
+|---|--:|--:|---|
+| An ordering page | 199 | 12,304 | Square and Shopify catalogues by code; others rendered in a headless browser |
+| A PDF | 345 | 9,893 | the PDF's text, or page images when the text is outlined or scanned |
+| A web page | 325 | 9,866 | fetched, or rendered when a script builds it |
+| An image | 58 | 1,080 | OCR, or read from the image |
+
+Platform catalogues are turned into dishes by code. Everything else is read by AI agents at build time, each given a batch of venues and a written rulebook: copy names and prices exactly as printed, keep the printed price text beside the number, record only the dietary marks the menu prints, keep sections as printed, record the menu's own date, and leave drinks lists out. The agents fetch only through the pipeline, so the rules above still apply. We chose agents over one scraper per site because the menus of 648 places share almost no layout. Writing and maintaining hundreds of extractors would be the larger project, and none of this runs when you search.
+
+Chain outlets that share one menu get a copy of it, labelled *prices may differ at this location*. There are 216 such menus, with 8,783 dishes between them.
+
+### Why half the places have no menu
+
+628 of the 1,276 places have no dishes. Figure 2 shows why.
+
+<figure class="fig" id="fig-coverage">
+<div class="panel">
+<h5>Places in the app</h5>
+<div class="split-bar" role="img" aria-label="648 places with dishes, 628 without"><span style="flex:648;background:var(--bar)" title="648 places with dishes"></span><span style="flex:628;background:var(--bar-2)" title="628 places without dishes"></span></div>
+<div class="split-key"><span><b>648</b> with dishes</span><span><b>628</b> without</span></div>
+<h5 style="margin-top:20px">Why the 628 have no dishes</h5>
+<ul class="bars">
+<li tabindex="0" title="No website we could find: 211 places"><span>No website we could find</span><span class="track"><span class="fill" style="width:calc(100% - 40px)"></span>211</span></li>
+<li tabindex="0" title="A website, but no menu on it: 181 places"><span>A website, no menu on it</span><span class="track"><span class="fill" style="width:calc((100% - 40px) * 181 / 211)"></span>181</span></li>
+<li tabindex="0" title="A chain outlet; the chain publishes no prices: 97 places"><span>Chain publishes no prices</span><span class="track"><span class="fill" style="width:calc((100% - 40px) * 97 / 211)"></span>97</span></li>
+<li tabindex="0" title="Other, such as unreadable files: 36 places"><span>Other, such as unreadable files</span><span class="track"><span class="fill" style="width:calc((100% - 40px) * 36 / 211)"></span>36</span></li>
+<li tabindex="0" title="Website down: 30 places"><span>Website down</span><span class="track"><span class="fill" style="width:calc((100% - 40px) * 30 / 211)"></span>30</span></li>
+<li tabindex="0" title="Menu only on Instagram: 24 places"><span>Menu only on Instagram</span><span class="track"><span class="fill" style="width:calc((100% - 40px) * 24 / 211)"></span>24</span></li>
+<li tabindex="0" title="robots.txt says no: 24 places"><span>robots.txt says no</span><span class="track"><span class="fill" style="width:calc((100% - 40px) * 24 / 211)"></span>24</span></li>
+<li tabindex="0" title="Menu built by a script that refuses automated browsers: 14 places"><span>Script refuses automated browsers</span><span class="track"><span class="fill" style="width:calc((100% - 40px) * 14 / 211)"></span>14</span></li>
+<li tabindex="0" title="Menu only on delivery apps: 9 places"><span>Only on delivery apps</span><span class="track"><span class="fill" style="width:calc((100% - 40px) * 9 / 211)"></span>9</span></li>
+<li tabindex="0" title="Inside a food court with a shared listing: 2 places"><span>Food court listing</span><span class="track"><span class="fill" style="width:calc((100% - 40px) * 2 / 211)"></span>2</span></li>
+</ul>
+</div>
+<figcaption><b>Figure 2.</b> Menu coverage of the 1,276 places in the app, with the recorded reason for every place without dishes.</figcaption>
+</figure>
+
+The two biggest reasons are not technical. 211 places have no website we could find, and 181 have one with no menu on it. Our own rules cost much less: 24 places are lost to robots.txt and 14 to scripts that refuse automated browsers. Places without dishes can still be found by name, cuisine and suburb, just not by dish. Closing this gap is what community menu photos are for (see "Keeping it fresh").
+
+## Cleaning
+
+A second pass, all code and no model, turns what the agents read into values search can filter on.
+
+- **Prices.** The printed text is kept as it is, and a number is derived from it. 30,534 of the 33,143 dishes have a price (92.1%). 3,164 have a range, such as small and large, 1,138 a unit such as per 100 g or each, 328 a serving size, and 675 a separate members' price.
+- **Printed marks.** V, VG, GF, chilli icons and the like are normalised. 12,559 dishes carry at least one.
+- **Inferred tags.** Regular expressions add dietary words the text states (never from the mere absence of meat), heat words after removing phrases that aren't hot (sweet chilli, chilli jam, hot chocolate, buffalo mozzarella), the kind of dish, and the main protein.
+- **Lint.** Code flags a dish printed vegetarian or vegan next to a meat or fish word. In the first 7,700 dishes it found 45, such as an octopus tostada printed vegan. Printed marks are what the venue says, so these go back to a person to check against the menu.
+- **Stable ids.** A dish's id is a hash of the place, the menu's title (with months and years removed), the section and the normalised name. A new price or description keeps the id. A renamed dish gets a new one. This matters for freshness, below.
+
+### How we know extraction works
+
+After each area was read, separate verifier agents took eight dishes at each of a sample of venues and checked them against the original source, plus a recount of one section per venue to catch dishes that were missed. Over 14 rounds that is 1,040 dishes at 130 venues.
+
+| Check | Right | Rate |
+|---|--:|--:|
+| Name | 1,039 of 1,040 | 99.9% |
+| Price | 1,026 of 1,040 | 98.7% |
+| Section | 1,020 of 1,040 | 98.1% |
+| All three | 1,005 of 1,040 | 96.6% |
+
+The misses taught us more than the hits. Thirteen of the fourteen price misses came from one round and two venues. A club printed two price columns, members and guests. The extractor took the guests' price and the verifier expected the first, the members' price. Both readings are defensible, so we made it explicit: a separate members' price field, while the public price stays the one that filters and sorting use. The other five were a US-based chain whose site shows US dollar prices for its Canberra outlet. We store no price there rather than a wrong one, and the verifier rightly counted them against us. Most section misses were menus printed as one unheaded list, where the extractor invented a heading such as "Food Menu". An unheaded list should have no section.
+
+## Meaning: describing every dish
+
+The printed menu tells search what a dish is called. Two more layers tell it what the dish is.
+
+### Descriptions
+
+Every dish gets four fields, written at build time by AI agents from its name, the first 120 characters of its description, its section, price and printed marks:
+
+- `dish_type`: one or more of 32 kinds, from noodles and dumplings to small plates, sides and extras.
+- `concepts`: a fixed vocabulary of 26 terms: moods (comforting, warming, light, fresh, hearty, indulgent, crispy, healthy), occasions (date night, group, quick bite, late night, brunch, kid friendly), temperature, flavours (sweet, creamy, cheesy, smoky, tangy, numbing), diet (vegetarian, vegan, gluten-free) and spicy.
+- `name_zh`: the natural Simplified Chinese name, or the printed one when the menu has it.
+- `aliases`: up to four other names, such as *XLB* and 小笼包 for xiao long bao.
+
+Code then checks every record. Terms must come from the vocabulary. Concepts may never contradict printed marks. At a venue that prints V and VG markers, vegetarian and vegan come only from those markers or the dish's name. Gluten-free comes only where it is printed or written. Nothing is called vegetarian or vegan when its text names meat or fish.
+
+Every dish has a `dish_type`. 32,802 have a Chinese name (99.0%) and 30,525 have aliases (92.1%). A hand check of 150 dishes from 150 venues in the first run found no error in 144 (96%); each field's error rate was between 0% and 1.3%.
+
+Why at build time? "Something warming" can't be answered with keywords, and a model per query is ruled out by the constraints. Writing *warming* into the data once costs nothing when you search. On a refresh, only dishes with new ids are described.
+
+### The dish graph
+
+Descriptions say what kind of dish something is. They don't say that "Pork Soup Dumpling (Xiao Long Bao)" and "Shanghai Pork Dumplings" are the same dish, or that gyoza are close to jiaozi. For that there is a taxonomy, written by hand: 656 canonical dishes, each with English and Chinese names and common spellings, in 81 families. A family is a kind of dish across cuisines, such as noodle soup, sauced noodles, dumplings or kebab. Each dish has one of 46 cuisines, which roll up to 20 broad ones. Dishes link to each other in three ways: *is a* (tonkotsu ramen is a ramen), *same dish, other name* (tantanmen for dan dan noodles), and *counterpart* (the dish another cuisine serves in its place: doner kebab for souvlaki). Proteins (12) and ramen broths (7) are components.
+
+<figure class="fig graph" id="fig-graph">
+<div class="panel">
+<div class="tabs" role="group" aria-label="Dish" hidden><button type="button" data-dish="xlb" aria-pressed="true">Xiao long bao</button><button type="button" data-dish="ramen" aria-pressed="false">Tonkotsu ramen</button><button type="button" data-dish="dandan" aria-pressed="false">Dan dan noodles</button><button type="button" data-dish="souvlaki" aria-pressed="false">Souvlaki</button><button type="button" data-dish="claypot" aria-pressed="false">Claypot</button></div>
+<div class="canvas"></div>
+<p class="noscript">Xiao long bao (小笼包) is a kind of dumpling, Shanghainese, which rolls up to Chinese, in the dumplings family with jiaozi, gyoza and dim sims. Souvlaki's counterparts are doner kebab and shawarma. Dan dan noodles are the same dish as tantanmen under another name.</p>
+<p class="facts"></p>
+</div>
+<figcaption><b>Figure 3.</b> The dish graph around five canonical dishes. Counts are menu dishes in Canberra linked to each node. Part 4 turns these edges into ranking tiers: the dish you asked for, then its near relatives, then the rest of its family.</figcaption>
+</figure>
+
+We wrote the taxonomy by hand because at this size we can, and because it is exactly the knowledge we want to control. A learned similarity will happily put a pulled-pork brioche bun next to char siu bao, because both are "pork buns". Our first taxonomy did the same thing through an over-broad alias, and the audit below caught it. With a hand-made graph the fix is one line, and it stays fixed.
+
+Linking menu dishes to the graph happens in two steps. Menu dishes are first grouped into 24,819 distinct texts: the name, the description and the venue's cuisine, so "Chicken Curry" at a Thai place and at an Indian place are two texts.
+
+1. **Rules.** A text whose name holds one dish's alias and otherwise only modifier words ("Sichuan Style", "With Pork Mince") gets that dish. Rules label 11,366 texts.
+2. **An open model.** The other 13,453 texts go to Qwen2.5-14B-Instruct, 4-bit, at temperature 0, on a free Kaggle GPU. It chooses from a short list of candidate dishes or answers "other", and names a family either way.
+
+Components never come from the model: protein and broth are read from the name and description by regular expressions. Labels are cached by text, so a rerun only labels new texts. In the end 33,103 of 33,143 menu dishes have a label, and 27,078 (81.7%) are linked to a specific canonical dish. The rest have a family only, such as a pizza named after the house.
+
+The first audit of the model's picks found a bug in our own code, not the model. The import kept a pick only when the dish was the head of the menu name. That threw away 4,817 of 9,774 picks, and in the audit sample 80 of the 102 rejected picks were right ("Boscaiola Spaghetti" as boscaiola, "Fried King Prawns" as fried prawns). After the fix, rejections fell to 649. Of the labels kept, 93.2% were right in the main sample (164 of 176) and 91.8% in a fresh one (67 of 73). Weighted to the whole population, the model picked the right family 87.9% of the time.
+
+<div class="note todo">
+
+**Placeholder: dish-graph label audit.** A full audit of the labels from both sources, rules and model, is in progress (toque issue #364, `docs/label-audit.md` on the `label-audit` branch). Its numbers go here: precision of dish links by source, family accuracy, and the most common errors. Remove this box before publishing.
+
+</div>
+
+### Vectors
+
+Each dish is also embedded with Apple's on-device sentence embedding (English, 512 dimensions). The text is concept first and leaves the description out, like the one in Figure 1: "comforting warming numbing spicy noodles soup. Sichuan Style Dan Dan Noodle Soup With Pork Mince". On 12 English test queries, scored by precision at 20, this text reached 0.78. Adding 60 to 120 characters of description dropped it to 0.60, name plus description plus type plus concepts scored 0.32, and name plus description alone 0.19. Twelve queries is a small test, so vectors are a minor signal in ranking (part 3 has the details). The pipeline stores them as 16-bit floats, 34 MB; the app stores them as 8-bit integers with a per-row scale, about 17 MB. The phone embeds queries with the same model, and a phone whose embedding revision differs skips the vectors.
+
+## Keeping it fresh
+
+Menus change, places close, hours move. The data has three clocks.
+
+<figure class="fig" id="fig-clocks">
+<div class="panel">
+<div class="clocks">
+<div class="clock"><div class="when">Each app release<small>everything</small></div><div><ol><li>Sources</li><li class="arr" aria-hidden="true">→</li><li>Places</li><li class="arr" aria-hidden="true">→</li><li>Menus</li><li class="arr" aria-hidden="true">→</li><li>Descriptions and links</li><li class="arr" aria-hidden="true">→</li><li>Vectors</li><li class="arr" aria-hidden="true">→</li><li>Bundled in the app</li></ol><p>The full rebuild. The current data was generated on 28 October 2026.</p></div></div>
+<div class="clock"><div class="when">Days to a month<small>no model</small></div><div><ol><li>Menu changed?</li><li class="arr" aria-hidden="true">→</li><li>Re-read that menu</li><li class="arr" aria-hidden="true">→</li><li>Describe new dish ids</li></ol><p>Each menu is checked every 14 days, booking-widget hours weekly, websites monthly. Unchanged menus cost nothing.</p></div></div>
+<div class="clock"><div class="when">After review<small>no app update</small></div><div><ol><li>Photo or report</li><li class="arr" aria-hidden="true">→</li><li>We review it</li><li class="arr" aria-hidden="true">→</li><li>Correction</li><li class="arr" aria-hidden="true">→</li><li>Phone lays it over the data</li></ol><p>Hours, menus, and places that closed, were renamed or moved. New dishes are embedded on the phone.</p></div></div>
+</div>
+</div>
+<figcaption><b>Figure 4.</b> Three clocks. The slow one rebuilds everything; the middle one finds what changed without a model; the fast one carries reviewed corrections to phones between releases.</figcaption>
+</figure>
+
+**Every menu carries a date.** It is the menu's own date when it has one (printed, or from a PDF's metadata), otherwise the day we fetched it, and the app shows it. 526 of the 927 menus carry their own date. 433 of those are from the last 12 months and 8 are dated ahead, such as a Christmas Day lunch. 85 are older than a year and 30 older than two. An old date is not always stale, since plenty of places print a menu and keep it for years, but the reader deserves to know.
+
+**Finding what changed, without a model.** Three maintenance jobs need no model at all:
+
+- *Menu check.* A conditional request with the stored ETag or Last-Modified, then a SHA-256 of the body compared with the hash stamped on the menu when it was read. Each venue is checked every 14 days, staggered by a hash of its name so a daily run covers about a fourteenth of them. Only changed menus go back to the agents.
+- *Booking hours.* For places that use NowBookIt, its public schedule gives real service windows, weekly. A venue's widget is used only when the widget's own venue name matches ours. 28 places have these hours.
+- *Website health.* A request to each homepage, monthly. Two failures in a row move an open place to likely open; a third sends it to us for review. The job never marks a place closed on its own.
+
+Because dish ids are stable, a re-read menu keeps the descriptions and links of every unchanged dish. Only new ids are described and labelled, which keeps the monthly cost to the dishes that are actually new.
+
+**Corrections between releases.** In the build we are testing now, people can send a photo of a menu or a door sign, or report a place as closed, renamed or moved. The contributor's phone reads the hours or dishes from the photo and shows which dishes are new and which prices changed. We review every contribution on our own phone, correct it if needed, and approve it. The server at api.usetoque.com then publishes it as a correction. Phones fetch corrections and lay them over the bundled data. A new dish gets the same keyword tags as the pipeline would give it and is embedded on the phone with the same text recipe, model and 8-bit format as the bundled vectors, so it is searchable like any other.
+
+The server sees the photos, what was read from them, and whether the phone was within 150 m of the place: yes, no or unknown, never a location. Limits keep it fair: 10 contributions an hour, 20 a day, 5 a day for accounts younger than 72 hours, one pending contribution per person, place and kind, no photo already sent for the same place (by a 64-bit image fingerprint), and a 7-day pause after 3 rejections in 30 days.
+
+**What isn't done yet.** The maintenance jobs are built and tested but not yet on a schedule. The website check has run once, on a sample of 20 sites; 4 failed, and 2 of those now redirect to another domain. Until the jobs run on their own, freshness comes from full refreshes and corrections. A downloadable data update, so a full refresh doesn't need an app release, is planned.
+
+## What we don't use
+
+- **Google.** Leads only, as described above. No Google content is stored.
+- **Apple Maps.** We store each place's Apple Place ID (229 places so far) so the app can open it in Apple Maps. Everything else on the map comes live from Apple.
+- **Delivery apps.** At most, a current listing counts as evidence that a place exists. Nothing is read from them.
+- **Facebook and Instagram.** Never fetched. A place that posts its menu only on Instagram is listed without one (24 places).
+- **localsearch.com.au.** Excluded entirely, in code.
+- **Logos.** No chain logos. Dishes are shown with our own illustrations.
+
+The data licences ask for attribution, and the app carries it:
+
+- Contains information from OpenStreetMap, © OpenStreetMap contributors, ODbL 1.0.
+- Contains Foursquare Open Source Places data (Apache-2.0), via Overture Maps.
+- Contains Overture Maps Foundation Places data, CDLA-Permissive-2.0.
+- Menus and hours: each venue's own website or ordering page, with the date retrieved.
+
+## Next
+
+Part 2 is query understanding: how "not too spicy dumplings under $20 in Dickson" or 想吃担担面 becomes a structured query on the phone. Part 3 covers retrieval, from venue names to dishes to meaning. Part 4 is ranking in tiers A to F, built on the graph above. Part 5 is how we measure all of it.
+
+<p class="meta">Numbers are from the data as of 30 October 2026; the bundled data was generated on 28 October. Own a place we list, or spotted something wrong? Email <a href="mailto:support@usetoque.com">support@usetoque.com</a>.</p>
