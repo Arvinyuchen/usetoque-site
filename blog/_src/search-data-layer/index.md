@@ -32,7 +32,7 @@ Toque answers those searches on the phone, with no server and no model call at q
 <figcaption><b>Figure 1.</b> One line from a PDF menu, layer by layer. Every value records where it came from. The printed section and tags are kept exactly as printed, so the dish stays under FRIED NOODLE although it is a soup; the description layer is where “soup” is said.</figcaption>
 </figure>
 
-This series explains how Toque search works. This first part is the data layer. Later parts cover how a query is understood, how dishes and venue names are retrieved, how results are ranked, and how we measure all of it.
+This series explains how Toque search works. This first part is the data layer. Later parts cover retrieval by meaning, how a query is tagged, the dish graph and ranking, and matching venue names.
 
 ## Four constraints
 
@@ -232,7 +232,7 @@ The errors fell into a few patterns:
 - The model choosing a plausible wrong dish, such as udon noodle soup as Chinese noodle soup.
 - Proteins: a scotch fillet with no beef, oyster sauce read as seafood, the "tom" in tom yum read as prawn.
 
-The fixes went into the rules, the taxonomy and the mapping from venue tags to cuisines. No label was edited by hand. They changed 3,059 labels (9.2%), and on a fresh sample of 120 dishes drawn after the fixes, the dish was right 83.3% of the time, the family 85.8%, the cuisine 94.2% and the protein 93.3%. Every number went up, but the samples are small and the intervals overlap, so the honest claim is a modest improvement, clearest for protein. Our ranking evaluation of 167 queries barely moved (nDCG@5 from 0.897 to 0.898): most of its queries name dishes the rules already got right. Part 5 covers that evaluation.
+The fixes went into the rules, the taxonomy and the mapping from venue tags to cuisines. No label was edited by hand. They changed 3,059 labels (9.2%), and on a fresh sample of 120 dishes drawn after the fixes, the dish was right 83.3% of the time, the family 85.8%, the cuisine 94.2% and the protein 93.3%. Every number went up, but the samples are small and the intervals overlap, so the honest claim is a modest improvement, clearest for protein. Our ranking evaluation of 167 queries barely moved (nDCG@5 from 0.897 to 0.898): most of its queries name dishes the rules already got right. Part 4 covers that evaluation.
 
 Every audit grade was given by one grader, an AI agent. To check the grader, we went through 60 of its verdicts by hand, including all 12 it was unsure about, and agreed with 53 of them (88%). So read the accuracy numbers above as a grader's estimate with about a one-in-ten disagreement rate.
 
@@ -244,7 +244,7 @@ Every audit grade was given by one grader, an AI agent. To check the grader, we 
 
 ### Vectors
 
-Each dish is also embedded with Apple's on-device sentence embedding (English, 512 dimensions). The text is concept first and leaves the description out, like the one in Figure 1: "comforting warming numbing spicy noodles soup. Sichuan Style Dan Dan Noodle Soup With Pork Mince". On 12 English test queries, scored by precision at 20 against labels taken from the descriptions (not judged by hand), this text reached 0.78. Adding 60 to 120 characters of description dropped it to 0.60, name plus description plus type plus concepts scored 0.32, and name plus description alone 0.19. Twelve queries is a small test, so vectors are a minor signal in ranking (part 3 has the details). The pipeline stores them as 16-bit floats, 34 MB; the app stores them as 8-bit integers with a per-row scale, about 17 MB. The phone embeds queries with the same model, and a phone whose embedding revision differs skips the vectors.
+Each dish is also embedded with Apple's on-device sentence embedding (English, 512 dimensions). The text is concept first and leaves the description out, like the one in Figure 1: "comforting warming numbing spicy noodles soup. Sichuan Style Dan Dan Noodle Soup With Pork Mince". On 12 English test queries, scored by precision at 20 against labels taken from the descriptions (not judged by hand), this text reached 0.78. Adding 60 to 120 characters of description dropped it to 0.60, name plus description plus type plus concepts scored 0.32, and name plus description alone 0.19. Twelve queries is a small test, so vectors are a minor signal in ranking (part 2 has the details). The pipeline stores them as 16-bit floats, 34 MB; the app stores them as 8-bit integers with a per-row scale, about 17 MB. The phone embeds queries with the same model, and a phone whose embedding revision differs skips the vectors.
 
 ## Keeping it fresh
 
@@ -300,6 +300,6 @@ The data licences ask for attribution. These lines ship inside the app's data:
 
 ## Next
 
-Part 2 is query understanding: how "not too spicy dumplings under $20 in Dickson" or 想吃担担面 becomes a structured query on the phone. Part 3 covers retrieval, from venue names to dishes to meaning. Part 4 is ranking in tiers A to F, built on the graph above. Part 5 is how we measure all of it.
+Part 2 is retrieval by meaning: how the vectors above, and the same embedding run on the phone, find dishes for a query that shares few words with any menu. Part 3 is query tagging: how a small model on the phone picks the dish, price, diet, spice and the rest out of "not too spicy dumplings under $20". Part 4 is the dish graph at work: ranking in tiers A to F, and how we measure it. Part 5 is matching venue names, aliases included.
 
 <p class="meta">Numbers are from the data as of 30 October 2026; the bundled data was generated on 28 October. Own a place we list, or spotted something wrong? Email <a href="mailto:support@usetoque.com">support@usetoque.com</a>.</p>
