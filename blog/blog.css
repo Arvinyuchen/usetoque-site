@@ -30,6 +30,9 @@
 
 body.blog { background: var(--bg); }
 .post { padding-bottom: 24px; }
+/* The standfirst spans the column (style.css narrows .lede for the landing page) and is set off from the body. */
+.post .lede { max-width: none; font-size: 21px; line-height: 1.45; letter-spacing: -0.01em; text-wrap: pretty; margin: 0 0 32px; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
+@media (max-width: 560px) { .post .lede { font-size: 19px; margin-bottom: 28px; padding-bottom: 24px; } }
 .kicker { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 8px 0 14px; color: var(--muted); font-size: 14px; }
 .kicker a { color: var(--muted); text-decoration: none; }
 .kicker a:hover { color: var(--text); }

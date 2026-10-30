@@ -8,7 +8,7 @@ part: 1
 draft: true
 ---
 
-<p class="lede">Search can only be as good as the data under it. This is how Toque's data is made: where the places, menus, dishes and hours come from, how they are cleaned and structured, and how they stay fresh.</p>
+<p class="lede">Search can only be as good as the data under it. This is how Toque's data is made: where the places, menus, dishes and opening hours come from, how they are cleaned and structured, and how they stay fresh.</p>
 
 Lilong by Taste of Shanghai, on City Walk in Canberra, publishes its à la carte menu as a PDF. Under the heading FRIED NOODLE there is this line, marked spicy:
 

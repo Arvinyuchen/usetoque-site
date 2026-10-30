@@ -29,7 +29,7 @@ const SRC = path.join(ROOT, "blog", "_src");
 const OUT = path.join(ROOT, "blog");
 const SITE = "https://usetoque.com";
 const CSS = "/style.css?v=18";
-const BLOG_CSS = "/blog/blog.css?v=2";
+const BLOG_CSS = "/blog/blog.css?v=3";
 
 // markdown-it comes from the npx cache that build.sh sets up (it is on PATH as <cache>/node_modules/.bin).
 function loadMarkdownIt() {
