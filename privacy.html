@@ -32,17 +32,30 @@
 
 <main class="page"><div class="wrap narrow">
   <h1>Privacy policy</h1>
-  <p class="meta">Last updated 30 October 2026</p>
+  <p class="meta">Last updated 31 October 2026</p>
 
-  <p>Toque is an iPhone app for finding restaurants in Canberra by the dishes they serve. It is made by an independent developer. This policy explains what the app keeps, where, and what you can do about it. In short: most of what you do stays on your phone, we never ask for your name or email, and there are no ads, no tracking and no analytics.</p>
+  <p>Toque is an iPhone app for finding restaurants in Canberra by the dishes they serve. It is made by an independent developer. This policy explains what the app keeps, where, and what you can do about it. In short: most of what you do stays on your phone, we never ask for your name or email, and there are no ads and no tracking. The one thing Toque sends us about how you use it is an anonymous copy of your searches, which you can turn off.</p>
 
   <h2>What stays on your phone</h2>
   <ul>
     <li><strong>Your location.</strong> If you allow it, Toque uses your location on your phone to show distances, walking times and what's open near you. It is not sent to us.</li>
     <li><strong>Weather.</strong> To show weather, Toque sends the centre of the suburb you are in (not your exact position) to Apple WeatherKit. The weather is shown on screen and is not stored by us or kept on your phone.</li>
-    <li><strong>Searches, saved places and your food diary.</strong> These are stored only on your phone. They are not synced to iCloud or sent to us.</li>
+    <li><strong>Saved places and your food diary.</strong> These are stored only on your phone. They are not synced to iCloud or sent to us.</li>
     <li><strong>"Still open?" answers.</strong> When you tell Toque a place is open or closed, the answer is kept on your phone.</li>
   </ul>
+
+  <h2 id="searches">Your searches</h2>
+  <p>Searches are answered on your phone. No server takes part in finding results.</p>
+  <p>To help us improve search, Toque also sends us an anonymous copy of your searches. This is on by default. For each search it sends:</p>
+  <ul>
+    <li>the words you searched for;</li>
+    <li>how many places came back;</li>
+    <li>which place you opened, by its position in the list, if you opened one.</li>
+  </ul>
+  <p>Nothing that identifies you goes with them: no account, no device ID, no location and no time. Searches are sent in small batches, at most once an hour. Each batch carries only the app's version number, and our server notes only the date it arrives. A batch that fails to send is dropped, not kept for later.</p>
+  <p>Before sending, your phone leaves out searches that look like contact details, such as phone numbers, email addresses, usernames and web links. Our server checks again and drops any it finds.</p>
+  <p>We use these searches to find what returns nothing or the wrong places, and to test and improve search. They are never shown to other users, sold or shared. They are deleted from our server after 90 days. A search that many people make (seen at least 3 times, on at least 2 days) may be kept longer in our private test set, after we check it by hand for names and contact details. Only the words are kept there, with how many times and on how many days they were searched and the day they first appeared.</p>
+  <p>You can turn this off at any time in the app: Me → Privacy → Help improve search. Searches that have not been sent yet are deleted from your phone when you turn it off.</p>
 
   <h2>What you share when you post publicly</h2>
   <p>Browsing public posts needs no account. A post stays private, on your phone only, unless you choose to make it public. To make a post public, comment, like, report, block or send a contribution, Toque asks you to sign in with your Apple Account.</p>
@@ -78,6 +91,7 @@
     <li>The database rows are deleted at once. Photo files are removed from storage within moments, and an automatic clean-up that runs every 15 minutes retries any that fail. Cloudflare keeps short-lived point-in-time backups of the database (7 days on our current plan, at most 30). Deleted data can remain in those backups until they expire, and is not restored. Toque also asks Apple to remove Toque from your Sign in with Apple list.</li>
     <li>You can delete a single public post in the app at any time; it is removed from the public feed and its photos are deleted, and it stays in your diary on your phone.</li>
     <li>Data that stays on your phone is deleted when you delete it in the app or remove the app.</li>
+    <li>Anonymous copies of searches are not tied to you, so we cannot find or delete yours. They are deleted after 90 days, as described under <a href="#searches">Your searches</a>.</li>
     <li>If you can no longer use the app, email <a href="mailto:support@usetoque.com">support@usetoque.com</a> and we will delete everything tied to your account. We will confirm within 30 days.</li>
     <li>You can also stop using Sign in with Apple for Toque in your iPhone's Settings → your name → Sign in with Apple.</li>
   </ul>
