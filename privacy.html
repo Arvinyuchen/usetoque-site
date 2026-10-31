@@ -57,7 +57,7 @@
     <li>the Sign in with Apple user ID above, so the app knows which posts are yours.</li>
   </ul>
   <p>Photos are uploaded as you see them in the post.</p>
-  <p><strong>Checks on what you post.</strong> Before a post becomes public, Toque checks its photos for nudity on your phone, using Apple's Sensitive Content Analysis (where your phone has it turned on) and a model bundled in the app. The photos are not sent anywhere for this check. Public text (nicknames, notes, dish names and comments) is checked against a word list on our server before it is accepted.</p>
+  <p><strong>Checks on what you post.</strong> Before a post becomes public, Toque checks its photos for nudity on your phone, using Apple's Sensitive Content Analysis (where your phone has it turned on) and a model bundled in the app. Toque also looks in the photos, on your phone, for QR codes, barcodes and contact details such as phone numbers, links, email addresses or usernames, and a photo with one can't be posted. The photos are not sent anywhere for these checks. Public text (nicknames, notes, dish names and comments) is checked against a word list on our server before it is accepted.</p>
   <p><strong>Reports.</strong> Reports are used to hide posts and comments that several people report, and are reviewed by the developer. Reports are anonymous in the app: the person you report and other users never see who reported. Your report is stored with your Toque user ID, which only the developer can look up in the database. Blocks are visible only to you, and the person you block is not told.</p>
 
   <h2>What we don't do</h2>
@@ -74,7 +74,7 @@
 
   <h2 id="deleting-your-data">Deleting your data</h2>
   <ul>
-    <li><strong>Delete your account in the app:</strong> Sharing settings → Delete my account. This deletes your nickname, public posts and their photos, your comments, likes, reports, blocks and contributions (with their menu photos), and signs you out. Likes, comments and reports that other people left on your posts go with the posts. A place you added that the developer has already approved stays as a shared place, without your name.</li>
+    <li><strong>Delete your account in the app:</strong> Me → Delete my account (the last row on the Me page, shown while you are signed in). This deletes your nickname, public posts and their photos, your comments, likes, reports, blocks and contributions (with their menu photos), and signs you out. Likes, comments and reports that other people left on your posts go with the posts. A place you added that the developer has already approved stays as a shared place, without your name.</li>
     <li>The database rows are deleted at once. Photo files are removed from storage within moments, and an automatic clean-up that runs every 15 minutes retries any that fail. Cloudflare keeps short-lived point-in-time backups of the database (7 days on our current plan, at most 30). Deleted data can remain in those backups until they expire, and is not restored. Toque also asks Apple to remove Toque from your Sign in with Apple list.</li>
     <li>You can delete a single public post in the app at any time; it is removed from the public feed and its photos are deleted, and it stays in your diary on your phone.</li>
     <li>Data that stays on your phone is deleted when you delete it in the app or remove the app.</li>
