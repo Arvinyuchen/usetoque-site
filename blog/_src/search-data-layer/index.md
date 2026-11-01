@@ -41,9 +41,9 @@ Errors, latency and money share first priority (Figure 2).
 
 <figure class="fig fig-costs" id="fig-costs">
 <div class="costs">
-<div class="cost"><b>Errors</b><p>Results should be correct. A larger app or a slower build is acceptable when it measurably reduces errors.</p></div>
-<div class="cost"><b>Latency</b><p>Results should appear without delay. On-device search rules out a large model per query, so meaning is encoded in the data.</p></div>
-<div class="cost"><b>Money</b><p>Queries incur no paid API calls. Build-time processing relies on open data, open models on free hardware, and manual effort.</p></div>
+<div class="cost"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.2l2.3 2.3 4.7-4.9"/></svg><b>Errors</b><p>Results should be correct. A larger app or a slower build is acceptable when it measurably reduces errors.</p></div>
+<div class="cost"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><b>Latency</b><p>Results should appear without delay. On-device search rules out a large model per query, so meaning is encoded in the data.</p></div>
+<div class="cost"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M14.6 9.4c-.5-.8-1.5-1.3-2.6-1.3-1.4 0-2.6.8-2.6 1.9 0 2.6 5.2 1.4 5.2 4 0 1.1-1.2 1.9-2.6 1.9-1.1 0-2.1-.5-2.6-1.3M12 6.6v1.5M12 15.9v1.5"/></svg><b>Money</b><p>Queries incur no paid API calls. Build-time processing relies on open data, open models on free hardware, and manual effort.</p></div>
 </div>
 <figcaption><b>Figure 2.</b> The three costs with first priority.</figcaption>
 </figure>
