@@ -11,6 +11,20 @@
   --mark-model: #b35c00;
   --mark-rule: #1f8a4c;
   --mark-hand: #7a4cc2;
+  --wall-dim: #86868b;
+  --role-sec: #0a6fd6;
+  --role-name: #1f8a4c;
+  --role-price: #c2255c;
+  --role-desc: #0b8793;
+  --role-code: #6e6e73;
+  /* Diagram palette: pale fills with a darker outline of the same hue, one hue per kind of thing, kept the same
+     across a post. Grey is the neutral box; red marks the one thing a figure is about. */
+  --dg-grey: #f5f5f5;   --dg-grey-line: #666666;
+  --dg-green: #d5e8d4;  --dg-green-line: #82b366;
+  --dg-blue: #dae8fc;   --dg-blue-line: #6c8ebf;
+  --dg-yellow: #fff2cc; --dg-yellow-line: #d6b656;
+  --dg-red: #f8cecc;    --dg-red-line: #b85450;
+  --dg-region: #b0b0b5;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -25,20 +39,54 @@
     --mark-model: #f0a43a;
     --mark-rule: #4cc27c;
     --mark-hand: #b794f4;
+    --wall-dim: #8e8e93;
+    --role-sec: #5aa9ff;
+    --role-name: #4cc27c;
+    --role-price: #ff7ab0;
+    --role-desc: #3dc6d2;
+    --role-code: #a1a1a6;
+    --dg-grey: #2c2c2e;   --dg-grey-line: #8e8e93;
+    --dg-green: #1e3320;  --dg-green-line: #6fa055;
+    --dg-blue: #1b2a42;   --dg-blue-line: #6c8ebf;
+    --dg-yellow: #3a3115; --dg-yellow-line: #c9a93e;
+    --dg-red: #3d1f1e;    --dg-red-line: #d0706a;
+    --dg-region: #48484a;
   }
 }
 
 body.blog { background: var(--bg); }
 .post { padding-bottom: 24px; }
 /* The standfirst spans the column (style.css narrows .lede for the landing page) and is set off from the body. */
-.post .lede { max-width: none; font-size: 21px; line-height: 1.45; letter-spacing: -0.01em; text-wrap: pretty; margin: 0 0 32px; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
-@media (max-width: 560px) { .post .lede { font-size: 19px; margin-bottom: 28px; padding-bottom: 24px; } }
+.post .lede { max-width: none; font-size: 18.5px; line-height: 1.55; text-wrap: pretty; margin: 0 0 28px; }
+@media (max-width: 560px) { .post .lede { font-size: 17.5px; } }
+/* Titles and headings are set plainly, without the landing page's tight display tracking. */
+main.page .post h1 { font-size: clamp(30px, 5vw, 38px); line-height: 1.2; letter-spacing: -0.01em; font-weight: 700; }
+/* Links read as text with a thin underline; colour is kept for figures. */
+.post a { color: inherit; text-decoration: underline; text-decoration-color: var(--muted); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.post a:hover { text-decoration-color: var(--text); }
+/* Contents: the post's h2 sections, a numbered list under the standfirst. */
+.post nav.toc { margin: 0 0 8px; font-size: 16px; }
+.post nav.toc p { margin: 0 0 6px; color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+.post nav.toc ol { margin: 0; padding-left: 22px; color: var(--muted); }
+.post nav.toc li { margin-bottom: 4px; }
+.post nav.toc a { color: var(--text); text-decoration: none; }
+.post nav.toc a:hover { color: var(--text); text-decoration: underline; }
+/* Wide screens: a float in the left margin (its margin box ends at the column's edge, so the text keeps its width)
+   that sticks below the top of the window to the end of the post. The section being read is marked by the script. */
+@media (min-width: 1180px) {
+  .post nav.toc { float: left; position: sticky; top: 40px; width: 180px; margin: 0 48px 0 -228px; font-size: 14px; }
+  .post nav.toc ol { list-style: none; padding: 0; border-left: 1px solid var(--line); }
+  .post nav.toc li { margin: 0; }
+  .post nav.toc a { display: block; padding: 5px 0 5px 14px; margin-left: -1px; border-left: 2px solid transparent; color: var(--muted); line-height: 1.35; }
+  .post nav.toc a:hover { color: var(--text); }
+  .post nav.toc a[aria-current] { color: var(--text); font-weight: 600; border-left-color: var(--text); }
+}
 .kicker { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 8px 0 14px; color: var(--muted); font-size: 14px; }
 .kicker a { color: var(--muted); text-decoration: none; }
 .kicker a:hover { color: var(--text); }
-.kicker .cat { color: var(--accent); font-weight: 600; }
+.kicker .cat { color: var(--text); font-weight: 600; }
 
-main.page .post h2 { font-size: 26px; line-height: 1.25; letter-spacing: -0.02em; margin: 56px 0 12px; }
+main.page .post h2 { font-size: 24px; line-height: 1.25; letter-spacing: -0.005em; font-weight: 700; margin: 48px 0 12px; }
 main.page .post h3 { font-size: 19px; line-height: 1.3; margin: 32px 0 8px; }
 main.page .post p, main.page .post ul, main.page .post ol { margin: 0 0 16px; }
 .post ul, .post ol { padding-left: 22px; }
@@ -62,8 +110,8 @@ main.page .post p, main.page .post ul, main.page .post ol { margin: 0 0 16px; }
 /* Figures */
 .fig { margin: 28px 0 32px; }
 .fig .panel { background: var(--fig-bg); border-radius: 18px; padding: 18px; }
-.fig figcaption { color: var(--muted); font-size: 14px; line-height: 1.5; margin-top: 10px; }
-.fig figcaption b { color: var(--text); font-weight: 600; }
+.fig figcaption { color: var(--muted); font-size: 14.5px; line-height: 1.5; margin: 12px auto 0; max-width: 600px; text-align: center; text-wrap: pretty; }
+.fig figcaption b { color: inherit; font-weight: 400; }
 .fig .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
 .fig .tabs button {
   font: inherit; font-size: 14px; line-height: 1.3; border: 0; border-radius: 999px; padding: 7px 13px; cursor: pointer;
@@ -73,26 +121,264 @@ main.page .post p, main.page .post ul, main.page .post ol { margin: 0 0 16px; }
 .fig .tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .fig svg text { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; }
 
-/* Figure 1: one menu line, layer by layer */
-.layers { list-style: none; padding: 0 !important; margin: 0 !important; display: grid; gap: 10px; }
-.layer { background: var(--card); border-radius: 14px; padding: 12px 14px; box-shadow: 0 0 0 1px var(--soft); margin: 0 !important; }
-.layer h4 { margin: 0 0 6px; font-size: 14px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
-.layer h4 .by { font-weight: 500; font-size: 12px; color: var(--muted); }
-.layer dl { display: grid; grid-template-columns: max-content 1fr; gap: 3px 12px; margin: 0; font-size: 14px; }
-.layer dt { color: var(--muted); font: 12.5px/1.6 ui-monospace, "SF Mono", Menlo, monospace; }
-.layer dd { margin: 0; overflow-wrap: anywhere; }
-.layer .printed { font-family: Georgia, "Times New Roman", serif; font-size: 15px; line-height: 1.5; }
-.layer .printed small { display: block; letter-spacing: .08em; color: var(--muted); font: 600 11px/1.6 -apple-system, sans-serif; }
+/* Figure 1: a wall of every search in the evaluation set, set as type around a Spotlight-like search field.
+   Rows drift slowly in alternate directions (figures.js doubles each row so the loop is seamless); the field sits
+   on top in a clearing, and its edge warms with the brand's colours only while a search is being typed. */
+@property --spin { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+/* Figure: the three first-priority costs, in columns sized so their texts wrap to the same number of lines at the
+   full column width (re-measure if the texts change). */
+.costs { display: grid; grid-template-columns: 0.9fr 1fr 0.95fr; gap: 10px; }
+.costs .cost { background: var(--dg-grey); border: 1px solid var(--dg-region); border-radius: 6px; padding: 14px 16px; }
+.costs .cost b { display: block; font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+.costs .cost p { margin: 0 !important; font-size: 14.5px; line-height: 1.5; color: var(--muted); }
+@media (max-width: 640px) { .costs { grid-template-columns: 1fr; } }
+
+/* Figure: the planned split, drawn as boxes and arrows. Each step is a band with its label on the left and a dashed
+   rule between them; the arrows run through the rule. Inside a band, rows are 3-column grids whose column centres sit
+   at 1/6, 1/2 and 5/6 of the width, so the connectors line up with the boxes without measuring. Colours follow the
+   diagram palette: train green, validation yellow, test red, the sampling step blue. */
+.plan .st { display: grid; grid-template-columns: 56px minmax(0, 1fr); }
+.plan .st + .st { border-top: 1px dashed var(--dg-region); }
+.plan .st > .label { padding-top: 10px; font-size: 13px; color: var(--muted); }
+.plan .st > div { padding-top: 12px; }
+.plan .bx { display: block; margin: 0 auto; width: min(100%, 150px); padding: 6px 8px; border: 1px solid var(--dg-grey-line); border-radius: 4px; background: var(--dg-grey); text-align: center; font-size: 14.5px; line-height: 1.35; }
+.plan .bx small { color: var(--muted); font-size: 13.5px; }
+.plan .tr { background: var(--dg-green); border-color: var(--dg-green-line); }
+.plan .va { background: var(--dg-yellow); border-color: var(--dg-yellow-line); }
+.plan .te { background: var(--dg-red); border-color: var(--dg-red-line); }
+.plan .op { width: min(100%, calc(100% * 2 / 3 + 150px)); background: var(--dg-blue); border-color: var(--dg-blue-line); }
+.plan .row { display: grid; grid-template-columns: repeat(3, 1fr); }
+/* Boxes in a row keep one height when a label wraps on a narrow screen. */
+.plan .row > .bx { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; column-gap: 4px; height: 100%; }
+/* Connectors: a stem down from the box above, a bar from the first to the last column, then an arrow into each column;
+   .link is a plain line (it continues as an arrow in the next band). */
+.plan .fan { position: relative; height: 30px; }
+.plan .fan::before { content: ""; position: absolute; left: 50%; top: 0; height: 12px; border-left: 1px solid var(--text); }
+.plan .fan::after { content: ""; position: absolute; left: calc(100% / 6); right: calc(100% / 6); top: 12px; border-top: 1px solid var(--text); }
+.plan .fan .row { position: absolute; inset: 12px 0 0; }
+.plan .down { height: 22px; }
+.plan .link { height: 14px; }
+.plan .row > i { position: relative; display: block; }
+.plan .row > i::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 5px; border-left: 1px solid var(--text); }
+.plan .row > i::after { content: ""; position: absolute; left: 50%; bottom: 0; translate: -3.5px 0; border: 3.5px solid transparent; border-top: 6px solid var(--text); border-bottom: 0; }
+.plan .link > i::before { bottom: 0; }
+.plan .link > i::after { content: none; }
+.plan .st > div.s2 { padding-top: 0; padding-bottom: 4px; }
+@media (max-width: 480px) {
+  .plan .st { grid-template-columns: 44px minmax(0, 1fr); }
+  .plan .row > .bx { width: calc(100% - 6px); padding-inline: 3px; }
+  .plan .bx { font-size: 13.5px; }
+  .plan .op { width: calc(100% - 6px); }
+}
+/* The wall sits on the page itself (its fades and the field's clearing use --fig-bg, set to the page colour here),
+   inside a hairline frame. */
+.fig-wall { --fig-bg: var(--bg); }
+.fig-wall .wall { position: relative; overflow: hidden; border-radius: 8px; background: var(--fig-bg); border: 1px solid var(--line); }
+/* Searches fade with distance from the field, so the eye lands in the middle. */
+.fig-wall .rows {
+  display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 30px 0;
+  -webkit-mask-image: radial-gradient(ellipse 60% 95% at 50% 50%, #000 35%, rgba(0, 0, 0, .3) 75%, transparent 100%);
+  mask-image: radial-gradient(ellipse 60% 95% at 50% 50%, #000 35%, rgba(0, 0, 0, .3) 75%, transparent 100%);
+}
+/* The middle row (4 of 7) is the field's row: tall enough for the field, so the rows above and below stay whole. */
+.fig-wall .wrow:nth-child(4) { padding-block: 18px; }
+.fig-wall .wrow { display: flex; gap: 30px; padding-right: 30px; width: max-content; }
+.fig-wall .wrow > .copy { display: contents; }
+.fig-wall.drift .wrow { animation: drift calc(220s + var(--r) * 17s) linear calc(var(--r) * -31s) infinite; }
+.fig-wall.drift .wrow:nth-child(even) { animation-direction: reverse; }
+.fig-wall.still .wrow, .fig-wall .wall:hover .wrow { animation-play-state: paused; }
+@keyframes drift { from { transform: translateX(25%); } to { transform: translateX(-25%); } }
+.fig-wall .p {
+  flex: none; white-space: nowrap; cursor: pointer; color: var(--wall-dim);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif; font-size: 19px; font-weight: 600; line-height: 1.3; letter-spacing: -.022em;
+}
+.fig-wall .p.on { color: var(--text); scale: 1.08; }
+/* Chinese at the same size and weight reads larger and darker than the English around it. */
+.fig-wall .p:lang(zh) { font-size: 17.5px; font-weight: 500; letter-spacing: 0; }
+.fig-wall .sbar { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: min(460px, calc(100% - 40px)); z-index: 1; }
+.fig-wall .sbar::before {
+  content: ""; position: absolute; inset: 0 -150px; z-index: -1; pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--fig-bg) 110px, var(--fig-bg) calc(100% - 110px), transparent);
+}
+.fig-wall .field {
+  position: relative; display: flex; align-items: center; gap: 10px; width: 100%; box-sizing: border-box; padding: 16px 22px; border-radius: 18px;
+  background: var(--card); color: var(--wall-dim); font-size: 21px; font-weight: 500; line-height: 1.3; letter-spacing: -.02em;
+  box-shadow: 0 0 0 .5px var(--soft), 0 2px 6px rgba(0, 0, 0, .04), 0 24px 48px -24px rgba(0, 0, 0, .28);
+}
+.fig-wall .field svg { flex: none; width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
+.fig-wall .field::before {
+  content: ""; position: absolute; inset: -1.5px; border-radius: 19.5px; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 1.2s ease;
+  background: conic-gradient(from var(--spin), #ec3446, #ff8a4c, #ffc24a, #f23d63, #ec3446); animation: spin 4s linear infinite;
+}
+.fig-wall.typing .field::before { opacity: .6; transition-duration: .3s; }
+@keyframes spin { to { --spin: 360deg; } }
+.fig-wall.filled .typed { color: var(--text); }
+.fig-wall .typed { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fig-wall .kind {
+  margin-left: auto; flex: none; padding: 4px 11px; border-radius: 999px; background: var(--fig-bg); color: var(--wall-dim);
+  font-size: 13px; font-weight: 500; letter-spacing: -.01em; opacity: 0; transition: opacity .4s;
+}
+.fig-wall.filled .kind:not(:empty) { opacity: 1; }
+.fig-wall .caret { flex: none; width: 2px; height: 1.15em; margin-left: -8px; background: var(--text); border-radius: 1px; opacity: 0; }
+.fig-wall.filled .caret { animation: caret 1s steps(1) infinite; }
+@keyframes caret { 50% { opacity: 1; } }
+.fig-wall .p { transition: color .35s, opacity .35s, scale .5s cubic-bezier(.34, 1.36, .54, 1); }
+.fig-wall.filtering .p:not(.kin) { opacity: .16; }
+.fig-wall.filtering .p.kin { color: var(--text); }
+/* A segmented control, under the wall in figure 1. figures.js slides the white thumb. */
+.fig .kinds { position: relative; display: flex; gap: 2px; margin: 14px 0 0; padding: 3px; border-radius: 10px; background: var(--surface); }
+.fig .kinds .thumb {
+  position: absolute; top: 3px; bottom: 3px; left: 0; border-radius: 10px; background: var(--card); opacity: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .1), 0 0 0 .5px rgba(0, 0, 0, .04);
+  transition: transform .38s cubic-bezier(.3, 1.2, .5, 1), width .38s cubic-bezier(.3, 1.2, .5, 1), opacity .2s;
+}
+.fig .kinds.thumbed .thumb { opacity: 1; }
+.fig .kinds button {
+  position: relative; flex: 1 1 0; min-width: 0; margin: 0; padding: 8px 6px; border: 0; border-radius: 10px; background: none; cursor: pointer;
+  font: inherit; font-size: 14px; font-weight: 500; letter-spacing: -.01em; color: var(--muted); white-space: nowrap;
+  transition: color .25s;
+}
+.fig .kinds button b { margin-left: 6px; font-weight: 500; color: var(--wall-dim); font-variant-numeric: tabular-nums; }
+.fig .kinds button:hover, .fig .kinds button.cur { color: var(--text); }
+.fig .kinds button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 560px) {
+  .fig-wall .wall { border-radius: 22px; }
+  .fig-wall .rows { gap: 11px; padding: 22px 0; }
+  .fig-wall .wrow:nth-child(4) { padding-block: 14px; }
+  .fig-wall .wrow { gap: 22px; padding-right: 22px; }
+  .fig-wall .p { font-size: 16px; }
+  .fig-wall .p:lang(zh) { font-size: 14.5px; }
+  .fig-wall .sbar::before { inset: 0 -28px; background: linear-gradient(90deg, transparent, var(--fig-bg) 24px, var(--fig-bg) calc(100% - 24px), transparent); }
+  .fig-wall .field { font-size: 17px; padding: 13px 16px; border-radius: 15px; }
+  .fig-wall .field::before { border-radius: 16.5px; }
+  .fig-wall .kind { font-size: 11.5px; padding: 3px 8px; }
+  .fig-wall .kinds button { display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 7px 2px; font-size: 12.5px; }
+  .fig-wall .kinds button b { margin: 0; font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fig-wall .wrow, .fig-wall .caret, .fig-wall .field::before { animation: none !important; }
+  .fig .kinds .thumb { transition: opacity .2s; }
+}
+
 .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
 .dot.printed { background: var(--mark-printed); }
 .dot.code { background: var(--mark-code); }
 .dot.model { background: var(--mark-model); }
 .dot.rule { background: var(--mark-rule); }
 .dot.hand { background: var(--mark-hand); }
-.js .layers.stepping .layer { display: none; }
-.js .layers.stepping .layer.on { display: block; animation: fade .25s ease both; }
-@keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 .legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: var(--muted); margin: 12px 0 0; }
+
+.dot.place { background: transparent; box-shadow: inset 0 0 0 1.5px var(--muted); }
+
+/* Figure 2: a flow, menu then two models then the dish record. Three columns joined by arrows; under 560px they stack
+   and the arrows turn down. The structure model's output is a tree whose spans keep a colour per role; the answers in
+   the record light up their evidence in the menu and the tree on hover or tap (figures.js). Wider than the text
+   column on large screens, so each column has room. */
+.fig-flow .panel { border-radius: 24px; padding: 20px 18px 16px; }
+.fig-flow .flow {
+  display: grid; align-items: start; column-gap: 10px; row-gap: 14px;
+  grid-template-columns: minmax(0, .85fr) 22px minmax(0, 1.15fr) 22px minmax(0, 1.2fr);
+  grid-template-areas: "menu a1 model a2 out" ". . src a3 place";
+}
+.fig-flow .f-menu { grid-area: menu; }
+.fig-flow .a1 { grid-area: a1; }
+.fig-flow .f-model { grid-area: model; }
+.fig-flow .a2 { grid-area: a2; align-self: end; margin-bottom: 70px; }
+.fig-flow .f-out { grid-area: out; align-self: end; }
+.fig-flow .f-src { grid-area: src; }
+.fig-flow .a3 { grid-area: a3; align-self: center; }
+.fig-flow .f-place { grid-area: place; }
+.fig-flow .arr { width: 22px; height: 22px; fill: none; stroke: var(--muted); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.fig-flow .arr.down { align-self: center; margin: -4px 0; }
+.fig-flow .f-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; margin: 0 0 8px !important; font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--muted); }
+.fig-flow .f-h em { font-style: normal; font-weight: 600; color: var(--text); letter-spacing: -.005em; }
+.fig-flow .f-h .n { display: inline-grid; place-items: center; width: 16px; height: 16px; margin-right: -2px; border-radius: 50%; background: var(--text); color: var(--bg); font-size: 10.5px; line-height: 1; }
+.fig-flow .f-note { margin: 8px 2px 0 !important; font-size: 12px; line-height: 1.4; color: var(--muted); }
+.fig-flow .menu, .fig-flow .step, .fig-flow .tree-card, .fig-flow .rec, .fig-flow .f-src {
+  position: relative; background: var(--card); border-radius: 16px; padding: 12px 14px; box-shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 0 0 .5px var(--soft);
+}
+/* The menu card is plain, set like a printed menu. */
+.fig-flow .menu { padding: 14px 16px; font-size: 13px; }
+.fig-flow .menu p { margin: 0 !important; }
+.fig-flow .m-sec { font-size: 12.5px; font-weight: 700; letter-spacing: .03em; padding-bottom: 8px; border-bottom: 1px solid var(--soft); }
+.fig-flow .m-item { margin-top: 9px; padding-left: 9px; margin-left: -9px; border-left: 2px solid transparent; }
+.fig-flow .m-item.this { border-left-color: var(--accent); }
+.fig-flow .m-row { display: flex; justify-content: space-between; gap: 12px; font-weight: 600; letter-spacing: .01em; }
+.fig-flow .m-row span:last-child { font-variant-numeric: tabular-nums; }
+.fig-flow .m-row b, .fig-flow .m-key b { font-weight: 600; margin-left: 2px; }
+.fig-flow .menu .m-desc { margin-top: 1px !important; line-height: 1.4; color: var(--muted); }
+.fig-flow .menu .m-key { margin-top: 12px !important; padding-top: 8px; border-top: 1px solid var(--soft); font-size: 11.5px; color: var(--muted); }
+.fig-flow .m-key b { margin: 0 6px 0 0; color: var(--text); }
+.fig-flow [data-m] { border-radius: 3px; transition: background-color .2s, box-shadow .2s; }
+.fig-flow [data-m].hit, .fig-flow [data-n].hit { background-color: color-mix(in srgb, var(--accent) 28%, transparent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 28%, transparent); }
+/* The two models. */
+.fig-flow .f-model { display: flex; flex-direction: column; }
+.fig-flow .step { font-size: 13px; line-height: 1.45; }
+.fig-flow .step p:last-child { margin: 0 !important; }
+.fig-flow .tree-card { padding: 12px 12px 10px; }
+.fig-flow .tree, .fig-flow .tree ul { list-style: none; padding: 0 !important; margin: 0 !important; }
+.fig-flow .tree li { position: relative; margin: 0 !important; }
+.fig-flow .tree > li + li { margin-top: 8px !important; }
+.fig-flow .tree ul { margin: 6px 0 0 6px !important; padding-left: 12px !important; border-left: 1px solid var(--bar-2); }
+.fig-flow .tree ul li { margin-top: 7px !important; }
+.fig-flow .tree ul li::before { content: ""; position: absolute; left: -12px; top: 9px; width: 8px; border-top: 1px solid var(--bar-2); }
+.fig-flow .nd { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 5px; }
+.fig-flow .nd b { font-size: 11px; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; color: var(--muted); margin-right: 2px; }
+.fig-flow .nd em { font-style: normal; font-size: 11px; font-weight: 600; color: var(--bg); background: var(--accent); border-radius: 999px; padding: 1px 7px; }
+.fig-flow .sps { display: flex; flex-wrap: wrap; gap: 4px 5px; margin-top: 4px; }
+.fig-flow .sp {
+  --c: var(--muted); display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 0 5px; max-width: 100%; box-sizing: border-box; padding: 2px 7px 3px;
+  font-size: 12px; line-height: 1.35; border-radius: 6px; color: var(--text); font-weight: 500;
+  background: color-mix(in srgb, var(--c) 13%, transparent); box-shadow: inset 0 -1.5px 0 color-mix(in srgb, var(--c) 70%, transparent);
+  transition: background-color .2s, box-shadow .2s;
+}
+.fig-flow .sp i { font-style: normal; font-size: 9.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--c); }
+.fig-flow .sp u { text-decoration: none; flex-basis: 100%; font-size: 10.5px; color: var(--muted); }
+.fig-flow .r-sec { --c: var(--role-sec); }
+.fig-flow .r-name { --c: var(--role-name); }
+.fig-flow .r-price { --c: var(--role-price); }
+.fig-flow .r-desc { --c: var(--role-desc); }
+.fig-flow .r-code { --c: var(--role-code); }
+.fig-flow .r-desc { flex-basis: 100%; }
+.fig-flow .tree .sib .sp { opacity: .62; }
+.fig-flow .tree .this .sp { opacity: 1; }
+/* The dish record. */
+.fig-flow .rec { padding: 12px 14px; font-size: 13px; }
+.fig-flow .rec dl { display: grid; gap: 4px; margin: 0; }
+.fig-flow .f-out dl { gap: 9px; }
+.fig-flow .rec dl > div { display: grid; grid-template-columns: 5.6em minmax(0, 1fr); gap: 6px; padding: 3px 6px; margin: 0 -6px; border-radius: 8px; transition: background-color .2s; }
+.fig-flow .rec dt { color: var(--muted); }
+.fig-flow .rec dd { margin: 0; overflow-wrap: anywhere; }
+.fig-flow .rec .dot { margin-right: 7px; }
+.fig-flow .rec .ev { display: block; margin-top: 1px; font-size: 11.5px; line-height: 1.35; color: var(--muted); }
+html.js .fig-flow .ans { cursor: default; }
+.fig-flow .ans:hover, .fig-flow .ans.on, .fig-flow .ans:focus-visible { background-color: color-mix(in srgb, var(--accent) 9%, transparent); outline: none; }
+.fig-flow .ans:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+.fig-flow .f-src { justify-self: stretch; text-align: center; padding: 9px 12px; font-size: 12.5px; font-weight: 600; background: transparent; box-shadow: inset 0 0 0 1px var(--bar-2); color: var(--muted); }
+.fig-flow .f-place { padding-bottom: 10px; }
+.fig-flow .legend { margin-top: 18px; font-size: 12.5px; }
+.fig-flow .hint { margin: 6px 0 0 !important; font-size: 12.5px; color: var(--muted); }
+html:not(.js) .fig-flow .hint { display: none; }
+.fig-flow .a1 { margin-top: 30px; }
+@media (min-width: 800px) {
+  .fig-flow { width: min(940px, calc(100vw - 56px)); margin-left: 50%; translate: -50% 0; }
+  .fig-flow .panel { padding: 24px 24px 18px; }
+  .fig-flow .flow { column-gap: 14px; grid-template-columns: minmax(0, .8fr) 24px minmax(0, 1.05fr) 24px minmax(0, 1.25fr); }
+  .fig-flow .menu { font-size: 13.5px; }
+  .fig-flow .rec { font-size: 13.5px; }
+  .fig-flow .rec dl > div { grid-template-columns: 6.2em minmax(0, 1fr); }
+}
+@media (max-width: 799px) {
+  .fig-flow .flow { grid-template-columns: minmax(0, 1fr); grid-template-areas: "menu" "a1" "model" "a2" "out" "src" "a3" "place"; row-gap: 10px; max-width: 480px; margin: 0 auto; }
+  .fig-flow .flow > .arr { justify-self: center; transform: rotate(90deg); margin: -2px 0 !important; align-self: auto !important; }
+  .fig-flow .f-out { align-self: stretch; }
+  .fig-flow .f-src { margin-top: 8px; }
+  .fig-flow .legend { max-width: 480px; margin-inline: auto; }
+  .fig-flow .hint { max-width: 480px; margin-inline: auto !important; }
+}
+@media (max-width: 560px) {
+  .fig-flow .panel { padding: 14px 12px 12px; border-radius: 20px; }
+}
 
 /* Figure 2: coverage bars (HTML, so labels wrap and the page never scrolls sideways) */
 .split-bar { display: flex; height: 28px; border-radius: 8px; overflow: hidden; gap: 2px; margin: 6px 0 4px; }
