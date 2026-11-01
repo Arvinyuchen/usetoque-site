@@ -47,23 +47,20 @@ body.blog { background: var(--bg); }
 /* Title and headings set like the homepage's: bold, tight, close-leaded. */
 main.page .post h1 { font-size: clamp(32px, 5vw, 42px); line-height: 1.06; letter-spacing: -0.035em; font-weight: 700; margin-bottom: 14px; }
 @media (max-width: 560px) { .post .lede { font-size: 17px; margin-bottom: 22px; padding-bottom: 18px; } }
-/* Contents: the post's h2 sections, a numbered list under the standfirst. */
+/* Contents: the post's h2 sections, a numbered list under the standfirst at every width, folded and
+   unfolded at its label. */
 .post nav.toc { margin: 0 0 8px; font-size: 15px; }
-.post nav.toc p { margin: 0 0 6px; color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
-.post nav.toc ol { margin: 0; padding-left: 22px; color: var(--muted); }
+.post nav.toc summary { display: inline-flex; align-items: center; gap: 6px; margin: 0 0 6px; color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; cursor: pointer; list-style: none; }
+.post nav.toc summary::-webkit-details-marker { display: none; }
+/* A chevron after the label: pointing right when folded, down when open. */
+.post nav.toc summary::after { content: ""; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; rotate: -45deg; translate: 0 -1px; transition: rotate .15s; }
+.post nav.toc details[open] summary::after { rotate: 45deg; translate: 0 -3px; }
+.post nav.toc summary:hover { color: var(--text); }
+.post nav.toc details:not([open]) summary { margin-bottom: 0; }
+main.page .post nav.toc ol { margin: 0; padding-left: 22px; color: var(--muted); }
 .post nav.toc li { margin-bottom: 4px; }
 .post nav.toc a { color: var(--text); text-decoration: none; }
 .post nav.toc a:hover { color: var(--accent); }
-/* Wide screens: a float in the left margin (its margin box ends at the column's edge, so the text keeps its width)
-   that sticks below the top of the window to the end of the post. The section being read is marked by the script. */
-@media (min-width: 1180px) {
-  .post nav.toc { float: left; position: sticky; top: 40px; width: 180px; margin: 0 48px 0 -228px; font-size: 14px; }
-  .post nav.toc ol { list-style: none; padding: 0; border-left: 1px solid var(--line); }
-  .post nav.toc li { margin: 0; }
-  .post nav.toc a { display: block; padding: 5px 0 5px 14px; margin-left: -1px; border-left: 2px solid transparent; color: var(--muted); line-height: 1.35; }
-  .post nav.toc a:hover { color: var(--text); }
-  .post nav.toc a[aria-current] { color: var(--text); font-weight: 600; border-left-color: var(--accent); }
-}
 .kicker { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin: 8px 0 18px; color: var(--muted); font-size: 14px; }
 .kicker a { color: var(--muted); text-decoration: none; }
 .kicker a:hover { color: var(--text); }

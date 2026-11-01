@@ -82,29 +82,12 @@ function markdown() {
   return md;
 }
 
-// A `<!-- toc -->` line in a post becomes a list of its h2 sections, linked by their ids. On wide screens blog.css
-// moves it into the left margin, where it stays in view; the script marks the section being read.
-const TOC_SCRIPT = `<script>
-(function () {
-  const links = [...document.querySelectorAll("nav.toc a")];
-  const heads = links.map((a) => document.getElementById(a.hash.slice(1)));
-  let queued = false;
-  function mark() {
-    queued = false;
-    let i = -1;
-    heads.forEach((h, k) => { if (h.getBoundingClientRect().top < innerHeight / 3) i = k; });
-    // At the foot of the page the last section is the one being read, even if its heading never reached the top third.
-    if (i >= 0 && innerHeight + scrollY >= document.documentElement.scrollHeight - 2) i = heads.length - 1;
-    links.forEach((a, k) => (k === i ? a.setAttribute("aria-current", "location") : a.removeAttribute("aria-current")));
-  }
-  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(mark); } }, { passive: true });
-  mark();
-})();
-</script>`;
+// A `<!-- toc -->` line in a post becomes a list of its h2 sections, linked by their ids, under the standfirst;
+// it is open at first and folds at its summary.
 function toc(html) {
   const items = [...html.matchAll(/<h2 id="([^"]+)">([\s\S]*?)<\/h2>/g)].map(([, id, text]) => `<li><a href="#${id}">${text}</a></li>`);
   if (!html.includes("<!-- toc -->")) return html;
-  return html.replace(/<!-- toc -->\n?/, `<nav class="toc" aria-label="Contents"><p>Contents</p><ol>${items.join("")}</ol></nav>\n`) + TOC_SCRIPT + "\n";
+  return html.replace(/<!-- toc -->\n?/, `<nav class="toc" aria-label="Contents"><details open><summary>Contents</summary><ol>${items.join("")}</ol></details></nav>\n`);
 }
 
 function head({ title, description, url, type, noindex, extra = "" }) {

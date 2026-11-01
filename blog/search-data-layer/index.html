@@ -19,7 +19,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="alternate" type="application/atom+xml" title="Toque engineering" href="/blog/feed.xml">
 <link rel="stylesheet" href="/style.css?v=18">
-<link rel="stylesheet" href="/blog/blog.css?v=bee8f631">
+<link rel="stylesheet" href="/blog/blog.css?v=f6923d2a">
 <script src="figures.js?v=c8b861df" defer></script>
 </head>
 <body class="blog">
@@ -32,7 +32,7 @@
   <p class="kicker"><span class="cat">Search</span><time datetime="2026-10-30">30 October 2026</time><span>3 min read</span></p>
   <h1>Where the data comes from</h1>
 <p class="lede">Search can only be as good as the data under it. This is how Toque's data is made: where the places, menus, dishes and opening hours come from, how they are cleaned and structured, and how they stay fresh.</p>
-<nav class="toc" aria-label="Contents"><p>Contents</p><ol><li><a href="#premise">Premise</a></li><li><a href="#goals">Goals</a></li><li><a href="#building-a-dataset-for-menu-reading">Building a dataset for menu reading</a></li></ol></nav>
+<nav class="toc" aria-label="Contents"><details open><summary>Contents</summary><ol><li><a href="#premise">Premise</a></li><li><a href="#goals">Goals</a></li><li><a href="#building-a-dataset-for-menu-reading">Building a dataset for menu reading</a></li></ol></details></nav>
 <h2 id="premise">Premise</h2>
 <figure class="fig fig-wall" id="fig-searches">
 <div class="wall" role="img" aria-label="143 searches from our evaluation set, packed around a search field">
@@ -80,23 +80,6 @@
 </div>
 <figcaption><b>Figure 3.</b> The planned split. No page has been labelled under it yet.</figcaption>
 </figure>
-<script>
-(function () {
-  const links = [...document.querySelectorAll("nav.toc a")];
-  const heads = links.map((a) => document.getElementById(a.hash.slice(1)));
-  let queued = false;
-  function mark() {
-    queued = false;
-    let i = -1;
-    heads.forEach((h, k) => { if (h.getBoundingClientRect().top < innerHeight / 3) i = k; });
-    // At the foot of the page the last section is the one being read, even if its heading never reached the top third.
-    if (i >= 0 && innerHeight + scrollY >= document.documentElement.scrollHeight - 2) i = heads.length - 1;
-    links.forEach((a, k) => (k === i ? a.setAttribute("aria-current", "location") : a.removeAttribute("aria-current")));
-  }
-  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(mark); } }, { passive: true });
-  mark();
-})();
-</script>
 
 </article></main>
 
