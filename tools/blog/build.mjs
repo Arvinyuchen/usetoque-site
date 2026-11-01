@@ -20,6 +20,7 @@
 // free of blank lines.
 
 import { createRequire } from "node:module";
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -29,7 +30,8 @@ const SRC = path.join(ROOT, "blog", "_src");
 const OUT = path.join(ROOT, "blog");
 const SITE = "https://usetoque.com";
 const CSS = "/style.css?v=18";
-const BLOG_CSS = "/blog/blog.css?v=3";
+// The stylesheet's URL carries a hash of its content, like the figures' scripts, so an edit is never served from the cache.
+const BLOG_CSS = `/blog/blog.css?v=${crypto.createHash("sha256").update(fs.readFileSync(path.join(OUT, "blog.css"))).digest("hex").slice(0, 8)}`;
 
 // markdown-it comes from the npx cache that build.sh sets up (it is on PATH as <cache>/node_modules/.bin).
 function loadMarkdownIt() {
@@ -80,6 +82,31 @@ function markdown() {
   return md;
 }
 
+// A `<!-- toc -->` line in a post becomes a list of its h2 sections, linked by their ids. On wide screens blog.css
+// moves it into the left margin, where it stays in view; the script marks the section being read.
+const TOC_SCRIPT = `<script>
+(function () {
+  const links = [...document.querySelectorAll("nav.toc a")];
+  const heads = links.map((a) => document.getElementById(a.hash.slice(1)));
+  let queued = false;
+  function mark() {
+    queued = false;
+    let i = -1;
+    heads.forEach((h, k) => { if (h.getBoundingClientRect().top < innerHeight / 3) i = k; });
+    // At the foot of the page the last section is the one being read, even if its heading never reached the top third.
+    if (i >= 0 && innerHeight + scrollY >= document.documentElement.scrollHeight - 2) i = heads.length - 1;
+    links.forEach((a, k) => (k === i ? a.setAttribute("aria-current", "location") : a.removeAttribute("aria-current")));
+  }
+  addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(mark); } }, { passive: true });
+  mark();
+})();
+</script>`;
+function toc(html) {
+  const items = [...html.matchAll(/<h2 id="([^"]+)">([\s\S]*?)<\/h2>/g)].map(([, id, text]) => `<li><a href="#${id}">${text}</a></li>`);
+  if (!html.includes("<!-- toc -->")) return html;
+  return html.replace(/<!-- toc -->\n?/, `<nav class="toc" aria-label="Contents"><p>Contents</p><ol>${items.join("")}</ol></nav>\n`) + TOC_SCRIPT + "\n";
+}
+
 function head({ title, description, url, type, noindex, extra = "" }) {
   return `<!doctype html>
 <html lang="en">
@@ -124,7 +151,9 @@ function kicker(post) {
 
 function postPage(post, html) {
   const { meta } = post;
-  const scripts = post.assets.filter((a) => a.endsWith(".js")).map((a) => `<script src="${a}" defer></script>\n`).join("");
+  // A script's URL carries a hash of its content, so a changed figure is never served from the cache.
+  const version = (a) => crypto.createHash("sha256").update(fs.readFileSync(path.join(post.dir, a))).digest("hex").slice(0, 8);
+  const scripts = post.assets.filter((a) => a.endsWith(".js")).map((a) => `<script src="${a}?v=${version(a)}" defer></script>\n`).join("");
   return `${head({ title: meta.title, description: meta.description, url: `${SITE}/blog/${post.slug}/`, type: "article", noindex: meta.draft, extra: scripts })}
 <body class="blog">
 ${HEADER}
@@ -205,7 +234,7 @@ for (const post of posts) {
   const html = markdown().render(post.body);
   if (html.includes("\u00b7")) throw new Error(`${post.slug}: uses a middle dot`);
   post.minutes = readingMinutes(html);
-  fs.writeFileSync(path.join(out, "index.html"), postPage(post, html));
+  fs.writeFileSync(path.join(out, "index.html"), postPage(post, toc(html)));
   for (const a of post.assets) fs.copyFileSync(path.join(post.dir, a), path.join(out, a));
   const words = post.body.replace(/<[^>]+>/g, " ").replace(/[#*_`>|-]/g, " ").split(/\s+/).filter(Boolean).length;
   console.log(`blog/${post.slug}/index.html  ${words} words (Markdown body, figures' text included), ${post.minutes} min read`);
