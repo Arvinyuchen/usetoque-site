@@ -64,23 +64,13 @@ main.page .post h1 { font-size: clamp(30px, 5vw, 38px); line-height: 1.2; letter
 /* Links read as text with a thin underline; colour is kept for figures. */
 .post a { color: inherit; text-decoration: underline; text-decoration-color: var(--muted); text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .post a:hover { text-decoration-color: var(--text); }
-/* Contents: the post's h2 sections, a numbered list under the standfirst. */
-.post nav.toc { margin: 0 0 8px; font-size: 16px; }
-.post nav.toc p { margin: 0 0 6px; color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
-.post nav.toc ol { margin: 0; padding-left: 22px; color: var(--muted); }
-.post nav.toc li { margin-bottom: 4px; }
+/* Contents: the post's h2 sections in a grey box under the standfirst, open by default and folded by its summary. */
+.post nav.toc { margin: 0 0 8px; padding: 10px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; font-size: 15.5px; }
+.post nav.toc summary { cursor: pointer; font-weight: 600; }
+main.page .post nav.toc ol { margin: 6px 0 2px; padding-left: 22px; color: var(--muted); }
+.post nav.toc li { margin-bottom: 2px; }
 .post nav.toc a { color: var(--text); text-decoration: none; }
-.post nav.toc a:hover { color: var(--text); text-decoration: underline; }
-/* Wide screens: a float in the left margin (its margin box ends at the column's edge, so the text keeps its width)
-   that sticks below the top of the window to the end of the post. The section being read is marked by the script. */
-@media (min-width: 1180px) {
-  .post nav.toc { float: left; position: sticky; top: 40px; width: 180px; margin: 0 48px 0 -228px; font-size: 14px; }
-  .post nav.toc ol { list-style: none; padding: 0; border-left: 1px solid var(--line); }
-  .post nav.toc li { margin: 0; }
-  .post nav.toc a { display: block; padding: 5px 0 5px 14px; margin-left: -1px; border-left: 2px solid transparent; color: var(--muted); line-height: 1.35; }
-  .post nav.toc a:hover { color: var(--text); }
-  .post nav.toc a[aria-current] { color: var(--text); font-weight: 600; border-left-color: var(--text); }
-}
+.post nav.toc a:hover { text-decoration: underline; }
 .kicker { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 8px 0 14px; color: var(--muted); font-size: 14px; }
 .kicker a { color: var(--muted); text-decoration: none; }
 .kicker a:hover { color: var(--text); }
