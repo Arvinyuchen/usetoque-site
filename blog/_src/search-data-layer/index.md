@@ -14,6 +14,8 @@ draft: true
 
 ## Premise
 
+Searches fall into three types, ranging from specific to open-ended. Name-based searches look for a particular dish or restaurant. Filter-based searches narrow the options by price, suburb, or exclusions. Open-ended searches seek recommendations based on a cuisine, a craving, or an occasion.
+
 <figure class="fig fig-wall" id="fig-searches">
 <div class="wall" role="img" aria-label="143 searches from our evaluation set, packed around a search field">
 <div class="rows">
@@ -30,8 +32,6 @@ draft: true
 <div class="kinds" role="group" aria-label="Kinds of search"><button type="button" data-k="name">Names<b>61</b></button><button type="button" data-k="filter">Filters<b>53</b></button><button type="button" data-k="open">Open-ended<b>29</b></button></div>
 <figcaption><b>Figure 1.</b> Queries are not always specific. Pick a type to see its searches.</figcaption>
 </figure>
-
-Searches fall into three types, ranging from specific to open-ended. Name-based searches look for a particular dish or restaurant. Filter-based searches narrow the options by price, suburb, or exclusions. Open-ended searches seek recommendations based on a cuisine, a craving, or an occasion.
 
 Supporting all three types requires two capabilities: extracting everything a menu states, and interpreting that content well enough to answer open-ended searches. Beyond this breadth and depth, we impose further performance requirements: search should be low-cost in four respects, namely errors, latency, money and size.
 
