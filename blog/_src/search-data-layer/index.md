@@ -52,25 +52,19 @@ Errors, latency and money share first priority (Figure 2).
 
 The menu-reading model is retrained from scratch. Its pages are split by restaurant, so the test set holds only restaurants the model has never seen (Figure 3).
 
-<figure class="fig fig-split" id="fig-split">
-<div class="split">
-<div class="step">
-<div class="head"><b>Step 1. Split 2,946 restaurants</b><ul class="key"><li class="tr"><i></i>Train</li><li class="va"><i></i>Validation</li><li class="te"><i></i>Test</li></ul></div>
-<div class="seg big" role="img" aria-label="2,946 venues: about 2,062 train, 295 validation, 589 test"><i class="tr" style="--f:70">70%</i><i class="va" style="--f:10">10%</i><i class="te" style="--f:20">20%</i></div>
-</div>
-<div class="step">
-<b>Step 2. Label 1,400 pages by layout class</b>
-<ul class="classes">
-<li><span class="name">Simple price lists</span><span class="track"><span class="seg" style="--n:257" role="img" aria-label="Simple price lists: 257 pages, 180 train, 26 validation, 51 test"><i class="tr" style="--f:180"></i><i class="va" style="--f:26"></i><i class="te" style="--f:51"></i></span><b>257</b></span></li>
-<li><span class="name">Multi-column, with descriptions</span><span class="track"><span class="seg" style="--n:280" role="img" aria-label="Multi-column, with descriptions: 280 pages, 196 train, 28 validation, 56 test"><i class="tr" style="--f:196"></i><i class="va" style="--f:28"></i><i class="te" style="--f:56"></i></span><b>280</b></span></li>
-<li><span class="name">Online ordering pages</span><span class="track"><span class="seg" style="--n:272" role="img" aria-label="Online ordering pages: 272 pages, 190 train, 28 validation, 54 test"><i class="tr" style="--f:190"></i><i class="va" style="--f:28"></i><i class="te" style="--f:54"></i></span><b>272</b></span></li>
-<li><span class="name">Prose and set menus</span><span class="track"><span class="seg" style="--n:196" role="img" aria-label="Prose and set menus: 196 pages, 137 train, 20 validation, 39 test"><i class="tr" style="--f:137"></i><i class="va" style="--f:20"></i><i class="te" style="--f:39"></i></span><b>196</b></span></li>
-<li><span class="name">Drinks lists</span><span class="track"><span class="seg" style="--n:126" role="img" aria-label="Drinks lists: 126 pages, 88 train, 13 validation, 25 test"><i class="tr" style="--f:88"></i><i class="va" style="--f:13"></i><i class="te" style="--f:25"></i></span><b>126</b></span></li>
-<li><span class="name">Messy layouts</span><span class="track"><span class="seg" style="--n:100" role="img" aria-label="Messy layouts: 100 pages, 70 train, 10 validation, 20 test"><i class="tr" style="--f:70"></i><i class="va" style="--f:10"></i><i class="te" style="--f:20"></i></span><b>100</b></span></li>
-<li><span class="name">Scanned or out-of-order PDFs</span><span class="track"><span class="seg" style="--n:169" role="img" aria-label="Scanned or out-of-order PDFs: 169 pages, 118 train, 17 validation, 34 test"><i class="tr" style="--f:118"></i><i class="va" style="--f:17"></i><i class="te" style="--f:34"></i></span><b>169</b></span></li>
-<li class="axis" aria-hidden="true"><span class="name"></span><span class="track"><span class="ticks"><span style="--v:50">50</span><span style="--v:100">100</span><span style="--v:150">150</span><span style="--v:200">200</span><span style="--v:250">250</span></span></span></li>
-</ul>
-</div>
+<figure class="fig fig-plan" id="fig-split">
+<div class="plan" role="img" aria-label="Step 1: 2,946 restaurants are split 70 / 10 / 20 into train, validation and test. Step 2: each set's pages are sampled by layout class, giving 979, 142 and 279 pages to label.">
+<div class="st"><span class="stl">Step 1</span><div>
+<span class="bx">2,946 restaurants</span>
+<div class="fan"><div class="row"><i></i><i></i><i class="t"></i></div></div>
+<div class="row"><span class="bx">Train <small>70%</small></span><span class="bx">Validation <small>10%</small></span><span class="bx te">Test <small>20%</small></span></div>
+</div></div>
+<div class="st"><span class="stl">Step 2</span><div>
+<div class="row down"><i></i><i></i><i class="t"></i></div>
+<span class="bx op">Sample each set's pages by layout class</span>
+<div class="row down"><i></i><i></i><i class="t"></i></div>
+<div class="row"><span class="bx">979 pages</span><span class="bx">142 pages</span><span class="bx te">279 pages</span></div>
+</div></div>
 </div>
 <figcaption><b>Figure 3.</b> The planned split. No page has been labelled under it yet.</figcaption>
 </figure>
