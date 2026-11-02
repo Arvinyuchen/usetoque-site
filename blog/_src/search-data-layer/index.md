@@ -53,18 +53,18 @@ Errors, latency and money share first priority (Figure 2).
 The menu-reading model is retrained from scratch. Its pages are split by restaurant, so the test set holds only restaurants the model has never seen (Figure 3).
 
 <figure class="fig fig-plan" id="fig-split">
-<div class="plan" role="img" aria-label="Step 1: 2,946 restaurants are split 70 / 10 / 20 into train, validation and test. Step 2: each set's pages are sampled by layout class, giving 979, 142 and 279 pages to label.">
+<div class="plan" role="img" aria-label="Step 1: 2,845 restaurants are split into 1,969 for training, 284 for validation and 592 for test. Step 2: 500 web, 550 PDF and 350 scanned pages are sampled across the three sets, giving 980, 140 and 280 pages to label.">
 <div class="st"><span class="stl">Step 1</span><div>
-<span class="bx">2,946 restaurants</span>
+<span class="bx">2,845 restaurants</span>
 <div class="fan"><div class="row"><i></i><i></i><i class="t"></i></div></div>
-<div class="row"><span class="bx">Train <small>70%</small></span><span class="bx">Validation <small>10%</small></span><span class="bx te">Test <small>20%</small></span></div>
+<div class="row"><span class="bx">Train <small>1,969</small></span><span class="bx">Validation <small>284</small></span><span class="bx te">Test <small>592</small></span></div>
 </div></div>
 <div class="st"><span class="stl">Step 2</span><div>
 <div class="row down"><i></i><i></i><i class="t"></i></div>
-<span class="bx op">Sample each set's pages by layout class</span>
+<span class="bx op">Sample 500 web, 550 PDF and 350 scanned pages</span>
 <div class="row down"><i></i><i></i><i class="t"></i></div>
-<div class="row"><span class="bx">979 pages</span><span class="bx">142 pages</span><span class="bx te">279 pages</span></div>
+<div class="row"><span class="bx">980 pages</span><span class="bx">140 pages</span><span class="bx te">280 pages</span></div>
 </div></div>
 </div>
-<figcaption><b>Figure 3.</b> The planned split. No page has been labelled under it yet.</figcaption>
+<figcaption><b>Figure 3.</b> The first labelling batch. Restaurants that share a menu, such as branches of a chain, count as one. Labelling started in November 2026.</figcaption>
 </figure>
