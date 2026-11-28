@@ -1,0 +1,12 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["TWD49P7Y4J.com.arvinyuchen.toque"],
+        "components": [
+          { "/": "/f/*", "comment": "Friend invites: usetoque.com/f/<code> opens in Toque" }
+        ]
+      }
+    ]
+  }
+}

@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /f/
 
 Sitemap: https://usetoque.com/sitemap.xml
