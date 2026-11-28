@@ -7,14 +7,67 @@
 <meta name="robots" content="noindex">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Toque">
-<meta property="og:title" content="An invite to Toque">
-<meta property="og:description" content="Find the dish you're craving in Canberra, and share where you ate with friends.">
+<meta property="og:title" content="You're invited to be friends on Toque">
+<meta property="og:description" content="Share the places you love, see where friends eat, and plan dinners together.">
 <meta property="og:image" content="https://usetoque.com/img/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/favicon.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/style.css?v=15">
+<!-- Friend invites (usetoque.com/f/<code>) land here when Toque isn't installed: with the app, iOS opens the link in
+     it and this page never shows. Decided before the first paint, so neither layout flashes. The code stays in the
+     address bar: this page reads nothing from it and sends nothing anywhere. -->
+<script>if (/^\/f\/[A-Za-z0-9]{4,32}\/?$/.test(location.pathname)) { document.documentElement.classList.add("is-invite"); document.title = "An invite to Toque"; }</script>
+<style>
+html:not(.is-invite) #invite, html.is-invite #missing { display: none; }
+.invite { position: relative; overflow: hidden; isolation: isolate; }
+.invite::before {
+  content: ""; position: absolute; z-index: -1; left: -10%; right: -10%; top: -160px; height: 760px; filter: blur(8px);
+  background:
+    radial-gradient(38% 46% at 22% 34%, rgba(255, 194, 74, .30), transparent 70%),
+    radial-gradient(42% 52% at 78% 26%, rgba(242, 61, 99, .22), transparent 70%),
+    radial-gradient(36% 40% at 52% 64%, rgba(255, 138, 76, .20), transparent 70%);
+}
+.invite .inner { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 64px; align-items: center; padding-top: 72px; padding-bottom: 104px; }
+.invite .icons { display: flex; align-items: center; margin-bottom: 26px; }
+.invite .icons img { width: 76px; height: 76px; border-radius: 22.5%; box-shadow: 0 14px 34px -12px rgba(0, 0, 0, .35); }
+.invite .icons .plus {
+  width: 42px; height: 42px; margin-left: -14px; margin-top: 34px; border-radius: 50%; background: var(--bg); color: var(--accent);
+  display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px -8px rgba(0, 0, 0, .3);
+}
+.invite .icons .plus svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.invite .kicker { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 12px; }
+.invite h1 { font-size: clamp(38px, 6.2vw, 60px); line-height: 1.04; letter-spacing: -.035em; margin: 0 0 18px; text-wrap: balance; }
+.invite h1 em { font-style: normal; background: linear-gradient(90deg, var(--orange), var(--pink)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.invite .lede { font-size: 19px; line-height: 1.5; color: var(--muted); max-width: 32ch; margin: 0 0 34px; }
+.invite .steps { list-style: none; padding: 0; margin: 0 0 36px; display: grid; gap: 18px; max-width: 440px; }
+.invite .steps li { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 14px; align-items: start; }
+.invite .steps .n {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--surface); font-weight: 600; font-size: 15px;
+  display: flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums;
+}
+.invite .steps b { display: block; font-weight: 600; font-size: 17px; line-height: 1.35; padding-top: 6px; }
+.invite .steps .t { display: block; color: var(--muted); font-size: 15px; line-height: 1.45; margin-top: 2px; }
+.invite .cta {
+  display: inline-flex; align-items: center; gap: 10px; background: var(--accent); color: #fff; text-decoration: none;
+  font-weight: 600; font-size: 17px; padding: 15px 28px; border-radius: 999px; box-shadow: 0 12px 28px -12px rgba(236, 52, 70, .7);
+  transition: transform .15s, box-shadow .15s;
+}
+.invite .cta:hover { transform: translateY(-1px); box-shadow: 0 16px 32px -12px rgba(236, 52, 70, .75); }
+.invite .cta svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.invite .hint { font-size: 14px; line-height: 1.5; color: var(--muted); margin: 20px 0 0; max-width: 42ch; }
+.invite .phone { width: 280px; transform: rotate(3deg); animation: rise 1s .1s cubic-bezier(.2, .8, .2, 1) both; }
+@media (max-width: 760px) {
+  .invite .inner { grid-template-columns: 1fr; gap: 48px; padding-top: 36px; padding-bottom: 72px; }
+  .invite .icons img { width: 64px; height: 64px; }
+  .invite .lede { font-size: 17px; }
+  .invite .phone { width: 230px; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .invite .phone { animation: none; } }
+#missing { padding: 32px 0 72px; }
+#missing h1 { font-size: clamp(34px, 6vw, 48px); line-height: 1.1; letter-spacing: -0.03em; margin: 0 0 12px; }
+</style>
 </head>
 <body>
 <header class="site"><div class="wrap">
@@ -22,33 +75,36 @@
   <nav class="site"><a href="/support.html">Support</a><a href="/privacy.html">Privacy</a><a class="nav-beta" href="mailto:support@usetoque.com?subject=Toque%20beta&amp;body=Hi%2C%20I%27d%20like%20to%20try%20the%20Toque%20beta.%0A%0AThe%20email%20of%20my%20Apple%20ID%20(for%20TestFlight)%3A%20">Get the beta</a></nav>
 </div></header>
 
-<main class="page"><div class="wrap narrow">
-  <!-- Friend invites (usetoque.com/f/<code>). With Toque installed, iOS opens these links in the app and this page
-       never shows. The code stays in the address bar: this page reads nothing from it and sends nothing anywhere. -->
-  <section id="invite" hidden>
-    <h1>You're invited to be friends on Toque</h1>
-    <p class="lede" style="max-width:none">Open this link on an iPhone with Toque installed and it opens in the app, where you can accept.</p>
-    <div class="card">
-      <h3>Don't have Toque yet?</h3>
-      <p>Toque is in beta on iPhone. <a href="mailto:support@usetoque.com?subject=Toque%20beta&amp;body=Hi%2C%20I%27d%20like%20to%20try%20the%20Toque%20beta.%0A%0AThe%20email%20of%20my%20Apple%20ID%20(for%20TestFlight)%3A%20">Ask for the beta</a>, then open the link again. Invites last seven days.</p>
+<main>
+<section class="invite" id="invite"><div class="wrap inner">
+  <div>
+    <div class="icons" aria-hidden="true">
+      <picture><source srcset="/img/icon-dark.png" media="(prefers-color-scheme: dark)"><img src="/img/icon-light.png" alt=""></picture>
+      <span class="plus"><svg viewBox="0 0 24 24"><circle cx="9.5" cy="8" r="3.5"/><path d="M3 19.5c.6-3.3 3.2-5.5 6.5-5.5s5.9 2.2 6.5 5.5M18.5 8v6M15.5 11h6"/></svg></span>
     </div>
-  </section>
-  <section id="missing">
-    <h1>Page not found</h1>
-    <p class="lede" style="max-width:none">This page doesn't exist. <a href="/">Go to the home page</a>.</p>
-  </section>
-</div></main>
+    <p class="kicker">Friend invite</p>
+    <h1>You're invited to be <em>friends</em> on Toque</h1>
+    <p class="lede">Share the places you love, see where your friends eat, and plan dinners together.</p>
+    <ol class="steps">
+      <li><span class="n">1</span><span><b>Get Toque on your iPhone</b><span class="t">It's in beta. Ask and we'll send you a TestFlight invite.</span></span></li>
+      <li><span class="n">2</span><span><b>Open this link again</b><span class="t">On the same iPhone, once Toque is installed.</span></span></li>
+      <li><span class="n">3</span><span><b>Tap Accept</b><span class="t">You're friends, with a chat ready to go.</span></span></li>
+    </ol>
+    <a class="cta" href="mailto:support@usetoque.com?subject=Toque%20beta&amp;body=Hi%2C%20I%27d%20like%20to%20try%20the%20Toque%20beta.%0A%0AThe%20email%20of%20my%20Apple%20ID%20(for%20TestFlight)%3A%20"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.6"/><path d="M10.5 18.5h3"/></svg>Ask for the beta</a>
+    <p class="hint">Already have Toque? Press and hold the link where you got it, then choose Open in “Toque”. Invites last seven days.</p>
+  </div>
+  <div class="phone"><img src="/img/home.jpg" alt="Toque's home screen"></div>
+</div></section>
+
+<section class="page" id="missing"><div class="wrap narrow">
+  <h1>Page not found</h1>
+  <p class="lede" style="max-width:none">This page doesn't exist. <a href="/">Go to the home page</a>.</p>
+</div></section>
+</main>
 
 <footer class="site"><div class="wrap">
   <a class="brand" href="/"><picture><source srcset="/img/icon-dark.png" media="(prefers-color-scheme: dark)"><img src="/img/icon-light.png" alt=""></picture>Toque</a>
   <a href="/support.html">Support</a><a href="/privacy.html">Privacy policy</a><span>© 2026 Toque</span>
 </div></footer>
-<script>
-  if (/^\/f\/[A-Za-z0-9]{4,32}\/?$/.test(location.pathname)) {
-    document.getElementById("invite").hidden = false;
-    document.getElementById("missing").hidden = true;
-    document.title = "An invite to Toque";
-  }
-</script>
 </body>
 </html>
